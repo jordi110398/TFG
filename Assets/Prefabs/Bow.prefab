@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3935880684949295645}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ArrowSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6938535016807674582}
   - component: {fileID: 8852999881952500820}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LinerendererOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,6 +170,37 @@ LineRenderer:
   m_UseWorldSpace: 0
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!1 &8028596846219177680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5761632426215699416}
+  m_Layer: 9
+  m_Name: HandPick
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5761632426215699416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8028596846219177680}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.095, y: -0.091, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8574039675785539881}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8565953000359708047
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +215,7 @@ GameObject:
   - component: {fileID: 2187373829531335108}
   - component: {fileID: 8204015452783676045}
   - component: {fileID: 3701469883710240895}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bow
   m_TagString: Bow
   m_Icon: {fileID: 0}
@@ -199,15 +230,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8565953000359708047}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.22488497, w: 0.9743853}
+  m_LocalRotation: {x: -0, y: -0, z: -0.373816, w: 0.9275029}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6022499, y: 0.6022499, z: 0.60225}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5761632426215699416}
   - {fileID: 6938535016807674582}
   - {fileID: 3935880684949295645}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45.95}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -43.902}
 --- !u!212 &1791881583822158311
 SpriteRenderer:
   m_ObjectHideFlags: 0

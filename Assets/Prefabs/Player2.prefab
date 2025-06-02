@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7292203112973518919}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SwordPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7167282483451678114}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WeaponHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 6726755787048296547}
   - component: {fileID: 605325456467098357}
   - component: {fileID: 8895255951751642223}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player2
   m_TagString: Player2
   m_Icon: {fileID: 0}
@@ -638,7 +638,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5631493486039384924}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -669,7 +669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1093924265128314212}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DamageZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -700,7 +700,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 627552486543089511}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShieldHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -731,6 +731,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 7292203112973518919}
     m_Modifications:
     - target: {fileID: 336437679282135804, guid: 37dd5a4a22daa704da0d009754e563fd, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 336437679282135804, guid: 37dd5a4a22daa704da0d009754e563fd, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -749,6 +753,10 @@ PrefabInstance:
     - target: {fileID: 1573534133883354737, guid: 37dd5a4a22daa704da0d009754e563fd, type: 3}
       propertyPath: m_Name
       value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 1573534133883354737, guid: 37dd5a4a22daa704da0d009754e563fd, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1573534133883354737, guid: 37dd5a4a22daa704da0d009754e563fd, type: 3}
       propertyPath: m_IsActive
@@ -805,6 +813,10 @@ PrefabInstance:
     - target: {fileID: 1926286699113958870, guid: 37dd5a4a22daa704da0d009754e563fd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -95.512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336716509697742939, guid: 37dd5a4a22daa704da0d009754e563fd, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4923031172356304711, guid: 37dd5a4a22daa704da0d009754e563fd, type: 3}
       propertyPath: m_Emitting

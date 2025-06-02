@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1296085268702960096}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.00046851742, y: 0.0019065435, z: 0}
   m_LocalScale: {x: 0.5669, y: 0.5669, z: 0.5669}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -117,7 +117,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!60 &352438523952494115
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -196,6 +196,7 @@ MonoBehaviour:
   damage: 10
   destroyDelay: 0.1
   damageZone: {fileID: 6951504122533486171}
+  sr: {fileID: 2385434313956698372}
 --- !u!1 &9115713908820921320
 GameObject:
   m_ObjectHideFlags: 0

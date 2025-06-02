@@ -91,7 +91,7 @@ public class SlimeController : MonoBehaviour
             rb.bodyType = RigidbodyType2D.Dynamic; // Permet forces físiques
             rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
 
-            StartCoroutine(HandleKnockback(0.3f));
+            StartCoroutine(HandleKnockback(0.5f));
         }
     }
 

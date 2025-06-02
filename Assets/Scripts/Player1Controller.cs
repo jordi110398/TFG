@@ -219,6 +219,11 @@ public class Player1Controller : MonoBehaviour
         if (ctx.started)
         {
             isCharging = true;
+            Animator bowAnimator = bow.GetComponent<Animator>();
+            if (bowAnimator != null)
+            {
+                bowAnimator.SetTrigger("Attack");
+            }
         }
 
         if (ctx.canceled && isCharging)
@@ -230,12 +235,12 @@ public class Player1Controller : MonoBehaviour
 
     private void HandleBowRotation()
     {
-        if (aimInput.magnitude > 0.1f && bow != null)
+        if (bow != null)
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();
-            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            Vector2 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-            Vector2 direction = (worldPosition - (Vector2)bow.transform.position).normalized;
+            Vector2 direction = (worldMousePosition - (Vector2)arrowSpawnPoint.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             bow.transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -245,11 +250,16 @@ public class Player1Controller : MonoBehaviour
     {
         if (arrowSpawnPoint == null || bow == null) return;
 
+        // Direcció cap al mouse
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector2 direction = (worldPosition - (Vector2)arrowSpawnPoint.position).normalized;
+
+        if (direction.magnitude < 0.1f) return;
+
         GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, Quaternion.identity);
         Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
 
-        Vector2 direction = aimInput.normalized;
-        if (direction.magnitude < 0.1f) return; // Si no hi ha direcció clara, no dispares
         arrowRb.AddForce(direction * arrowSpeed, ForceMode2D.Impulse);
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
