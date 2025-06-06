@@ -37,6 +37,7 @@ public class Player1Controller : MonoBehaviour
     private Animator bowAnimator;
     private bool isCharging = false;
     //private float chargeStartTime = 0f;
+    public float bowRotationOffset = 0f;
     private Vector2 aimInput = Vector2.zero;
     public GameObject arrowPrefab; // Prefab de la flecha
     public GameObject bow; // Prefab del arco
@@ -44,6 +45,10 @@ public class Player1Controller : MonoBehaviour
     public float arrowSpeed = 30f;
     private LineRenderer lineRenderer; // Linia d'apuntar
     private bool isAttacking = false;
+    // BOOMERANG
+    public GameObject boomerangPrefab;
+    public Transform weaponHand;
+    public float boomerangSpeed = 15f;
 
     // INTERACCIÓ
     public float interactionRange = 2f;
@@ -56,6 +61,7 @@ public class Player1Controller : MonoBehaviour
         if (bow != null)
         {
             arrowSpawnPoint = bow.transform.Find("ArrowSpawnPoint");
+            //bow.SetActive(false); // l'amago
             if (arrowSpawnPoint == null)
             {
                 Debug.LogError("ArrowSpawnPoint no trobat dins del prefab del arco.");
@@ -188,6 +194,7 @@ public class Player1Controller : MonoBehaviour
     {
         bow = bowObject;
         arrowSpawnPoint = bow.transform.Find("ArrowSpawnPoint");
+        bow.SetActive(false);
         bowAnimator = bow.GetComponent<Animator>();
         lineRenderer = bow.GetComponent<LineRenderer>(); // Assigna el LineRenderer
 
@@ -212,12 +219,33 @@ public class Player1Controller : MonoBehaviour
         aimInput = ctx.ReadValue<Vector2>();
     }
 
+    private Vector2 GetAimDirection()
+    {
+        if (aimInput.magnitude > 0.1f)
+        {
+            // S'està usant el joystick dret (mando)
+            return aimInput.normalized;
+        }
+        else
+        {
+            // S'està usant el ratolí
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            Vector2 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            Vector2 direction = (worldMousePosition - (Vector2)transform.position).normalized;
+
+            Debug.DrawRay(transform.position, direction * 5f, Color.red);  // Línia vermella
+            return direction;
+        }
+    }
+
+
     public void OnAttack(InputAction.CallbackContext ctx)
     {
         if (bow == null || arrowSpawnPoint == null) return;
 
         if (ctx.started)
         {
+            bow.SetActive(true);
             isCharging = true;
             Animator bowAnimator = bow.GetComponent<Animator>();
             if (bowAnimator != null)
@@ -237,12 +265,9 @@ public class Player1Controller : MonoBehaviour
     {
         if (bow != null)
         {
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
-            Vector2 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-            Vector2 direction = (worldMousePosition - (Vector2)arrowSpawnPoint.position).normalized;
+            Vector2 direction = GetAimDirection();
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
+            angle += bowRotationOffset;
             bow.transform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
@@ -250,10 +275,9 @@ public class Player1Controller : MonoBehaviour
     {
         if (arrowSpawnPoint == null || bow == null) return;
 
+
         // Direcció cap al mouse
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
-        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Vector2 direction = (worldPosition - (Vector2)arrowSpawnPoint.position).normalized;
+        Vector2 direction = GetAimDirection();
 
         if (direction.magnitude < 0.1f) return;
 
@@ -267,6 +291,8 @@ public class Player1Controller : MonoBehaviour
 
         Destroy(arrow, 5f);
         if (lineRenderer != null) lineRenderer.enabled = false;
+        // Amaga l'arc després d'un temps curt
+        StartCoroutine(HideBowAfterDelay(0.3f));
     }
 
     // Interacció
@@ -300,6 +326,44 @@ public class Player1Controller : MonoBehaviour
             }
         }
     }
+    private IEnumerator HideBowAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (bow != null)
+        {
+            bow.SetActive(false);
+        }
+    }
 
+    public void OnBoomerang(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed && boomerangPrefab != null)
+        {
+            ThrowBoomerang();
+        }
+    }
+
+    private void ThrowBoomerang()
+    {
+        Debug.Log("Disparant boomerang!!");
+        if (weaponHand == null || boomerangPrefab == null) return;
+
+        // Direcció des del jugador cap al ratolí
+        Vector2 aimDirection = GetAimDirection();
+
+        Debug.Log("Boomerang aim direction: " + aimDirection);
+        Debug.DrawRay(transform.position, aimDirection * 3f, Color.green, 2f);
+
+        // Instanciem i llencem el boomerang
+        GameObject boomerangInstance = Instantiate(boomerangPrefab, transform.position, Quaternion.identity);
+        boomerangInstance.GetComponent<Boomerang>().Launch(aimDirection, transform);
+    }
 
 }
+
+
+
+
+
+
+

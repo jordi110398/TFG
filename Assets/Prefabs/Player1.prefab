@@ -297,7 +297,19 @@ MonoBehaviour:
     m_ActionId: af36b885-245b-4d9d-9181-dc44aa01ceb6
     m_ActionName: 'Player/Aim[/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2465172310673980737}
+        m_TargetAssemblyTypeName: Player1Controller, Assembly-CSharp
+        m_MethodName: OnBoomerang
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e578f20f-72f2-4ecc-a783-d2b4c0d110cc
     m_ActionName: 'Player/Block[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
@@ -328,10 +340,14 @@ MonoBehaviour:
     m_Bits: 8
   maxJumps: 2
   jumpPower: 10
+  bowRotationOffset: -15
   arrowPrefab: {fileID: 1296085268702960096, guid: 7ab0973aab1d5a14a949d5e5ad86a6c4, type: 3}
   bow: {fileID: 0}
   arrowSpawnPoint: {fileID: 8574039675785539881, guid: fd00fd950e93c0346b15b3ea64d4dde7, type: 3}
   arrowSpeed: 15
+  boomerangPrefab: {fileID: 7253557654396165031, guid: f87e858062496fa40ba40cc97939bb4c, type: 3}
+  weaponHand: {fileID: 6317070758998986767}
+  boomerangSpeed: 15
   interactionRange: 0.64
 --- !u!50 &8016722745561240407
 Rigidbody2D:

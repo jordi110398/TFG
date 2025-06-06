@@ -78,7 +78,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Block",
+                    "name": "Block or Boomerang",
                     "type": "Button",
                     "id": "e578f20f-72f2-4ecc-a783-d2b4c0d110cc",
                     "expectedControlType": "",
@@ -300,7 +300,7 @@
                 {
                     "name": "",
                     "id": "b219c569-6c6a-4d71-9e51-051f1955e39e",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -348,7 +348,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Block",
+                    "action": "Block or Boomerang",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eec586da-4576-4c1c-ac2f-3ecbcb774a69",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Block or Boomerang",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

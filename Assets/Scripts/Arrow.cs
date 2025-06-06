@@ -30,6 +30,9 @@ public class Arrow : MonoBehaviour
     void trackMovement()
     {
         Vector2 direction = rb.linearVelocity;
+        // Si la velocitat és molt petita, no cal girar
+        if (direction.sqrMagnitude < 0.01f) return;
+
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
@@ -47,23 +50,18 @@ public class Arrow : MonoBehaviour
                 enemy.TakeDamage(damage, damageZone);
                 Debug.Log("Fletxa impacta enemic!");
 
-                // Clavar la fletxa a l’enemic
-                FlashWhite(); // Efecte flash a la fletxa
-                PulseEffect(); // Pulsació
+                // Atura moviment
                 hasHit = true;
                 rb.linearVelocity = Vector2.zero;
                 rb.bodyType = RigidbodyType2D.Kinematic;
-                // Evita deformacions per escala del parent
-                transform.SetParent(null); // desparenta
-                Vector3 hitPos = transform.position; // guarda posició
-                transform.SetParent(collision.transform, true); // reparenta mantenint posició mundial
-                transform.position = hitPos; // reforça posició
-                transform.localScale = originalScale; // restaura escala
-
                 col.enabled = false;
 
-                // Comença vibració
-                StartCoroutine(VibrateEffect(0.1f, 0.1f));
+                // Efectes visuals
+                FlashWhite();
+                PulseEffect();
+
+                // Comença vibració i després es destrueix
+                StartCoroutine(ImpactAndDestroy());
             }
         }
         else if (!collision.CompareTag("Player"))
@@ -138,5 +136,12 @@ public class Arrow : MonoBehaviour
         }
         transform.localScale = originalScale;
     }
+
+    IEnumerator ImpactAndDestroy()
+    {
+        yield return VibrateEffect(0.1f, 0.1f);
+        Destroy(gameObject);
+    }
+
 
 }

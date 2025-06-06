@@ -211,7 +211,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8574039675785539881}
   - component: {fileID: 1791881583822158311}
-  - component: {fileID: 8346539008835573021}
   - component: {fileID: 2187373829531335108}
   - component: {fileID: 8204015452783676045}
   - component: {fileID: 3701469883710240895}
@@ -230,7 +229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8565953000359708047}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.373816, w: 0.9275029}
+  m_LocalRotation: {x: 0, y: 0, z: 0.15879416, w: 0.9873117}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6022499, y: 0.6022499, z: 0.60225}
   m_ConstrainProportionsScale: 0
@@ -295,20 +294,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8346539008835573021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8565953000359708047}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adc35290f18bb3e448375e020e814fd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0}
-  arrowSpawnPoint: {fileID: 3935880684949295645}
 --- !u!114 &2187373829531335108
 MonoBehaviour:
   m_ObjectHideFlags: 0
