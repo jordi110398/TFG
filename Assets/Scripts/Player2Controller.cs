@@ -50,6 +50,7 @@ public class Player2Controller : MonoBehaviour
     public GameObject shield;         // Prefab de l'escut
     public Transform shieldHolder;    // Referència al lloc on es col·loca l'escut
     private bool isBlocking = false;
+    private bool isRightMouseHeld = false;
 
     // KNOCKBACK
     // Variables pel Flash
@@ -69,14 +70,14 @@ public class Player2Controller : MonoBehaviour
     // INTERACCIÓ
     public float interactionRange = 2f;
     private Lever closestLever;
-
-
+    private PlayerInput playerInput;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+        playerInput = GetComponent<PlayerInput>();
     }
 
     private void Start()
@@ -131,15 +132,17 @@ public class Player2Controller : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        if (!isBlocking)
+        // Evita el moviment si s'està atacant o fent dash
+        if (isBlocking || isAttacking || isDashing)
         {
-            horizontalMovement = ctx.ReadValue<Vector2>().x;
-            animator.SetFloat("Speed", Mathf.Abs(horizontalMovement));
-            //animator.SetBool("Running", true);
-            isRunning = true;
-
+            horizontalMovement = 0;
+            animator.SetFloat("Speed", 0);
+            return;
         }
-
+        horizontalMovement = ctx.ReadValue<Vector2>().x;
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMovement));
+        //animator.SetBool("Running", true);
+        isRunning = true;
     }
 
     public void OnJump(InputAction.CallbackContext ctx)
@@ -299,6 +302,8 @@ public class Player2Controller : MonoBehaviour
 
     private void Flip()
     {
+        if (isAttacking) return; // No canviar de direcció mentre ataques
+
         // Només es fa flip si no està bloquejant
         if (isBlocking)
         {
@@ -347,31 +352,48 @@ public class Player2Controller : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext ctx)
     {
+        if (!ctx.performed) return;
+
+        // No pots atacar si estàs bloquejant, a l'aire, movent-te molt lent o ja estàs atacant
+        if (isBlocking || !isGrounded || animator.GetFloat("Speed") < 0.1f || isAttacking)
+            return;
+
+        StartCoroutine(PerformAttack());
+    }
+
+    private IEnumerator PerformAttack()
+    {
+        isAttacking = true;
+        //horizontalMovement = 0;
+        animator.SetFloat("Speed", 0);  // Atura animació de córrer
+
+        sword.SetActive(true);
+        equippedSwordTrail.enabled = true;
+        animator.SetTrigger("Attack");
+
+        // Esperar un petit moment per sincronitzar amb l'animació (opcional)
+        yield return new WaitForSeconds(0.1f);
+
         Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackOrigin.position, attackRadius, enemyMask);
         foreach (var enemy in enemiesInRange)
         {
-            enemy.GetComponent<SlimeController>().TakeDamage(swordDamage, transform);
+            SlimeController slime = enemy.GetComponent<SlimeController>();
+            if (slime != null)
+            {
+                slime.TakeDamage(swordDamage, transform);
+            }
         }
 
-        // Comprovar que no està en Idle (Speed < 0.1) ni bloquejant ni saltant
-        if (animator.GetFloat("Speed") < 0.01f || isBlocking || !isGrounded) return;
+        // Espera el temps d'animació d'atac (ajusta segons durada de l'animació)
+        yield return new WaitForSeconds(0.1f);
 
-        float attackInput = ctx.ReadValue<float>();
+        isAttacking = false;
+        sword.SetActive(false);
+        equippedSwordTrail.enabled = false;
 
-        // Comprovar direcció d'atac
-        if (Mathf.Abs(attackInput) > 0.5f)
-        {
-            animator.SetTrigger("Attack");
-            //swordAnimator.SetTrigger("isAttacking");
-            sword.SetActive(true); // Mostrar l'espasa
-            isAttacking = true;
-            equippedSwordTrail.enabled = true;
-            PlayAttackEffect(); // Partícules d'atac
-
-            // Desactivar l'espasa després de l'atac
-            StartCoroutine(HideSwordAfterAttack());
-        }
     }
+
+
 
     private IEnumerator HideSwordAfterAttack()
     {
@@ -400,7 +422,7 @@ public class Player2Controller : MonoBehaviour
         if (attackParticles != null) attackParticles.Play();
         if (swordTrail != null)
         {
-            
+
             swordTrail.emitting = true;
             Invoke(nameof(StopTrail), 0.2f);
         }
@@ -429,6 +451,88 @@ public class Player2Controller : MonoBehaviour
     }
 
     public void OnAim(InputAction.CallbackContext ctx)
+    {
+        Vector2 input = ctx.ReadValue<Vector2>();
+
+        // Si jugues amb gamepad, l'input és direcció i el pots usar directament
+        if (Gamepad.current != null && Gamepad.current.rightStick.IsActuated())
+        {
+            Vector2 direction = input.normalized;
+            AimInDirection(direction);
+        }
+        else // si és des de ratolí, el valor és la posició del cursor
+        {
+            Vector3 mousePos = input; // En realitat és posició de pantalla
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            Vector2 direction = (worldPos - transform.position).normalized;
+
+            AimInDirection(direction);
+        }
+    }
+    void AimInDirection(Vector2 direction)
+    {
+        // Aquí apuntaries o dispararies en la direcció correcta
+        Debug.DrawRay(transform.position, direction * 2f, Color.red);
+    }
+
+    public Vector2 GetAimDirection()
+    {
+        Vector2 aimValue = playerInput.actions["Aim"].ReadValue<Vector2>();
+
+        // Si és un joystick (valors normalitzats entre -1 i 1)
+        if (aimValue.magnitude <= 1.1f && aimValue != Vector2.zero)
+        {
+            return aimValue.normalized;
+        }
+
+        // Si és una posició de pantalla (mouse position)
+        Vector2 screenPlayerPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 direction = (aimValue - screenPlayerPos).normalized;
+
+        return direction;
+    }
+
+    // BLOQUEJAR AMB EL RATOLÍ
+    public void OnBlock(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("BLOQUEIG ACTIVAT");
+        if (ctx.performed)
+        {
+            isRightMouseHeld = true;
+        }
+        else if (ctx.canceled)
+        {
+            isRightMouseHeld = false;
+        }
+
+        UpdateBlocking();
+    }
+    private void UpdateBlocking()
+    {
+        float aimThreshold = 0.1f;
+
+        // Només activem el bloqueig si el botó dret està premut i s’està apuntant
+        Vector2 aimDir = GetAimDirection();
+
+        if (isRightMouseHeld && aimDir.magnitude > aimThreshold)
+        {
+            isBlocking = true;
+            shield.SetActive(true);
+            animator.SetBool("isBlocking", true);
+
+            float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+            shieldHolder.rotation = Quaternion.Euler(0, 0, angle);
+        }
+        else
+        {
+            isBlocking = false;
+            animator.SetBool("isBlocking", false);
+            shield.SetActive(false);
+        }
+    }
+    
+    // BLOQUEJAR AMB MANDO
+    public void OnBlockStick(InputAction.CallbackContext ctx)
     {
         aimInput = ctx.ReadValue<Vector2>();
         // Comprovació de la direcció d'apuntat
@@ -460,40 +564,7 @@ public class Player2Controller : MonoBehaviour
             animator.SetBool("isBlocking", false);
         }
     }
-    // BLOQUEJAR AMB EL RATOLÍ
-    public void OnBlock(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
-        {
-            isBlocking = true;
-            shield.SetActive(true);
-            animator.SetBool("isBlocking", true);
 
-            Vector2 aimInput = ctx.ReadValue<Vector2>();
-
-            // Rotació de l'escut depenent de la direcció
-            if (aimInput.x > 0)
-            {
-                shieldHolder.localScale = new Vector3(1, 1, 1);
-            }
-            else if (aimInput.x < 0)
-            {
-                shieldHolder.localScale = new Vector3(-1, 1, 1);
-            }
-
-            // Flip si està mirant a l'altre costat
-            if ((aimInput.x > 0 && !isFacingRight) || (aimInput.x < 0 && isFacingRight))
-            {
-                Flip();
-            }
-        }
-        else if (ctx.canceled)
-        {
-            isBlocking = false;
-            shield.SetActive(false);
-            animator.SetBool("isBlocking", false);
-        }
-    }
 
     // Funció per saber si està bloquejant (necessària per al Knockback)
     public bool IsBlocking()
