@@ -78,9 +78,27 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Block or Boomerang",
+                    "name": "Secondary Attack",
                     "type": "Button",
                     "id": "e578f20f-72f2-4ecc-a783-d2b4c0d110cc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BlockStick",
+                    "type": "Value",
+                    "id": "3b8842a8-946f-4b0b-bbf0-4f26b9ef81da",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "BlockMouse",
+                    "type": "Button",
+                    "id": "f93f3905-1b2a-432d-a78b-06c849e79a51",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -348,7 +366,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Block or Boomerang",
+                    "action": "Secondary Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -359,7 +377,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Block or Boomerang",
+                    "action": "Secondary Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f10d17d9-d865-4db1-bb1d-4bdc77033f4d",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "BlockStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3368b48b-fad5-4c02-9647-c5601b3c17c6",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "BlockMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

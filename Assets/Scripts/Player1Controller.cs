@@ -48,13 +48,19 @@ public class Player1Controller : MonoBehaviour
     // BOOMERANG
     public GameObject boomerangPrefab;
     public Transform weaponHand;
-    public float boomerangSpeed = 15f;
+    //public float boomerangSpeed = 15f;
+    private bool hasBoomerangActive = false;
 
     // INTERACCIÓ
     public float interactionRange = 2f;
     private Lever closestLever;
 
+    private PlayerInput playerInput;
 
+    void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+    }
     private void Start()
     {
 
@@ -200,11 +206,11 @@ public class Player1Controller : MonoBehaviour
 
         if (arrowSpawnPoint == null)
         {
-            Debug.LogError("ArrowSpawnPoint no encontrado en el arco recogido.");
+            Debug.LogError("ArrowSpawnPoint no trobat");
         }
         else
         {
-            Debug.Log("Bow equipado correctamente, spawn point actualizado.");
+            Debug.Log("Bow equipat.");
         }
     }
 
@@ -219,23 +225,21 @@ public class Player1Controller : MonoBehaviour
         aimInput = ctx.ReadValue<Vector2>();
     }
 
-    private Vector2 GetAimDirection()
+    public Vector2 GetAimDirection()
     {
-        if (aimInput.magnitude > 0.1f)
-        {
-            // S'està usant el joystick dret (mando)
-            return aimInput.normalized;
-        }
-        else
-        {
-            // S'està usant el ratolí
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
-            Vector2 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            Vector2 direction = (worldMousePosition - (Vector2)transform.position).normalized;
+        Vector2 aimValue = playerInput.actions["Aim"].ReadValue<Vector2>();
 
-            Debug.DrawRay(transform.position, direction * 5f, Color.red);  // Línia vermella
-            return direction;
+        // Si és un joystick (valors normalitzats entre -1 i 1)
+        if (aimValue.magnitude <= 1.1f && aimValue != Vector2.zero)
+        {
+            return aimValue.normalized;
         }
+
+        // Si és una posició de pantalla (mouse position)
+        Vector2 screenPlayerPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 direction = (aimValue - screenPlayerPos).normalized;
+
+        return direction;
     }
 
 
@@ -337,33 +341,17 @@ public class Player1Controller : MonoBehaviour
 
     public void OnBoomerang(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed && boomerangPrefab != null)
+        if (ctx.performed && boomerangPrefab != null && !hasBoomerangActive)
         {
-            ThrowBoomerang();
+            Vector2 direction = GetAimDirection();
+            if (direction.magnitude < 0.1f) return; // Evita llençar si no hi ha direcció
+
+            GameObject boomerang = Instantiate(boomerangPrefab, weaponHand.position, Quaternion.identity);
+            Boomerang boomerangScript = boomerang.GetComponent<Boomerang>();
+            boomerangScript.Launch(direction); // <- aquí passes la direcció bona
+            hasBoomerangActive = true;
+            // Quan el boomerang es destrueix es notifica
+            boomerangScript.onBoomerangReturn = () => { hasBoomerangActive = false; };
         }
     }
-
-    private void ThrowBoomerang()
-    {
-        Debug.Log("Disparant boomerang!!");
-        if (weaponHand == null || boomerangPrefab == null) return;
-
-        // Direcció des del jugador cap al ratolí
-        Vector2 aimDirection = GetAimDirection();
-
-        Debug.Log("Boomerang aim direction: " + aimDirection);
-        Debug.DrawRay(transform.position, aimDirection * 3f, Color.green, 2f);
-
-        // Instanciem i llencem el boomerang
-        GameObject boomerangInstance = Instantiate(boomerangPrefab, transform.position, Quaternion.identity);
-        boomerangInstance.GetComponent<Boomerang>().Launch(aimDirection, transform);
-    }
-
 }
-
-
-
-
-
-
-

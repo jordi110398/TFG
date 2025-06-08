@@ -220,7 +220,19 @@ MonoBehaviour:
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8201038097705288410}
+        m_TargetAssemblyTypeName: Player2Controller, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 852140f2-7766-474d-8707-702459ba45f3
     m_ActionName: 'Player/Interact[/Keyboard/e]'
   - m_PersistentCalls:
@@ -320,19 +332,7 @@ MonoBehaviour:
     m_ActionId: af36b885-245b-4d9d-9181-dc44aa01ceb6
     m_ActionName: 'Player/Aim[/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8201038097705288410}
-        m_TargetAssemblyTypeName: Player2Controller, Assembly-CSharp
-        m_MethodName: OnBlock
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: e578f20f-72f2-4ecc-a783-d2b4c0d110cc
     m_ActionName: 'Player/Block[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
@@ -404,6 +404,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   swordDamage: 1
+  interactionRange: 2
 --- !u!50 &8016722745561240407
 Rigidbody2D:
   serializedVersion: 5

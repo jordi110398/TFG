@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1831351307380585289}
   - component: {fileID: 4377663308422638594}
   - component: {fileID: 3531610162732543349}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Boomerang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,5 +166,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21e6ba8ec2076d40867097ea270bd7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  returnDelay: 1
+  speed: 12
+  returnDelay: 0.5

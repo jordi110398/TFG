@@ -17,16 +17,19 @@ public class AdaptiveCamera : MonoBehaviour
     {
 
     }
-
-    void Update()
+    
+    void LateUpdate()
     {
-        cam = GetComponent<Camera>();
-        FindPlayersByName(); // Troba als jugadors pels seus noms
+        if (cam == null)
+            cam = GetComponent<Camera>();
+
+        FindPlayersByName();
         if (players == null || players.Length == 0) return;
 
-        Move(); // Adjusta la posició de la càmara
-        Zoom(); // Adjusta el zoom de la càmara
+        Move();
+        Zoom();
     }
+
 
     void Move()
     {

@@ -66,6 +66,11 @@ public class Player2Controller : MonoBehaviour
     public LayerMask enemyMask;
     public float swordDamage = 1f;
 
+    // INTERACCIÓ
+    public float interactionRange = 2f;
+    private Lever closestLever;
+
+
 
     private void Awake()
     {
@@ -226,6 +231,38 @@ public class Player2Controller : MonoBehaviour
         animator.SetBool("Dashing", false);
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
+    }
+
+    // Interacció
+    public void OnInteract(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Debug.Log("El Player2 està interactuant...");
+            // Busca totes les palanques dins el rang
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactionRange);
+            float minDist = float.MaxValue;
+
+            closestLever = null;
+
+            foreach (var hit in hits)
+            {
+                if (hit.CompareTag("Lever"))
+                {
+                    float dist = Vector2.Distance(transform.position, hit.transform.position);
+                    if (dist < minDist)
+                    {
+                        minDist = dist;
+                        closestLever = hit.GetComponent<Lever>();
+                    }
+                }
+            }
+
+            if (closestLever != null)
+            {
+                closestLever.Activate();
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
