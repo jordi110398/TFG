@@ -25,6 +25,12 @@ public class HealthSystem : MonoBehaviour
     {
         if (playerTag == "Player1")
         {
+            // Comprovem si és invencible
+            if (player1.TryGetComponent(out Player1Controller p1) && p1.IsInvincible)
+            {
+                Debug.Log("Player1 és invencible! No rep mal.");
+                return;
+            }
             player1Health -= amount;
             player1Health = Mathf.Max(player1Health, 0); // Evitar valors negatius
             player1Hearts.TakeDamage(amount); // Actualitzar la barra de vida

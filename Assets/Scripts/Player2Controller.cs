@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -71,6 +72,14 @@ public class Player2Controller : MonoBehaviour
     public float interactionRange = 2f;
     private Lever closestLever;
     private PlayerInput playerInput;
+
+    // ATAC SECUNDARI (BATTLECRY)
+    public float radius = 3f;
+    public float buffDuration = 5f;
+    public float cooldown = 10f;
+    public LayerMask allyLayer;
+    private bool canUseCry = true;
+    public GameObject battleCryEffectPrefab;
 
     private void Awake()
     {
@@ -194,9 +203,18 @@ public class Player2Controller : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        // Groundcheck
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
+        // Damage Zone
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackOrigin.position, attackRadius);
+        // Battle cry
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, radius);
+        // Visualitzar el rang d’interacció
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, interactionRange);
 
     }
 
@@ -530,7 +548,7 @@ public class Player2Controller : MonoBehaviour
             shield.SetActive(false);
         }
     }
-    
+
     // BLOQUEJAR AMB MANDO
     public void OnBlockStick(InputAction.CallbackContext ctx)
     {
@@ -565,6 +583,39 @@ public class Player2Controller : MonoBehaviour
         }
     }
 
+    // ATAC SECUNDARI (BATTLE CRY)
+    public void OnBattleCry(InputAction.CallbackContext ctx)
+    {
+        if (!canUseCry) return;
+        StartCoroutine(ActivateBattleCry());
+        //StartCoroutine(ShakeCamera(0.2f, 0.5f)); // intensitat i durada
+
+    }
+
+    private IEnumerator<WaitForSeconds> ActivateBattleCry()
+    {
+        canUseCry = false;
+
+        // Reproduir animació/soroll/efectes visuals aquí
+        Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
+        GameObject battleCryPrefab = Instantiate(battleCryEffectPrefab, transform.position, rotation);
+        battleCryPrefab.transform.SetParent(transform); // es mou amb el jugador
+        battleCryPrefab.transform.localPosition = Vector3.zero; 
+        //battleCryPrefab.transform.localScale = Vector3.one; 
+        Destroy(battleCryPrefab, 5f);
+
+        Collider2D[] allies = Physics2D.OverlapCircleAll(transform.position, radius, allyLayer);
+        foreach (var ally in allies)
+        {
+            if (ally.TryGetComponent(out BattleCry buff))
+            {
+                buff.ApplyBuff(buffDuration);
+            }
+        }
+
+        yield return new WaitForSeconds(cooldown);
+        canUseCry = true;
+    }
 
     // Funció per saber si està bloquejant (necessària per al Knockback)
     public bool IsBlocking()

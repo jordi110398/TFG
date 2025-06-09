@@ -253,14 +253,6 @@ MonoBehaviour:
     m_ActionName: 'Player/Jump[/Keyboard/space]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 2776c80d-3c14-4091-8c56-d04ced07a2b0
-    m_ActionName: 'Player/Previous[/Keyboard/1]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
-    m_ActionName: 'Player/Next[/Keyboard/2]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
     m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
@@ -332,7 +324,19 @@ MonoBehaviour:
     m_ActionId: af36b885-245b-4d9d-9181-dc44aa01ceb6
     m_ActionName: 'Player/Aim[/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8201038097705288410}
+        m_TargetAssemblyTypeName: Player2Controller, Assembly-CSharp
+        m_MethodName: OnBattleCry
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e578f20f-72f2-4ecc-a783-d2b4c0d110cc
     m_ActionName: 'Player/Block[/Mouse/rightButton]'
   - m_PersistentCalls:
@@ -436,7 +440,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   swordDamage: 1
-  interactionRange: 2
+  interactionRange: 0.98
+  radius: 9.02
+  buffDuration: 10
+  cooldown: 50
+  allyLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  battleCryEffectPrefab: {fileID: 9162747256581444257, guid: 264e88b524c9a8f44b02f169a0077385, type: 3}
 --- !u!50 &8016722745561240407
 Rigidbody2D:
   serializedVersion: 5

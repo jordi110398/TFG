@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 605325456467098357}
   - component: {fileID: 8895255951751642223}
   - component: {fileID: 3747432254127164420}
+  - component: {fileID: -1593210813370887725}
   m_Layer: 9
   m_Name: Player1
   m_TagString: Player1
@@ -218,14 +219,6 @@ MonoBehaviour:
     m_ActionName: 'Player/Jump[/Keyboard/space]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 2776c80d-3c14-4091-8c56-d04ced07a2b0
-    m_ActionName: 'Player/Previous[/Keyboard/1]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
-    m_ActionName: 'Player/Next[/Keyboard/2]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
     m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
@@ -312,6 +305,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e578f20f-72f2-4ecc-a783-d2b4c0d110cc
     m_ActionName: 'Player/Block[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3b8842a8-946f-4b0b-bbf0-4f26b9ef81da
+    m_ActionName: 'Player/BlockStick[/XInputControllerWindows/rightStick]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f93f3905-1b2a-432d-a78b-06c849e79a51
+    m_ActionName: 'Player/BlockMouse[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -347,7 +348,6 @@ MonoBehaviour:
   arrowSpeed: 15
   boomerangPrefab: {fileID: 7253557654396165031, guid: f87e858062496fa40ba40cc97939bb4c, type: 3}
   weaponHand: {fileID: 6317070758998986767}
-  boomerangSpeed: 15
   interactionRange: 0.64
 --- !u!50 &8016722745561240407
 Rigidbody2D:
@@ -596,6 +596,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-1593210813370887725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4239273015237076414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5caa20a05334224b905e6dd65b908a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageMultiplier: 5
+  shieldVisualPrefab: {fileID: 1830742708160947243, guid: 0b180d6c2d86067498780f5630d5cff6, type: 3}
 --- !u!1 &4529508503197684689
 GameObject:
   m_ObjectHideFlags: 0
