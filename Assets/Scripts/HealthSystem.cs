@@ -13,6 +13,14 @@ public class HealthSystem : MonoBehaviour
     private float player1Health;
     private float player2Health;
 
+    // Jugadors
+    public GameObject player1;
+    public GameObject player2;
+
+    private void Update()
+    {
+
+    }
     private void Start()
     {
         // Inicialitzar la vida dels jugadors
@@ -23,12 +31,19 @@ public class HealthSystem : MonoBehaviour
     // Funció per infligir mal a un jugador
     public void TakeDamage(string playerTag, float amount)
     {
+        // Obtenir els jugadors
+        player1 = GameObject.FindGameObjectWithTag("Player1");
+        player2 = GameObject.FindGameObjectWithTag("Player2");
+        
         if (playerTag == "Player1")
         {
-            // Comprovem si és invencible
-            if (player1.TryGetComponent(out Player1Controller p1) && p1.IsInvincible)
+            //var battleCry = player1.GetComponent<BattleCry>();
+            var playerController = player1.GetComponent<Player1Controller>();
+
+            // Comprova invencibilitat
+            if (playerController.IsInvincible())
             {
-                Debug.Log("Player1 és invencible! No rep mal.");
+                Debug.Log($"{player1.name} està invencible, no rep mal.");
                 return;
             }
             player1Health -= amount;
@@ -38,6 +53,11 @@ public class HealthSystem : MonoBehaviour
         }
         else if (playerTag == "Player2")
         {
+            if (player2 != null && player2.TryGetComponent(out Player2Controller p2) && p2.IsInvincible())
+            {
+                Debug.Log("Player2 és invencible! No rep mal.");
+                return;
+            }
             player2Health -= amount;
             player2Health = Mathf.Max(player2Health, 0); // Evitar valors negatius
             player2Hearts.TakeDamage(amount); // Actualitzar la barra de vida

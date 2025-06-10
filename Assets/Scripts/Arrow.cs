@@ -12,7 +12,7 @@ public class Arrow : MonoBehaviour
     private Collider2D col;
     Vector3 originalScale;
     public SpriteRenderer sr;
-
+    public GameObject auraPrefab; // Prefab per l'aura amb el buff
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

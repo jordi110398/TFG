@@ -22,14 +22,11 @@ public class Player1Controller : MonoBehaviour
     public Animator animator;
     public Rigidbody2D rb;
     float horizontalMovement;
-    private Vector2 movementInput;
-
     public Transform groundCheckPos;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
     public int maxJumps = 2;
     int jumpsRemaining;
-
     public float jumpPower = 10f;
 
     // COMBAT
@@ -50,16 +47,25 @@ public class Player1Controller : MonoBehaviour
     public Transform weaponHand;
     //public float boomerangSpeed = 15f;
     private bool hasBoomerangActive = false;
-
     // INTERACCIÓ
     public float interactionRange = 2f;
     private Lever closestLever;
-
     private PlayerInput playerInput;
+    // INVINCIBILITAT
+    public bool isInvincible = false;
+    // KNOCKBACK
+    // Variables pel Flash
+    private SpriteRenderer spriteRenderer;
+    public Color flashColor = Color.white;
+    public float flashDuration = 0.1f;
+    private Color originalColor;
+    public float force;
 
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
     }
     private void Start()
     {
@@ -194,6 +200,13 @@ public class Player1Controller : MonoBehaviour
             isFacingRight = !isFacingRight;
             localScale.x *= -1f;
             transform.localScale = localScale;
+            // Compensa el flip a l'arc
+            if (bow != null)
+            {
+                Vector3 bowScale = bow.transform.localScale;
+                bowScale.x *= -1f;
+                bow.transform.localScale = bowScale;
+            }
         }
     }
     public void EquipBow(GameObject bowObject)
@@ -254,7 +267,7 @@ public class Player1Controller : MonoBehaviour
             Animator bowAnimator = bow.GetComponent<Animator>();
             if (bowAnimator != null)
             {
-                bowAnimator.SetTrigger("Attack");
+                bowAnimator.SetBool("isAttacking", true);
             }
         }
 
@@ -262,6 +275,11 @@ public class Player1Controller : MonoBehaviour
         {
             isCharging = false;
             ShootArrow();
+            Animator bowAnimator = bow.GetComponent<Animator>();
+            if (bowAnimator != null)
+            {
+                bowAnimator.SetBool("IsAttacking", false); // Torna a idle quan acabes l'atac
+            }
         }
     }
 
@@ -285,7 +303,28 @@ public class Player1Controller : MonoBehaviour
 
         if (direction.magnitude < 0.1f) return;
 
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, Quaternion.identity);
+        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowPrefab.transform.rotation);
+        Arrow arrowScript = arrow.GetComponent<Arrow>();
+        int baseDamage = arrowScript.damage;
+        // Si el jugador té un buff de dany, augmenta el dany de la fletxa
+        if (TryGetComponent(out BattleCry battleCry))
+        {
+            arrowScript.damage = Mathf.RoundToInt(baseDamage * battleCry.GetDamageMultiplier());
+            if (battleCry.GetDamageMultiplier() > 1f && arrowScript.auraPrefab != null)
+            {
+                // L'aura és filla de la fletxa i hereta la seva transformació
+                // Busca el fill "ArrowTale" dins la fletxa
+                Transform arrowTail = arrow.transform.Find("ArrowTail");
+                GameObject aura = Instantiate(arrowScript.auraPrefab, arrowTail);
+                aura.transform.localPosition = Vector3.zero; // Centra l'aura a la cua de la fletxa
+                //aura.transform.localScale = Vector3.one;     // Manté l'escala original del prefab
+            }
+        }
+        else
+        {
+            arrowScript.damage = baseDamage;
+        }
+
         Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
 
         arrowRb.AddForce(direction * arrowSpeed, ForceMode2D.Impulse);
@@ -354,4 +393,69 @@ public class Player1Controller : MonoBehaviour
             boomerangScript.onBoomerangReturn = () => { hasBoomerangActive = false; };
         }
     }
+
+    public bool IsInvincible()
+    {
+        Debug.Log("Invencible: " + isInvincible);
+        return isInvincible;
+    }
+    public void ApplyInvincibility(float duration)
+    {
+        StartCoroutine(InvincibilityCoroutine(duration));
+    }
+
+    private IEnumerator InvincibilityCoroutine(float duration)
+    {
+        Debug.Log("ARA ES INVENCIBLE!!");
+        isInvincible = true;
+        spriteRenderer.color = Color.cyan; // Canviar el color del sprite
+        yield return new WaitForSeconds(duration);
+        isInvincible = false;
+        Debug.Log("INVENCIBILITAT FINALITZADA");
+        spriteRenderer.color = originalColor; // Restaurar el color original
+    }
+    // Funció per aplicar Knockback
+    public void ApplyKnockback(Vector2 direction, float force)
+    {
+        if (!isInvincible) // No aplicar si està en mode invencible
+        {
+            Debug.Log("Aplicant Knockback vertical al jugador!");
+            rb.linearVelocity = Vector2.zero; // Reiniciar la velocitat
+            Vector2 verticalKnockback = Vector2.up * force; // Knockback només cap amunt
+            rb.AddForce(verticalKnockback, ForceMode2D.Impulse);
+
+            // Bloquejar moviments durant el knockback
+            StartCoroutine(DisableMovement(0.3f));
+        }
+    }
+
+    private IEnumerator DisableMovement(float duration)
+    {
+        float originalSpeed = speed;
+        speed = 0;
+        yield return new WaitForSeconds(duration);
+        speed = originalSpeed;
+    }
+
+    public void DisableInvincibility()
+    {
+        isInvincible = false;
+        Debug.Log("INVENCIBILITAT DESACTIVADA");
+    }
+    public IEnumerator PlayDamageFlash()
+    {
+        Debug.Log("Flaix de mal activat!"); // Comprovació de si entra a la funció
+        spriteRenderer.color = Color.red; // Color vermell
+        yield return new WaitForSeconds(flashDuration);
+        spriteRenderer.color = originalColor;
+    }
+
+    public IEnumerator PlayBlockingFlash()
+    {
+        Debug.Log("Flaix de bloquejar P1 activat!"); // Comprovació de si entra a la funció
+        spriteRenderer.color = Color.cyan; // Color blau
+        yield return new WaitForSeconds(flashDuration);
+        spriteRenderer.color = originalColor;
+    }
+
 }

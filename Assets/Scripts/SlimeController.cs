@@ -171,11 +171,21 @@ public class SlimeController : MonoBehaviour
 
                 if (collision.CompareTag("Player1"))
                 {
+                    if(playerController1 != null && playerController1.IsInvincible())
+                    {
+                        Debug.Log("Player1 està invencible, no rep mal.");
+                        return;
+                    }
                     playerManager.GetComponent<HealthSystem>().TakeDamage("Player1", damageAmount);
                     anim.SetBool("isAttacking", true);
                 }
                 else if (collision.CompareTag("Player2"))
                 {
+                    if(playerController2 != null && playerController2.IsInvincible())
+                    {
+                        Debug.Log("Player2 està invencible, no rep mal.");
+                        return;
+                    }
                     playerManager.GetComponent<HealthSystem>().TakeDamage("Player2", damageAmount);
                     anim.SetBool("isAttacking", true);
                 }
@@ -184,6 +194,11 @@ public class SlimeController : MonoBehaviour
                 {
                     playerController2.ApplyKnockback(Vector2.up, 3f);
                     StartCoroutine(playerController2.PlayDamageFlash());
+                }
+                if (playerController1 != null)
+                {
+                    playerController1.ApplyKnockback(Vector2.up, 3f);
+                    StartCoroutine(playerController1.PlayDamageFlash());
                 }
             }
         }

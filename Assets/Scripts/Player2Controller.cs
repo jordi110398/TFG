@@ -81,6 +81,9 @@ public class Player2Controller : MonoBehaviour
     private bool canUseCry = true;
     public GameObject battleCryEffectPrefab;
 
+    // INVINCIBILITAT
+    public bool isInvincible = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -600,7 +603,7 @@ public class Player2Controller : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
         GameObject battleCryPrefab = Instantiate(battleCryEffectPrefab, transform.position, rotation);
         battleCryPrefab.transform.SetParent(transform); // es mou amb el jugador
-        battleCryPrefab.transform.localPosition = Vector3.zero; 
+        battleCryPrefab.transform.localPosition = Vector3.zero;
         //battleCryPrefab.transform.localScale = Vector3.one; 
         Destroy(battleCryPrefab, 5f);
 
@@ -648,7 +651,7 @@ public class Player2Controller : MonoBehaviour
     public IEnumerator PlayDamageFlash()
     {
         Debug.Log("Flaix de mal activat!"); // Comprovació de si entra a la funció
-        spriteRenderer.color = Color.red; // Prova amb un color més visible
+        spriteRenderer.color = Color.red; // Color per al mal
         yield return new WaitForSeconds(flashDuration);
         spriteRenderer.color = originalColor;
     }
@@ -656,8 +659,25 @@ public class Player2Controller : MonoBehaviour
     public IEnumerator PlayBlockingFlash()
     {
         Debug.Log("Flaix de bloquejar activat!"); // Comprovació de si entra a la funció
-        spriteRenderer.color = Color.cyan; // Prova amb un color més visible
+        spriteRenderer.color = Color.cyan; // Color per al bloqueig
         yield return new WaitForSeconds(flashDuration);
         spriteRenderer.color = originalColor;
+    }
+
+    public bool IsInvincible()
+    {
+        return isInvincible;
+    }
+    public void ApplyInvincibility(float duration)
+    {
+        StartCoroutine(InvincibilityCoroutine(duration));
+    }
+
+    private IEnumerator InvincibilityCoroutine(float duration)
+    {
+        isInvincible = true;
+        // Aquí pots afegir efectes visuals
+        yield return new WaitForSeconds(duration);
+        isInvincible = false;
     }
 }

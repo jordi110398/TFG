@@ -349,6 +349,10 @@ MonoBehaviour:
   boomerangPrefab: {fileID: 7253557654396165031, guid: f87e858062496fa40ba40cc97939bb4c, type: 3}
   weaponHand: {fileID: 6317070758998986767}
   interactionRange: 0.64
+  isInvincible: 0
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
+  force: 0
 --- !u!50 &8016722745561240407
 Rigidbody2D:
   serializedVersion: 5

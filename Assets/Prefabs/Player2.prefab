@@ -443,11 +443,12 @@ MonoBehaviour:
   interactionRange: 0.98
   radius: 9.02
   buffDuration: 10
-  cooldown: 50
+  cooldown: 5
   allyLayer:
     serializedVersion: 2
     m_Bits: 512
   battleCryEffectPrefab: {fileID: 9162747256581444257, guid: 264e88b524c9a8f44b02f169a0077385, type: 3}
+  isInvincible: 0
 --- !u!50 &8016722745561240407
 Rigidbody2D:
   serializedVersion: 5

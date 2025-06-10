@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &380502343542496659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5261505734456713794}
+  m_Layer: 8
+  m_Name: ArrowTail
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5261505734456713794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380502343542496659}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.16, y: -0.17, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3422661969342506507}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1296085268702960096
 GameObject:
   m_ObjectHideFlags: 0
@@ -28,14 +59,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1296085268702960096}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.39035696, w: 0.9206636}
+  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
   m_LocalPosition: {x: -0.0009183134, y: 0.0039290655, z: 0}
   m_LocalScale: {x: 0.5669, y: 0.5669, z: 0.5669}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6951504122533486171}
+  - {fileID: 5261505734456713794}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45.953}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
 --- !u!212 &2385434313956698372
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -197,6 +229,7 @@ MonoBehaviour:
   destroyDelay: 0.1
   damageZone: {fileID: 6951504122533486171}
   sr: {fileID: 2385434313956698372}
+  auraPrefab: {fileID: 6366099873305639752, guid: 74c10e94882259846955727681011ff7, type: 3}
 --- !u!1 &9115713908820921320
 GameObject:
   m_ObjectHideFlags: 0

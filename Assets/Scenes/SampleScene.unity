@@ -1286,6 +1286,8 @@ MonoBehaviour:
   player2Hearts: {fileID: 2072390007}
   maxHealth1: 6
   maxHealth2: 10
+  player1: {fileID: 4239273015237076414, guid: 437ac9f529836b94abcb294582917431, type: 3}
+  player2: {fileID: 4239273015237076414, guid: f45329fa19c5809468ee337d60400144, type: 3}
 --- !u!114 &828107527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,6 +2061,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3f5d96e234774f4c843688639310cf9, type: 3}
+--- !u!1001 &7167915861791961074
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483296470930138792, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366099873305639752, guid: 74c10e94882259846955727681011ff7, type: 3}
+      propertyPath: m_Name
+      value: AuraArrow
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 74c10e94882259846955727681011ff7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2083,3 +2142,4 @@ SceneRoots:
   - {fileID: 4626467391331630955}
   - {fileID: 3624382539577523644}
   - {fileID: 1517783142}
+  - {fileID: 7167915861791961074}

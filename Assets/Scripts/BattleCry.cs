@@ -4,7 +4,7 @@ public class BattleCry : MonoBehaviour
 {
     private bool isBuffed = false;
     private float buffTimer = 0f;
-    public float damageMultiplier = 1.25f; // Ex: +25% damage
+    public float damageMultiplier = 1.50f; // Ex: +50% damage
     public GameObject shieldVisualPrefab; // assigna des de l'inspector
     private GameObject activeShield;
 
@@ -16,6 +16,7 @@ public class BattleCry : MonoBehaviour
         if (TryGetComponent(out Player1Controller player))
         {
             player.ApplyInvincibility(duration);
+            //player.DisableInvincibility();
         }
 
         if (shieldVisualPrefab != null && activeShield == null)
