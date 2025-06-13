@@ -37,7 +37,7 @@ public class Player1Controller : MonoBehaviour
     public float bowRotationOffset = 0f;
     private Vector2 aimInput = Vector2.zero;
     public GameObject arrowPrefab; // Prefab de la flecha
-    public GameObject bow; // Prefab del arco
+    private GameObject bow; // Prefab del arco
     public Transform arrowSpawnPoint; // Punt de sortida de la flecha
     public float arrowSpeed = 30f;
     private LineRenderer lineRenderer; // Linia d'apuntar
@@ -60,6 +60,7 @@ public class Player1Controller : MonoBehaviour
     public float flashDuration = 0.1f;
     private Color originalColor;
     public float force;
+    private bool isStunned = false;
 
     void Awake()
     {
@@ -67,27 +68,6 @@ public class Player1Controller : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
     }
-    private void Start()
-    {
-
-        if (bow != null)
-        {
-            arrowSpawnPoint = bow.transform.Find("ArrowSpawnPoint");
-            //bow.SetActive(false); // l'amago
-            if (arrowSpawnPoint == null)
-            {
-                Debug.LogError("ArrowSpawnPoint no trobat dins del prefab del arco.");
-            }
-        }
-        else
-        {
-            Debug.LogError("No s'ha assignat el prefab del arco!!!!");
-        }
-        // Després d'equipar l'arc
-        //lineRenderer = bow.GetComponent<LineRenderer>();
-    }
-
-
 
     private void Update()
     {
@@ -369,6 +349,24 @@ public class Player1Controller : MonoBehaviour
             }
         }
     }
+    // PICK-UP
+    public void OnPickUp(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+
+        // Busca si hi ha un ItemPickup a prop
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactionRange);
+        foreach (var hit in hits)
+        {
+            ItemPickup pickup = hit.GetComponent<ItemPickup>();
+            if (pickup != null)
+            {
+                pickup.TryPickUp(gameObject);
+                break;
+            }
+        }
+    }
+
     private IEnumerator HideBowAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -417,24 +415,22 @@ public class Player1Controller : MonoBehaviour
     // Funció per aplicar Knockback
     public void ApplyKnockback(Vector2 direction, float force)
     {
-        if (!isInvincible) // No aplicar si està en mode invencible
+        if (!isInvincible)
         {
             Debug.Log("Aplicant Knockback vertical al jugador!");
-            rb.linearVelocity = Vector2.zero; // Reiniciar la velocitat
-            Vector2 verticalKnockback = Vector2.up * force; // Knockback només cap amunt
+            rb.linearVelocity = Vector2.zero;
+            Vector2 verticalKnockback = Vector2.up * force;
             rb.AddForce(verticalKnockback, ForceMode2D.Impulse);
 
-            // Bloquejar moviments durant el knockback
             StartCoroutine(DisableMovement(0.3f));
         }
     }
 
     private IEnumerator DisableMovement(float duration)
     {
-        float originalSpeed = speed;
-        speed = 0;
+        isStunned = true;
         yield return new WaitForSeconds(duration);
-        speed = originalSpeed;
+        isStunned = false;
     }
 
     public void DisableInvincibility()

@@ -43,7 +43,7 @@ public class Arrow : MonoBehaviour
 
         if (collision.CompareTag("Enemy"))
         {
-            SlimeController enemy = collision.GetComponent<SlimeController>();
+            EnemyController enemy = collision.GetComponent<EnemyController>();
 
             if (enemy != null)
             {

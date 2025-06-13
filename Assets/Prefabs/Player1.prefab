@@ -313,6 +313,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f93f3905-1b2a-432d-a78b-06c849e79a51
     m_ActionName: 'Player/BlockMouse[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2465172310673980737}
+        m_TargetAssemblyTypeName: Player1Controller, Assembly-CSharp
+        m_MethodName: OnPickUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 207db289-f281-4579-a76a-5d9e28107535
+    m_ActionName: 'Player/Pickup[/XInputControllerWindows/buttonNorth,/Keyboard/q]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player

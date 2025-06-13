@@ -84,6 +84,8 @@ public class Player2Controller : MonoBehaviour
     // INVINCIBILITAT
     public bool isInvincible = false;
 
+    private bool isStunned = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -289,6 +291,25 @@ public class Player2Controller : MonoBehaviour
         }
     }
 
+    // PICK-UP
+    public void OnPickUp(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+
+        // Busca si hi ha un ItemPickup a prop
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactionRange);
+        foreach (var hit in hits)
+        {
+            ItemPickup pickup = hit.GetComponent<ItemPickup>();
+            if (pickup != null)
+            {
+                pickup.TryPickUp(gameObject);
+                Debug.Log("Player2 ha recollit un objecte: " + pickup.name);
+                break;
+            }
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDashing && collision.gameObject.CompareTag("Pushable"))
@@ -347,6 +368,7 @@ public class Player2Controller : MonoBehaviour
             }
         }
     }
+    /* JA ESTÀ EQUIPADA PER DEFECTE
     public void EquipSword(GameObject swordObject)
     {
         sword = swordObject;
@@ -364,6 +386,7 @@ public class Player2Controller : MonoBehaviour
             sword.SetActive(false); // Oculta o mostra l'espasa
         }
     }
+    */
 
     // Getter per saber si el jugador està atacant
     public bool IsAttacking()
@@ -385,7 +408,6 @@ public class Player2Controller : MonoBehaviour
     private IEnumerator PerformAttack()
     {
         isAttacking = true;
-        //horizontalMovement = 0;
         animator.SetFloat("Speed", 0);  // Atura animació de córrer
 
         sword.SetActive(true);
@@ -396,17 +418,17 @@ public class Player2Controller : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackOrigin.position, attackRadius, enemyMask);
-        foreach (var enemy in enemiesInRange)
+        foreach (var target in enemiesInRange)
         {
-            SlimeController slime = enemy.GetComponent<SlimeController>();
-            if (slime != null)
+            EnemyController enemy = target.GetComponent<EnemyController>();
+            if (enemy != null)
             {
-                slime.TakeDamage(swordDamage, transform);
+                enemy.TakeDamage(swordDamage, transform);
             }
         }
 
-        // Espera el temps d'animació d'atac (ajusta segons durada de l'animació)
-        yield return new WaitForSeconds(0.1f);
+        // Espera la durada real de l'animació d'atac
+        yield return new WaitForSeconds(0.4f); // 0.1 + 0.4 = 0.5s total
 
         isAttacking = false;
         sword.SetActive(false);
@@ -458,8 +480,6 @@ public class Player2Controller : MonoBehaviour
     public void EquipShield(GameObject shieldObject)
     {
         shield = shieldObject;
-        //shieldParticles = shield.GetComponent<TrailRenderer>(); // Aquí assignem el trail
-
         if (shield == null)
         {
             Debug.LogError("Escut no trobat.");
@@ -467,7 +487,9 @@ public class Player2Controller : MonoBehaviour
         else
         {
             Debug.Log("Escut equipat correctament.");
-            shield.SetActive(false); // Oculta o mostra l'escut
+            // Només desactiva l'escut equipat, no el prefab original!
+            if (shield.transform.parent == shieldHolder)
+                shield.SetActive(false);
         }
     }
 
@@ -629,24 +651,19 @@ public class Player2Controller : MonoBehaviour
     // Funció per aplicar Knockback
     public void ApplyKnockback(Vector2 direction, float force)
     {
-        if (!isBlocking) // No aplicar si està bloquejant
+        if (!isBlocking)
         {
-            Debug.Log("Aplicant Knockback vertical al jugador!");
-            rb.linearVelocity = Vector2.zero; // Reiniciar la velocitat
-            Vector2 verticalKnockback = Vector2.up * force; // Knockback només cap amunt
-            rb.AddForce(verticalKnockback, ForceMode2D.Impulse);
-
-            // Bloquejar moviments durant el knockback
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(direction.normalized * force, ForceMode2D.Impulse);
             StartCoroutine(DisableMovement(0.3f));
         }
     }
 
     private IEnumerator DisableMovement(float duration)
     {
-        float originalSpeed = speed;
-        speed = 0;
+        isStunned = true;
         yield return new WaitForSeconds(duration);
-        speed = originalSpeed;
+        isStunned = false;
     }
     public IEnumerator PlayDamageFlash()
     {

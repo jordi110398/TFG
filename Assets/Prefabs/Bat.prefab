@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2721016613062556111}
   - component: {fileID: 1929172629315572346}
-  - component: {fileID: 3657933509250390387}
   - component: {fileID: 5930456092877942612}
   - component: {fileID: 7664742080259636214}
   - component: {fileID: 2927352019101748620}
   - component: {fileID: 7996580925331046801}
-  m_Layer: 0
+  - component: {fileID: 6446987273394374878}
+  m_Layer: 6
   m_Name: Bat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,80 +93,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &3657933509250390387
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 486021522484254827}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.75, y: 1.58}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.475, y: -0.39}
-      - {x: 0.72499996, y: -0.29999998}
-      - {x: 0.865, y: -0.16}
-      - {x: 1.165, y: 0.06}
-      - {x: 1.375, y: 0.29999998}
-      - {x: 1.375, y: 0.78999996}
-      - {x: 0.525, y: 0.78999996}
-      - {x: 0.185, y: 0.44}
-      - {x: 0.065, y: 0.53999996}
-      - {x: -0.074999996, y: 0.56}
-      - {x: -0.105, y: 0.42}
-      - {x: -0.325, y: 0.53999996}
-      - {x: -0.45499998, y: 0.53999996}
-      - {x: -0.60499996, y: 0.42}
-      - {x: -0.675, y: 0.53}
-      - {x: -0.815, y: 0.66999996}
-      - {x: -1.365, y: 0.66999996}
-      - {x: -1.375, y: 0.65999997}
-      - {x: -1.375, y: 0.25}
-      - {x: -1.365, y: 0.24}
-      - {x: -1.275, y: 0.12}
-      - {x: -1.145, y: -0.14}
-      - {x: -0.505, y: -0.78999996}
-      - {x: -0.044999998, y: -0.78999996}
-      - {x: 0.085, y: -0.69}
-      - {x: 0.105, y: -0.42999998}
-      - {x: 0.45499998, y: -0.41}
-  m_UseDelaunayMesh: 0
 --- !u!60 &5930456092877942612
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -280,6 +206,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7ab2797111a6546ab22a245f058de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 5
+  damageAmount: 1
+  damageCooldown: 1
+  knockbackForce: 60
+  spriteRenderer: {fileID: 1929172629315572346}
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.1
+  playerManager: {fileID: 0}
   speed: 3
   chase: 0
   startingPoint: {fileID: 0}
@@ -310,6 +244,43 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!70 &6446987273394374878
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486021522484254827}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.28, y: -0.18}
+  m_Size: {x: 1.09, y: 1.29}
+  m_Direction: 0
 --- !u!1 &8495900485293093372
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1924057694692889139}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ChaseZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

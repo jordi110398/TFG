@@ -371,6 +371,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f93f3905-1b2a-432d-a78b-06c849e79a51
     m_ActionName: 'Player/BlockMouse[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8201038097705288410}
+        m_TargetAssemblyTypeName: Player2Controller, Assembly-CSharp
+        m_MethodName: OnPickUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 207db289-f281-4579-a76a-5d9e28107535
+    m_ActionName: 'Player/Pickup[/XInputControllerWindows/buttonNorth,/Keyboard/q]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -440,8 +456,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   swordDamage: 1
-  interactionRange: 0.98
-  radius: 9.02
+  interactionRange: 1.01
+  radius: 5.76
   buffDuration: 10
   cooldown: 5
   allyLayer:
@@ -520,7 +536,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.66950893, y: 1.2646616}
+  m_Size: {x: 0.79, y: 1.2646616}
   m_EdgeRadius: 0
 --- !u!58 &605325456467098357
 CircleCollider2D:
@@ -556,8 +572,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.57}
-  m_Radius: 0.34
+  m_Offset: {x: 0, y: -0.55}
+  m_Radius: 0.4
 --- !u!96 &8895255951751642223
 TrailRenderer:
   serializedVersion: 3

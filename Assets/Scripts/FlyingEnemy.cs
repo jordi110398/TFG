@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 
-public class FlyingEnemy : MonoBehaviour
+public class FlyingEnemy : EnemyController
 {
     public float speed;
     private GameObject player1;
@@ -16,16 +16,18 @@ public class FlyingEnemy : MonoBehaviour
     public bool player2InZone = false;
     public GameObject target = null;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-
-    }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDead) return;
+        
+        if (isBlocked || isKnockbacked)
+        {
+            rb.linearVelocity = Vector2.zero;
+            //anim.SetBool("isRunning", false);
+            return;
+        }
         player1 = GameObject.FindGameObjectWithTag("Player1");
         player2 = GameObject.FindGameObjectWithTag("Player2");
         if (player1 == null && player2 == null)
@@ -102,6 +104,22 @@ public class FlyingEnemy : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 180, 0); // Orientació invertida
         }
+    }
+    protected override void Die()
+    {
+        isDead = true;
+        if (anim != null)
+            anim.SetTrigger("isDead");
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Dynamic; // Permet caure per la gravetat
+        rb.gravityScale = 1f; // Gravetat activada
+        // Desactiva només el collider de trigger
+        foreach (var col in GetComponents<Collider2D>())
+        {
+            if (col.isTrigger)
+                col.enabled = false;
+        }
+        StartCoroutine(HandleDeath());
     }
 
     private void OnDrawGizmos()

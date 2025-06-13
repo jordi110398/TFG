@@ -1,5 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ItemPickup : MonoBehaviour
 {
@@ -8,69 +8,86 @@ public class ItemPickup : MonoBehaviour
     public bool itemConsumable;
     public bool shieldHandEquippable;
 
+    public bool onlyPlayer1; // Marca a l'Inspector si aquest pickup és per Player1
+    public bool onlyPlayer2; // Marca a l'Inspector si aquest pickup és per Player2
+
     private Transform weaponHand;
     private Transform swordHand;
     private Transform shieldHand;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        weaponHand = GameObject.Find("WeaponHand").GetComponent<Transform>();
-        shieldHand = GameObject.Find("ShieldHand").GetComponent<Transform>();
-    }
+    private GameObject playerNearby = null;
 
-    // Update is called once per frame
-    void Update()
-    {
-        weaponHand = GameObject.Find("WeaponHand").GetComponent<Transform>();
-        shieldHand = GameObject.Find("ShieldHand").GetComponent<Transform>();
-    }
+    public GameObject outlineObject;
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // ARC
-        if (collision.gameObject.tag == "Player1" && bowHandEquippable == true)
+        if (collision.CompareTag("Player1") || collision.CompareTag("Player2"))
         {
+            playerNearby = collision.gameObject;
+            outlineObject.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject == playerNearby)
+        {
+            playerNearby = null;
+            outlineObject.SetActive(false);
+        }
+    }
+
+    // Aquest mètode l'ha de cridar el Player quan prem la tecla/botó d'agafar
+    public void TryPickUp(GameObject player)
+    {
+        Debug.Log("TryPickUp cridat per: " + player.name);
+        //if (player != playerNearby) return;
+
+        // ARC
+        if (player.tag == "Player1" && bowHandEquippable)
+        {
+            if (weaponHand == null)
+                weaponHand = GameObject.Find("WeaponHand").transform;
             transform.SetParent(weaponHand);
             transform.localPosition = Vector3.zero;
-
-            // Notifica al Player1Controller que s'ha equipat l'arco
-            Player1Controller controller = collision.gameObject.GetComponent<Player1Controller>();
+            Player1Controller controller = player.GetComponent<Player1Controller>();
             if (controller != null)
-            {
-                controller.EquipBow(gameObject); // Passem l'arc recollit
-            }
-
+                controller.EquipBow(gameObject);
         }
-        // ESPASA
-        if (collision.gameObject.tag == "Player2" && swordHandEquippable == true)
+        // ESPASA (ja està equipada)
+        /*
+
+        if (player.tag == "Player2" && swordHandEquippable)
         {
+            if (weaponHand == null)
+                weaponHand = GameObject.Find("WeaponHand").transform;
             Transform swordPivot = weaponHand.Find("SwordPivot");
             transform.SetParent(swordPivot);
-            transform.localPosition = Vector3.zero;
-
-
-            // Notifica al Player2Controller que s'ha equipat l'espasa
-            Player2Controller controller = collision.gameObject.GetComponent<Player2Controller>();
+            //transform.localPosition = Vector3.zero;
+            Player2Controller controller = player.GetComponent<Player2Controller>();
             if (controller != null)
-            {
-                controller.EquipSword(gameObject); // Passem l'espasa recollida
-            }
-
+                controller.EquipSword(gameObject);
         }
+        */
+
         // ESCUT
-        if (collision.gameObject.tag == "Player2" && shieldHandEquippable == true)
+        if (player.tag == "Player2" && shieldHandEquippable)
         {
+            Debug.Log("Intentant equipar escut");
+            if (shieldHand == null)
+            {
+                shieldHand = GameObject.Find("ShieldHand")?.transform;
+                Debug.Log("shieldHand trobat? " + (shieldHand != null));
+            }
             transform.SetParent(shieldHand);
             transform.localPosition = Vector3.zero;
-
-            // Notifica al Player2Controller que s'ha equipat l'escut
-            Player2Controller controller = collision.gameObject.GetComponent<Player2Controller>();
+            Player2Controller controller = player.GetComponent<Player2Controller>();
             if (controller != null)
             {
-                controller.EquipShield(gameObject); // Passem l'escut recollit
+                Debug.Log("EquipShield cridat");
+                controller.EquipShield(gameObject);
             }
-
         }
     }
 }
