@@ -43,7 +43,8 @@ public class Player1Controller : MonoBehaviour
     private LineRenderer lineRenderer; // Linia d'apuntar
     private bool isAttacking = false;
     // BOOMERANG
-    public GameObject boomerangPrefab;
+    private GameObject boomerangPrefab;
+    private Boomerang boomerang;
     public Transform weaponHand;
     //public float boomerangSpeed = 15f;
     private bool hasBoomerangActive = false;
@@ -376,19 +377,37 @@ public class Player1Controller : MonoBehaviour
         }
     }
 
+    public void EquipBoomerang(GameObject boomerangObject)
+    {
+        boomerangPrefab = boomerangObject;
+        boomerangPrefab.SetActive(false); // El boomerang està equipat però ocult fins que es llenci
+
+        Boomerang boomerang = boomerangObject.GetComponent<Boomerang>();
+        if (boomerang != null)
+        {
+            boomerang.SetEquipped(true);      // Activa la rotació només quan està equipat (si ho vols)
+            boomerang.Initialize(this);       // Passa referència al propietari si cal
+        }
+        Debug.Log("Boomerang equipat.");
+    }
+
     public void OnBoomerang(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed && boomerangPrefab != null && !hasBoomerangActive)
-        {
-            Vector2 direction = GetAimDirection();
-            if (direction.magnitude < 0.1f) return; // Evita llençar si no hi ha direcció
+        if (!ctx.performed) return;
 
-            GameObject boomerang = Instantiate(boomerangPrefab, weaponHand.position, Quaternion.identity);
-            Boomerang boomerangScript = boomerang.GetComponent<Boomerang>();
-            boomerangScript.Launch(direction); // <- aquí passes la direcció bona
-            hasBoomerangActive = true;
-            // Quan el boomerang es destrueix es notifica
-            boomerangScript.onBoomerangReturn = () => { hasBoomerangActive = false; };
+        if (boomerangPrefab != null && !boomerangPrefab.activeInHierarchy)
+        {
+            boomerangPrefab.SetActive(true);
+            boomerangPrefab.transform.SetParent(null); // <-- DESPARENTA!
+            boomerangPrefab.transform.position = weaponHand.position + (Vector3)(GetAimDirection() * 0.8f);
+
+            Boomerang boomerang = boomerangPrefab.GetComponent<Boomerang>();
+            if (boomerang != null)
+            {
+                Vector2 direction = GetAimDirection();
+                boomerang.Launch(direction, transform);
+                Debug.Log("Boomerang volant");
+            }
         }
     }
 

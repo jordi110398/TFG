@@ -7,6 +7,7 @@ public class ItemPickup : MonoBehaviour
     public bool bowHandEquippable;
     public bool itemConsumable;
     public bool shieldHandEquippable;
+    public bool boomerangEquippable; // Marca si aquest pickup és un boomerang
 
     public bool onlyPlayer1; // Marca a l'Inspector si aquest pickup és per Player1
     public bool onlyPlayer2; // Marca a l'Inspector si aquest pickup és per Player2
@@ -54,6 +55,17 @@ public class ItemPickup : MonoBehaviour
             Player1Controller controller = player.GetComponent<Player1Controller>();
             if (controller != null)
                 controller.EquipBow(gameObject);
+        }
+        // BOOMERANG
+        if (player.tag == "Player1" && boomerangEquippable)
+        {
+            if (weaponHand == null)
+                weaponHand = GameObject.Find("WeaponHand").transform;
+            transform.SetParent(weaponHand);
+            transform.localPosition = Vector3.zero;
+            Player1Controller controller = player.GetComponent<Player1Controller>();
+            if (controller != null)
+                controller.EquipBoomerang(gameObject);
         }
         // ESPASA (ja està equipada)
         /*

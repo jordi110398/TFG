@@ -2,67 +2,78 @@ using UnityEngine;
 
 public class Boomerang : MonoBehaviour
 {
-    public float speed = 15f;
-    public float returnDelay = 3f;
-    private Rigidbody2D rb;
-    private Transform player;
-    private float rotationSpeed = 360f;
-    private bool returning = false;
-    private Vector3 direction;
-    public System.Action onBoomerangReturn;
-    public int damage = 1; 
-
-
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        player = GameObject.FindGameObjectWithTag("Player1").transform;
-    }
-
-    public void Launch(Vector3 dir)
-    {
-        direction = dir.normalized;
-
-        rb.linearVelocity = direction * speed;
-        transform.right = direction;
-
-        Invoke(nameof(StartReturn), returnDelay);
-    }
-
-    private void StartReturn()
-    {
-        returning = true;
-    }
+    public float rotationSpeed = 720f;
+    public float speed = 10f;
+    public float maxDistance = 8f;
+    public float damage = 1f; // Dany que fa el boomerang
+    private Vector2 launchDirection;
+    private Vector2 startPosition;
+    private bool isFlying = false;
+    private Transform playerTransform;
+    private bool isEquipped = false;
+    private bool isReturning = false;
 
     void Update()
     {
-        if (returning && player != null)
+        if (isEquipped && isFlying)
         {
-            Vector2 directionToPlayer = ((Vector2)player.position - rb.position).normalized;
-            rb.linearVelocity = directionToPlayer * speed;
+            // Rotació visual
+            transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
 
-            // Gira el bumerang cap a la direcció de retorn
-            float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed * Time.deltaTime);
-
-            // Si arriba molt a prop del jugador, desapareix
-            if (Vector2.Distance(transform.position, player.position) < 0.5f)
+            if (!isReturning)
             {
-                onBoomerangReturn?.Invoke(); // Notifica al jugador
-                Destroy(gameObject);
+                // Anada
+                transform.position += (Vector3)(launchDirection * speed * Time.deltaTime);
+
+                // Si ha arribat a la distància màxima, torna cap al jugador
+                if (Vector2.Distance(startPosition, transform.position) >= maxDistance)
+                {
+                    isReturning = true;
+                }
+            }
+            else
+            {
+                // Tornada: sempre cap al jugador, amb velocitat constant
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    playerTransform.position,
+                    speed * Time.deltaTime
+                );
+
+                // Si arriba prou a prop del jugador, s'oculta
+                if (Vector2.Distance(playerTransform.position, transform.position) < 0.5f)
+                {
+                    isFlying = false;
+                    isReturning = false;
+                    gameObject.SetActive(false);
+                }
             }
         }
     }
 
+    public void Launch(Vector2 direction, Transform player)
+    {
+        launchDirection = direction.normalized;
+        startPosition = transform.position;
+        playerTransform = player;
+        isFlying = true;
+        Debug.Log("Boomerang llançat en direcció: " + launchDirection);
+    }
+
+    public void SetEquipped(bool equipped) { isEquipped = equipped; }
+    public void Initialize(Player1Controller owner) { /* opcional */ }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy")) // Assegura't que el Slime té el tag "Enemy"
+        if (!isFlying) return; // Només fa mal mentre vola
+
+        if (collision.CompareTag("Enemy"))
         {
-            // Intentem trobar el script que gestiona la vida del Slime
-            SlimeController enemy = collision.GetComponent<SlimeController>();
+            // Suposem que l'enemic té un script Enemy amb un mètode TakeDamage(int)
+            EnemyController enemy = collision.GetComponent<EnemyController>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damage, transform);
+                enemy.TakeDamage(damage,transform); // Pots posar la quantitat de dany que vulguis
             }
         }
     }

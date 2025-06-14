@@ -318,7 +318,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.3752953, w: 0.92690533}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6022499, y: 0.6022499, z: 0.60225}
+  m_LocalScale: {x: 0.7537384, y: 0.7537384, z: 0.75373846}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962701525415201124}
@@ -398,6 +398,7 @@ MonoBehaviour:
   bowHandEquippable: 1
   itemConsumable: 0
   shieldHandEquippable: 0
+  boomerangEquippable: 0
   onlyPlayer1: 1
   onlyPlayer2: 0
   outlineObject: {fileID: 4493349491239043234}
