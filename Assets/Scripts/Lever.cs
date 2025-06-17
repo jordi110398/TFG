@@ -16,7 +16,7 @@ public class Lever : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         //spriteRenderer.sprite = offSprite;
-        GetComponent<SpriteRenderer>().color = Color.red;
+        //GetComponent<SpriteRenderer>().color = Color.red;
     }
 
     public void Activate()
@@ -27,17 +27,17 @@ public class Lever : MonoBehaviour
     private void ToggleLever()
     {
         isActivated = !isActivated;
-        //spriteRenderer.sprite = isActivated ? onSprite : offSprite;
+        spriteRenderer.sprite = isActivated ? onSprite : offSprite;
         if (isActivated)
         {
             Debug.Log("Palanca activada");
-            GetComponent<SpriteRenderer>().color = Color.green;
+            //GetComponent<SpriteRenderer>().color = Color.green;
             OnActivated.Invoke();
         }
         else
         {
             Debug.Log("Palanca desactivada");
-            GetComponent<SpriteRenderer>().color = Color.red;
+            //GetComponent<SpriteRenderer>().color = Color.red;
             OnDeactivated.Invoke();
         }
         
