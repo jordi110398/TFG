@@ -256,6 +256,10 @@ MonoBehaviour:
   bowHandEquippable: 0
   itemConsumable: 0
   shieldHandEquippable: 0
+  boomerangEquippable: 0
+  onlyPlayer1: 0
+  onlyPlayer2: 0
+  outlineObject: {fileID: 0}
 --- !u!60 &8215201064549561539
 PolygonCollider2D:
   m_ObjectHideFlags: 0

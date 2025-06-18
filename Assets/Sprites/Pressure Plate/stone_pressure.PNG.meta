@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 3e719da0410e9004db7cc1aeeaac6df1
+guid: 42cae6b3ed568694e92d4f97bc954c91
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4987901684691990599
-    second: flame_0
-  - first:
-      213: 7090429627734957284
-    second: flame_1
+      213: -540764272189823503
+    second: stone_pressure_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 192, w: 0}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -103,45 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: flame_0
+      name: stone_pressure_0
       rect:
         serializedVersion: 2
-        x: 12
+        x: 11
         y: 0
-        width: 144
-        height: 192
+        width: 170
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: bea24b434d065c345b2fa4d5722f1620
-      internalID: -2132213275
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: flame_1
-      rect:
-        serializedVersion: 2
-        x: 216
-        y: 0
-        width: 144
-        height: 192
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 33c4585b4cf536940a951e7e652ce6c1
-      internalID: 1342666365
+      spriteID: 1f527e072c1de78f0800000000000000
+      internalID: -540764272189823503
       vertices: []
       indices: 
       edges: []
@@ -150,8 +125,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7d7f9817ae4505249a543782c29c87e6
-    internalID: 586670712
+    spriteID: 
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -159,9 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      flame_0: -2132213275
-      flame_1: 1342666365
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

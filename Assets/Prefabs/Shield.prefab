@@ -105,7 +105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8150621200010218582
 Transform:
   m_ObjectHideFlags: 0
@@ -193,6 +193,7 @@ MonoBehaviour:
   bowHandEquippable: 0
   itemConsumable: 0
   shieldHandEquippable: 1
+  boomerangEquippable: 0
   onlyPlayer1: 0
   onlyPlayer2: 1
   outlineObject: {fileID: 2359313373606748842}

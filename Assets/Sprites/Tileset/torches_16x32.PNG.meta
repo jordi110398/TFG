@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 3e719da0410e9004db7cc1aeeaac6df1
+guid: a44156afed47ff44f8c458f5f2223cc4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4987901684691990599
-    second: flame_0
+      213: 874320192593301663
+    second: torches_16x32_0
   - first:
-      213: 7090429627734957284
-    second: flame_1
+      213: 8055136615889690004
+    second: torches_16x32_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -54,8 +54,8 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 192, w: 0}
+  spritePixelsToUnits: 31
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -78,7 +78,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -103,45 +103,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: flame_0
+      name: torches_16x32_0
       rect:
         serializedVersion: 2
-        x: 12
+        x: 0
         y: 0
-        width: 144
-        height: 192
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: bea24b434d065c345b2fa4d5722f1620
-      internalID: -2132213275
+      spriteID: f9099733595322c00800000000000000
+      internalID: 874320192593301663
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: flame_1
+      name: torches_16x32_1
       rect:
         serializedVersion: 2
-        x: 216
+        x: 32
         y: 0
-        width: 144
-        height: 192
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 33c4585b4cf536940a951e7e652ce6c1
-      internalID: 1342666365
+      spriteID: 49dd85ff21899cf60800000000000000
+      internalID: 8055136615889690004
       vertices: []
       indices: 
       edges: []
@@ -150,8 +150,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7d7f9817ae4505249a543782c29c87e6
-    internalID: 586670712
+    spriteID: d6f136178ed688846839f630f1749003
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -160,8 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      flame_0: -2132213275
-      flame_1: 1342666365
+      torches_16x32_0: 874320192593301663
+      torches_16x32_1: 8055136615889690004
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
