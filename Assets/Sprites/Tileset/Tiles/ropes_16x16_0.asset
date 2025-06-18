@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Rocks_0
+  m_Name: ropes_16x16_0
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 1887494081247492234, guid: d47d7cf3b000def4c90471e2acdef19c, type: 3}
+  m_Sprite: {fileID: 5142349004474255251, guid: 0e051bd8eafc75f479c89d318ec320cf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

@@ -1,16 +1,13 @@
 fileFormatVersion: 2
-guid: de654f703448ffa4ab72adb4916d6118
+guid: 75a012f3a3c333c4fae6bd675a25918b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -145362552210212360
-    second: ropes_0
+      213: 432020861795858388
+    second: rocks_16x16_0
   - first:
-      213: 9117411936485144491
-    second: ropes_1
-  - first:
-      213: -2865032117924914735
-    second: ropes_2
+      213: -1761277242798406157
+    second: rocks_16x16_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -43,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -57,7 +54,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 15
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -81,7 +78,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -106,67 +103,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ropes_0
+      name: rocks_16x16_0
       rect:
         serializedVersion: 2
-        x: 35
+        x: 0
         y: 0
-        width: 122
-        height: 192
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8f9bdd767819bfdf0800000000000000
-      internalID: -145362552210212360
+      spriteID: c67d1240594bc474cbfd6a770205fcc8
+      internalID: 432020861795858388
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ropes_1
+      name: rocks_16x16_1
       rect:
         serializedVersion: 2
-        x: 263
+        x: 16
         y: 0
-        width: 50
-        height: 192
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ba77a11a9dd878e70800000000000000
-      internalID: 9117411936485144491
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ropes_2
-      rect:
-        serializedVersion: 2
-        x: 455
-        y: 0
-        width: 50
-        height: 192
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1d91005e77c5d38d0800000000000000
-      internalID: -2865032117924914735
+      spriteID: 26ec45ed9830e0e4c9028b76a1524157
+      internalID: -1761277242798406157
       vertices: []
       indices: 
       edges: []
@@ -175,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 823e3abac58bd0a4599b3479d93321cd
     internalID: 0
     vertices: []
     indices: 
@@ -184,7 +159,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      rocks_16x16_0: 432020861795858388
+      rocks_16x16_1: -1761277242798406157
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
