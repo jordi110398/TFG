@@ -13,6 +13,9 @@ TagManager:
   - Lever
   - Shield
   - Boomerang
+  - Potion
+  - Key
+  - PlayerManager
   layers:
   - Default
   - TransparentFX

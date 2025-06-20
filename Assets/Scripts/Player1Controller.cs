@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class Player1Controller : MonoBehaviour
 {
+    [Header("Moviment")]
     // BASIC CHARACTER MOVEMENT VARIABLES
     bool isRunning = false;
     public float speed = 5;
@@ -28,7 +29,7 @@ public class Player1Controller : MonoBehaviour
     public int maxJumps = 2;
     int jumpsRemaining;
     public float jumpPower = 10f;
-
+    [Header("Combat")]
     // COMBAT
     // ARCHERY (BOW) VARIABLES
     private Animator bowAnimator;
@@ -54,20 +55,39 @@ public class Player1Controller : MonoBehaviour
     private PlayerInput playerInput;
     // INVINCIBILITAT
     public bool isInvincible = false;
-    // KNOCKBACK
+
+    [Header("Flash i knockback")]
     // Variables pel Flash
     private SpriteRenderer spriteRenderer;
     public Color flashColor = Color.white;
     public float flashDuration = 0.1f;
     private Color originalColor;
+    // KNOCKBACK
     public float force;
     private bool isStunned = false;
+
+    [Header("Player Manager")]
+    // Referència al PlayerManager
+    public GameObject playerManager;
+
+    [Header("Item")]
+    // ITEMS
+    public Transform itemHolder;
+    private GameObject heldItem;
+
 
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+        // Assigna dinàmicament el PlayerManager
+        if (playerManager == null)
+        {
+            playerManager = GameObject.FindWithTag("PlayerManager");
+            if (playerManager == null)
+                Debug.LogWarning("No s'ha trobat cap PlayerManager a l'escena!");
+        }
     }
 
     private void Update()
@@ -471,6 +491,77 @@ public class Player1Controller : MonoBehaviour
         spriteRenderer.color = Color.cyan; // Color blau
         yield return new WaitForSeconds(flashDuration);
         spriteRenderer.color = originalColor;
+    }
+
+    // ITEMS
+    public void OnUseItem(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+            UseHeldItem();
+    }
+    public bool HasHeldItem()
+    {
+        return itemHolder != null;
+    }
+    public void EquipItem(GameObject item)
+    {
+        if (heldItem != null)
+        {
+            Debug.LogWarning("Ja tens un objecte equipat!");
+            return;
+        }
+
+        heldItem = item;
+        heldItem.transform.SetParent(itemHolder.transform);
+        heldItem.transform.localPosition = Vector3.zero;
+        heldItem.SetActive(true);
+        Debug.Log("Objecte equipat: " + item.name);
+    }
+    public void UseHeldItem()
+    {
+        if (heldItem == null)
+        {
+            Debug.LogWarning("No tens cap objecte equipat!");
+            return;
+        }
+
+        if (heldItem.CompareTag("Potion"))
+        {
+            Debug.Log("Utilitzant poció: " + heldItem.name);
+            playerManager.GetComponent<HealthSystem>().Heal("Player1", 20);
+            Destroy(heldItem);
+            heldItem = null;
+        }
+        else if (heldItem.CompareTag("Key"))
+        {
+            // Busca un cofre a prop
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactionRange);
+            Chest chestToOpen = null;
+            foreach (var hit in hits)
+            {
+                if (hit.CompareTag("Chest"))
+                {
+                    chestToOpen = hit.GetComponent<Chest>();
+                    break;
+                }
+            }
+
+            if (chestToOpen != null)
+            {
+                Debug.Log("Obrint cofre amb la clau!");
+                chestToOpen.Open(); // Assumeix que tens un mètode Open() al script Chest
+                Destroy(heldItem);
+                heldItem = null;
+            }
+            else
+            {
+                Debug.LogWarning("No hi ha cap cofre a prop per obrir!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("L'objecte equipat no es pot utilitzar així!");
+        }
     }
 
 }

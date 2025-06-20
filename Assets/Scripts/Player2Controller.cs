@@ -86,12 +86,34 @@ public class Player2Controller : MonoBehaviour
 
     private bool isStunned = false;
 
+    [Header("Item")]
+    public Transform itemHolder;
+    private GameObject heldItem;
+
+       [Header("Player Manager")]
+    // Referència al PlayerManager
+    public GameObject playerManager;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         playerInput = GetComponent<PlayerInput>();
+        Transform sword = transform.Find("WeaponHand/SwordPivot/Sword"); // desactivar el collider de l'espasa ja equipada
+        if (sword != null)
+        {
+            Collider2D col = sword.GetComponent<Collider2D>();
+            if (col != null)
+                col.enabled = false;
+        }
+        // Assigna dinàmicament el PlayerManager
+        if (playerManager == null)
+        {
+            playerManager = GameObject.FindWithTag("PlayerManager");
+            if (playerManager == null)
+                Debug.LogWarning("No s'ha trobat cap PlayerManager a l'escena!");
+        }
     }
 
     private void Start()
@@ -696,5 +718,73 @@ public class Player2Controller : MonoBehaviour
         // Aquí pots afegir efectes visuals
         yield return new WaitForSeconds(duration);
         isInvincible = false;
+    }
+
+    public void EquipItem(GameObject item)
+    {
+        if (heldItem != null)
+        {
+            Debug.LogWarning("Ja tens un objecte consumible equipat!");
+            return;
+        }
+
+        heldItem = item;
+        heldItem.transform.SetParent(itemHolder.transform);
+        heldItem.transform.localPosition = Vector3.zero;
+        heldItem.SetActive(true);
+        Debug.Log("Consumible equipat: " + item.name);
+    }
+
+    public void UseHeldItem()
+    {
+        if (heldItem == null)
+        {
+            Debug.LogWarning("No tens cap objecte equipat!");
+            return;
+        }
+
+        if (heldItem.CompareTag("Potion"))
+        {
+            Debug.Log("Utilitzant poció: " + heldItem.name);
+            playerManager.GetComponent<HealthSystem>().Heal("Player1", 20);
+            Destroy(heldItem);
+            heldItem = null;
+        }
+        else if (heldItem.CompareTag("Key"))
+        {
+            // Busca un cofre a prop
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactionRange);
+            Chest chestToOpen = null;
+            foreach (var hit in hits)
+            {
+                if (hit.CompareTag("Chest"))
+                {
+                    chestToOpen = hit.GetComponent<Chest>();
+                    break;
+                }
+            }
+
+            if (chestToOpen != null)
+            {
+                Debug.Log("Obrint cofre amb la clau!");
+                chestToOpen.Open(); // Assumeix que tens un mètode Open() al script Chest
+                Destroy(heldItem);
+                heldItem = null;
+            }
+            else
+            {
+                Debug.LogWarning("No hi ha cap cofre a prop per obrir!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("L'objecte equipat no es pot utilitzar així!");
+        }
+    }
+
+    public void OnUseItem(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+            UseHeldItem();
     }
 }

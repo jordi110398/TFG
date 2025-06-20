@@ -45,6 +45,41 @@ public class ItemPickup : MonoBehaviour
         Debug.Log("TryPickUp cridat per: " + player.name);
         //if (player != playerNearby) return;
 
+        // POCIÓ i CLAU
+        if (itemConsumable)
+        {
+            if (player.tag == "Player1")
+            {
+                Transform itemSlot = player.transform.Find("ItemSlot");
+                if (itemSlot != null)
+                {
+                    transform.SetParent(itemSlot);
+                    transform.localPosition = Vector3.zero;
+                    transform.localRotation = Quaternion.identity;
+                    player.GetComponent<Player1Controller>()?.EquipItem(gameObject);
+                    // Desactiva el collider perquè no es pugui tornar a detectar
+                    Collider2D col = GetComponent<Collider2D>();
+                    if (col != null)
+                        col.enabled = false;
+                }
+            }
+            else if (player.tag == "Player2")
+            {
+                Transform itemSlot = player.transform.Find("ItemSlot");
+                if (itemSlot != null)
+                {
+                    transform.SetParent(itemSlot);
+                    transform.localPosition = Vector3.zero;
+                    transform.localRotation = Quaternion.identity;
+                    player.GetComponent<Player2Controller>()?.EquipItem(gameObject);
+                    // Desactiva el collider perquè no es pugui tornar a detectar
+                    Collider2D col = GetComponent<Collider2D>();
+                    if (col != null)
+                        col.enabled = false;
+                }
+            }
+        }
+
         // ARC
         if (player.tag == "Player1" && bowHandEquippable)
         {
