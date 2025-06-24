@@ -405,9 +405,21 @@ MonoBehaviour:
     m_ActionId: 72140a3b-815f-42f1-be69-5080088d5f80
     m_ActionName: 'Player/Use Consumable[/XInputControllerWindows/buttonWest,/Keyboard/e]'
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 0516ec10-9037-445c-9bc8-42aaf485bd55
-    m_ActionName: 'UI/Pause[/Keyboard/escape,/XInputControllerWindows/start]'
+      m_Calls:
+      - m_Target: {fileID: 8201038097705288410}
+        m_TargetAssemblyTypeName: Player2Controller, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1c003c2d-46d0-44a1-964e-f9c81d6dbb6d
+    m_ActionName: 'Menu/Pause[/XInputControllerWindows/start,/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -478,6 +490,7 @@ MonoBehaviour:
     m_Bits: 64
   swordDamage: 1
   interactionRange: 1.01
+  playerInput: {fileID: 0}
   radius: 5.76
   buffDuration: 10
   cooldown: 5

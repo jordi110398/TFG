@@ -100,6 +100,8 @@ public class Player2Controller : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         playerInput = GetComponent<PlayerInput>();
+        // MENU PAUSA
+        playerInput.actions.FindActionMap("Menu").Enable();
         Transform sword = transform.Find("WeaponHand/SwordPivot/Sword"); // desactivar el collider de l'espasa ja equipada
         if (sword != null)
         {
@@ -805,6 +807,7 @@ public class Player2Controller : MonoBehaviour
 {
     if (ctx.performed)
     {
+        Debug.Log("Partida pausada per Player2");
         PauseManager.Instance?.TogglePause();
     }
 }
