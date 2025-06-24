@@ -71,7 +71,7 @@ public class Player2Controller : MonoBehaviour
     // INTERACCIÓ
     public float interactionRange = 2f;
     private Lever closestLever;
-    private PlayerInput playerInput;
+    public PlayerInput playerInput;
 
     // ATAC SECUNDARI (BATTLECRY)
     public float radius = 3f;
@@ -799,4 +799,14 @@ public class Player2Controller : MonoBehaviour
         if (ctx.performed)
             UseHeldItem();
     }
+
+    // PAUSAR LA PARTIDA
+    public void OnPause(InputAction.CallbackContext ctx)
+{
+    if (ctx.performed)
+    {
+        PauseManager.Instance?.TogglePause();
+    }
+}
+
 }

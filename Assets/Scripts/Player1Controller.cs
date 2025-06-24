@@ -22,7 +22,7 @@ public class Player1Controller : MonoBehaviour
     public TrailRenderer tr;
     public Animator animator;
     public Rigidbody2D rb;
-    float horizontalMovement;
+    public float horizontalMovement;
     public Transform groundCheckPos;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
@@ -52,7 +52,7 @@ public class Player1Controller : MonoBehaviour
     // INTERACCIÓ
     public float interactionRange = 2f;
     private Lever closestLever;
-    private PlayerInput playerInput;
+    public PlayerInput playerInput;
     // INVINCIBILITAT
     public bool isInvincible = false;
 
@@ -69,6 +69,7 @@ public class Player1Controller : MonoBehaviour
     [Header("Player Manager")]
     // Referència al PlayerManager
     public GameObject playerManager;
+    public bool isPaused = false;
 
     [Header("Item")]
     // ITEMS
@@ -79,6 +80,8 @@ public class Player1Controller : MonoBehaviour
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        // Assegurem que "Menu" estigui actiu sempre
+        playerInput.actions.FindActionMap("Menu").Enable();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         // Assigna dinàmicament el PlayerManager
@@ -92,6 +95,8 @@ public class Player1Controller : MonoBehaviour
 
     private void Update()
     {
+        if (isPaused)
+            return;
         if (isDashing)
         {
             return;
@@ -105,6 +110,8 @@ public class Player1Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isPaused) return;
+
         if (isDashing)
         {
             return;
@@ -573,6 +580,16 @@ public class Player1Controller : MonoBehaviour
         else
         {
             Debug.LogWarning("L'objecte equipat no es pot utilitzar així!");
+        }
+    }
+
+    // PAUSAR LA PARTIDA
+    public void OnPause(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Debug.Log("Pausant la partida...");
+            PauseManager.Instance?.TogglePause();
         }
     }
 

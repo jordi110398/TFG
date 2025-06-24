@@ -404,7 +404,11 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 72140a3b-815f-42f1-be69-5080088d5f80
     m_ActionName: 'Player/Use Consumable[/XInputControllerWindows/buttonWest,/Keyboard/e]'
-  m_NeverAutoSwitchControlSchemes: 0
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0516ec10-9037-445c-9bc8-42aaf485bd55
+    m_ActionName: 'UI/Pause[/Keyboard/escape,/XInputControllerWindows/start]'
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
