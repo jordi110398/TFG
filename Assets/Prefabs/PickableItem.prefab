@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2880734798192188640, guid: 3142eb23ced58f44e99c751d2228c7b5, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 0.8207547, g: 0.07355818, b: 0.07355818, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_Size: {x: 1.58, y: 2.08}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &875579233081379354
@@ -100,8 +100,8 @@ GameObject:
   - component: {fileID: 7033585675395244168}
   - component: {fileID: 6772171934696536214}
   m_Layer: 0
-  m_Name: HealingPotion
-  m_TagString: Potion
+  m_Name: PickableItem
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4909476216911839095}
-  - {fileID: 5624165473644082741}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6648987402310886872
@@ -167,7 +166,7 @@ SpriteRenderer:
   m_SortingLayerID: -409551017
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: -2880734798192188640, guid: 3142eb23ced58f44e99c751d2228c7b5, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -175,7 +174,7 @@ SpriteRenderer:
   m_Size: {x: 1.58, y: 2.08}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7033585675395244168
@@ -228,146 +227,25 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.58, y: 2.08}
-    newSize: {x: 1.58, y: 2.08}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.32999998, y: 0.32999998}
-      - {x: 0.45, y: 0.79999995}
-      - {x: 0.29, y: 0.93}
-      - {x: 0.16, y: 1.04}
-      - {x: -0.16, y: 1.04}
-      - {x: -0.34, y: 0.94}
-      - {x: -0.48999998, y: 0.59999996}
-      - {x: -0.29, y: 0.61}
-      - {x: -0.78999996, y: 0.049999997}
-      - {x: -0.78999996, y: -0.66999996}
-      - {x: -0.68, y: -0.79999995}
-      - {x: -0.53999996, y: -1.04}
-      - {x: 0.53999996, y: -1.04}
-      - {x: 0.78999996, y: -0.71999997}
-      - {x: 0.78999996, y: 0.06}
-      - {x: 0.56, y: 0.28}
-    - - {x: 0.42, y: 0.099999994}
-      - {x: 0.48999998, y: 0.099999994}
-      - {x: 0.48999998, y: 0.03}
-      - {x: 0.42, y: 0.03}
-    - - {x: 0.16, y: 0.22999999}
-      - {x: 0.22999999, y: 0.22999999}
-      - {x: 0.22999999, y: 0.16}
-      - {x: 0.16, y: 0.16}
-    - - {x: 0.03, y: 0.62}
-      - {x: 0.099999994, y: 0.62}
-      - {x: 0.099999994, y: 0.29}
-      - {x: 0.03, y: 0.29}
-    - - {x: 0.16, y: 0.75}
-      - {x: 0.22999999, y: 0.75}
-      - {x: 0.22999999, y: 0.68}
-      - {x: 0.16, y: 0.68}
+    - - {x: 0, y: 1}
+      - {x: -0.95105654, y: 0.30901697}
+      - {x: -0.5877852, y: -0.80901706}
+      - {x: 0.58778536, y: -0.80901694}
+      - {x: 0.9510565, y: 0.30901712}
   m_UseDelaunayMesh: 0
---- !u!1 &4452505818608185618
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5624165473644082741}
-  m_Layer: 0
-  m_Name: HealingFX
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &5624165473644082741
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4452505818608185618}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8773261099554277590}
-  m_Father: {fileID: 4452757322349896455}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &629751627654823354
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 5624165473644082741}
-    m_Modifications:
-    - target: {fileID: 4407046854703165140, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_Name
-      value: HealingEffect
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
---- !u!4 &8773261099554277590 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8177887902470600044, guid: fb0fabe8f8630c943acf81f3bfd41c41, type: 3}
-  m_PrefabInstance: {fileID: 629751627654823354}
-  m_PrefabAsset: {fileID: 0}

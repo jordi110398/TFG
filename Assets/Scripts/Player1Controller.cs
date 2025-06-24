@@ -528,7 +528,19 @@ public class Player1Controller : MonoBehaviour
         if (heldItem.CompareTag("Potion"))
         {
             Debug.Log("Utilitzant poció: " + heldItem.name);
+            // Aplica curació immediatament
             playerManager.GetComponent<HealthSystem>().Heal("Player1", 20);
+
+            // Activa l'FX si existeix
+            Transform fx = heldItem.transform.Find("HealingFX");
+            if (fx != null)
+            {
+                fx.gameObject.SetActive(true);
+                fx.SetParent(null); // Allibera l'FX per no destruir-lo amb la poció
+                Destroy(fx.gameObject, 2f); // Elimina’l després d’un temps
+            }
+
+            // Destrueix la poció (visualment ja s'ha vist l'FX)
             Destroy(heldItem);
             heldItem = null;
         }

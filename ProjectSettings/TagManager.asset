@@ -16,6 +16,7 @@ TagManager:
   - Potion
   - Key
   - PlayerManager
+  - Chest
   layers:
   - Default
   - TransparentFX
