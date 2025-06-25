@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
+    public bool isActive = false;
     public Transform pointA;
     public Transform pointB;
     public float moveSpeed = 2f;
@@ -16,6 +17,11 @@ public class MovingPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isActive)
+        {
+            return;
+        }
+        
         transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, nextPosition) < 0.01f)
