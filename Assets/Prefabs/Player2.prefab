@@ -420,6 +420,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1c003c2d-46d0-44a1-964e-f9c81d6dbb6d
     m_ActionName: 'Menu/Pause[/XInputControllerWindows/start,/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 02aecec5-a910-49c3-9b1b-57727b9a743d
+    m_ActionName: 'Player/Charged Attack[/Keyboard/r,/XInputControllerWindows/leftTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 68ce381f-7cb3-4602-8301-0fe766d9d109
+    m_ActionName: 'Player/Drop Item[/Keyboard/shift,/XInputControllerWindows/leftShoulder]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player

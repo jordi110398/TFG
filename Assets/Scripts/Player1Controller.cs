@@ -34,6 +34,10 @@ public class Player1Controller : MonoBehaviour
     // ARCHERY (BOW) VARIABLES
     private Animator bowAnimator;
     private bool isCharging = false;
+    // PER L'ATAC CARREGAT
+    public GameObject chargedParticlesPrefab; // Prefab de l'atac carregat
+    private GameObject chargedParticlesInstance; // Instància de l'atac carregat
+    private bool isChargedAttack = false;
     //private float chargeStartTime = 0f;
     public float bowRotationOffset = 0f;
     private Vector2 aimInput = Vector2.zero;
@@ -263,6 +267,35 @@ public class Player1Controller : MonoBehaviour
         return direction;
     }
 
+    public void OnChargedAttack(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            isChargedAttack = true;
+            Debug.Log("Atac carregat iniciat");
+            if (chargedParticlesPrefab != null && chargedParticlesInstance == null)
+            {
+                chargedParticlesInstance = Instantiate(chargedParticlesPrefab, transform.position, Quaternion.identity, transform);
+            }
+            //OnAttack(ctx); // Reutilitza el mateix flux d'atac
+        }
+        else if (ctx.canceled)
+        {
+            // Quan deixa anar LT, dispara l'atac carregat
+            if (isChargedAttack)
+            {
+                OnAttack(ctx); // Reutilitza el mateix flux d'atac
+            }
+            isChargedAttack = false;
+            // Destrueix l'efecte de partícules
+            if (chargedParticlesInstance != null)
+            {
+                Destroy(chargedParticlesInstance);
+                chargedParticlesInstance = null;
+            }
+        }
+    }
+
 
     public void OnAttack(InputAction.CallbackContext ctx)
     {
@@ -305,45 +338,67 @@ public class Player1Controller : MonoBehaviour
     {
         if (arrowSpawnPoint == null || bow == null) return;
 
-
         // Direcció cap al mouse
         Vector2 direction = GetAimDirection();
 
         if (direction.magnitude < 0.1f) return;
 
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowPrefab.transform.rotation);
-        Arrow arrowScript = arrow.GetComponent<Arrow>();
-        int baseDamage = arrowScript.damage;
-        // Si el jugador té un buff de dany, augmenta el dany de la fletxa
-        if (TryGetComponent(out BattleCry battleCry))
+        int numArrows = isChargedAttack ? 3 : 1;
+        float spreadAngle = 15f; // graus de separació entre fletxes
+
+        for (int i = 0; i < numArrows; i++)
         {
-            arrowScript.damage = Mathf.RoundToInt(baseDamage * battleCry.GetDamageMultiplier());
-            if (battleCry.GetDamageMultiplier() > 1f && arrowScript.auraPrefab != null)
+            float angleOffset = 0f;
+            if (numArrows > 1)
+                angleOffset = (i - 1) * spreadAngle; // -15, 0, +15 per 3 fletxes
+
+            Vector2 shotDir = Quaternion.Euler(0, 0, angleOffset) * direction;
+
+            GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowPrefab.transform.rotation);
+            Arrow arrowScript = arrow.GetComponent<Arrow>();
+            int baseDamage = arrowScript.damage;
+
+            // Si el jugador té un buff de dany, augmenta el dany de la fletxa
+            if (TryGetComponent(out BattleCry battleCry))
             {
-                // L'aura és filla de la fletxa i hereta la seva transformació
-                // Busca el fill "ArrowTale" dins la fletxa
-                Transform arrowTail = arrow.transform.Find("ArrowTail");
-                GameObject aura = Instantiate(arrowScript.auraPrefab, arrowTail);
-                aura.transform.localPosition = Vector3.zero; // Centra l'aura a la cua de la fletxa
-                //aura.transform.localScale = Vector3.one;     // Manté l'escala original del prefab
+                arrowScript.damage = Mathf.RoundToInt(baseDamage * battleCry.GetDamageMultiplier());
+                if (battleCry.GetDamageMultiplier() > 1f && arrowScript.auraPrefab != null)
+                {
+                    Transform arrowTail = arrow.transform.Find("ArrowTail");
+                    GameObject aura = Instantiate(arrowScript.auraPrefab, arrowTail);
+                    aura.transform.localPosition = Vector3.zero;
+                }
             }
+            else
+            {
+                arrowScript.damage = baseDamage;
+            }
+
+            // Opcional: pots augmentar el dany de les fletxes carregades
+            if (isChargedAttack)
+            {
+                arrowScript.damage = Mathf.RoundToInt(arrowScript.damage * 1.5f);
+            }
+
+            Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
+            arrowRb.AddForce(shotDir.normalized * arrowSpeed, ForceMode2D.Impulse);
+
+            float angle = Mathf.Atan2(shotDir.y, shotDir.x) * Mathf.Rad2Deg;
+            arrow.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            Destroy(arrow, 5f);
         }
-        else
-        {
-            arrowScript.damage = baseDamage;
-        }
 
-        Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
-
-        arrowRb.AddForce(direction * arrowSpeed, ForceMode2D.Impulse);
-
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        arrow.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-        Destroy(arrow, 5f);
         if (lineRenderer != null) lineRenderer.enabled = false;
-        // Amaga l'arc després d'un temps curt
         StartCoroutine(HideBowAfterDelay(0.3f));
+
+        isChargedAttack = false; // Reseteja després de disparar
+                                 // Destrueix l'efecte de partícules si encara existeix
+        if (chargedParticlesInstance != null)
+        {
+            Destroy(chargedParticlesInstance);
+            chargedParticlesInstance = null;
+        }
     }
 
     // Interacció
