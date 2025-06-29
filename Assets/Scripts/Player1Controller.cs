@@ -271,23 +271,22 @@ public class Player1Controller : MonoBehaviour
     {
         if (ctx.started)
         {
-            isChargedAttack = true;
+            isChargedAttack = true; // Marquem que l’atac serà carregat
             Debug.Log("Atac carregat iniciat");
+
+            // Activa les partícules de càrrega
             if (chargedParticlesPrefab != null && chargedParticlesInstance == null)
             {
                 chargedParticlesInstance = Instantiate(chargedParticlesPrefab, transform.position, Quaternion.identity, transform);
             }
-            //OnAttack(ctx); // Reutilitza el mateix flux d'atac
         }
         else if (ctx.canceled)
         {
-            // Quan deixa anar LT, dispara l'atac carregat
-            if (isChargedAttack)
-            {
-                OnAttack(ctx); // Reutilitza el mateix flux d'atac
-            }
-            isChargedAttack = false;
-            // Destrueix l'efecte de partícules
+            // Quan deixa anar LT, es dispara l’atac (la lògica està a OnAttack)
+            isChargedAttack = true; // assegura que segueix sent true al moment de fer OnAttack
+            OnAttack(ctx);
+
+            // Destrueix partícules si encara existeixen
             if (chargedParticlesInstance != null)
             {
                 Destroy(chargedParticlesInstance);
@@ -295,6 +294,13 @@ public class Player1Controller : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator ResetBoolAfterDelay(Animator animator, string boolName, float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay); // per si estàs en pausa
+        animator.SetBool(boolName, false);
+    }
+
 
 
     public void OnAttack(InputAction.CallbackContext ctx)
@@ -305,24 +311,38 @@ public class Player1Controller : MonoBehaviour
         {
             bow.SetActive(true);
             isCharging = true;
-            Animator bowAnimator = bow.GetComponent<Animator>();
-            if (bowAnimator != null)
-            {
-                bowAnimator.SetBool("isAttacking", true);
-            }
         }
 
         if (ctx.canceled && isCharging)
         {
             isCharging = false;
-            ShootArrow();
+
             Animator bowAnimator = bow.GetComponent<Animator>();
             if (bowAnimator != null)
             {
-                bowAnimator.SetBool("IsAttacking", false); // Torna a idle quan acabes l'atac
+                if (isChargedAttack)
+                {
+                    bowAnimator.SetBool("isCharged", true);
+                    StartCoroutine(ResetBoolAfterDelay(bowAnimator, "isCharged", 0.4f));
+                }
+                else
+                {
+                    bowAnimator.SetBool("isAttacking", true);
+                    StartCoroutine(ResetBoolAfterDelay(bowAnimator, "isAttacking", 0.4f));
+                }
             }
+
+            // Espera un xic abans de disparar perquè es vegi l'animació
+            StartCoroutine(DelayedShootArrow(0.15f));
         }
     }
+
+    private IEnumerator DelayedShootArrow(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ShootArrow();
+    }
+
 
     private void HandleBowRotation()
     {
@@ -447,6 +467,38 @@ public class Player1Controller : MonoBehaviour
                 pickup.TryPickUp(gameObject);
                 break;
             }
+        }
+    }
+    // DROP
+    public void OnDrop(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+
+        if (heldItem != null)
+        {
+            // Desparenta l'objecte
+            heldItem.transform.SetParent(null);
+            //heldItem.transform.position = transform.position + Vector3.right * (isFacingRight ? 1f : -1f);
+
+            // Activa el Rigidbody2D per la física
+            Rigidbody2D rb = heldItem.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.simulated = true;
+                rb.linearVelocity = Vector2.zero; // Per evitar que surti disparat
+            }
+
+            // Activa el Collider2D per detectar col·lisions
+            Collider2D col = heldItem.GetComponent<Collider2D>();
+            if (col != null)
+                col.enabled = true;
+
+            heldItem = null; // Reseteja la referència
+            Debug.Log("Objecte deixat.");
+        }
+        else
+        {
+            Debug.LogWarning("No tens cap objecte equipat per deixar!");
         }
     }
 

@@ -421,11 +421,35 @@ MonoBehaviour:
     m_ActionId: 1c003c2d-46d0-44a1-964e-f9c81d6dbb6d
     m_ActionName: 'Menu/Pause[/XInputControllerWindows/start,/Keyboard/escape]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8201038097705288410}
+        m_TargetAssemblyTypeName: Player2Controller, Assembly-CSharp
+        m_MethodName: OnChargedAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 02aecec5-a910-49c3-9b1b-57727b9a743d
     m_ActionName: 'Player/Charged Attack[/Keyboard/r,/XInputControllerWindows/leftTrigger]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8201038097705288410}
+        m_TargetAssemblyTypeName: Player2Controller, Assembly-CSharp
+        m_MethodName: OnDrop
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 68ce381f-7cb3-4602-8301-0fe766d9d109
     m_ActionName: 'Player/Drop Item[/Keyboard/shift,/XInputControllerWindows/leftShoulder]'
   m_NeverAutoSwitchControlSchemes: 1
@@ -491,6 +515,12 @@ MonoBehaviour:
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashDuration: 0.25
   force: 0
+  chargedDashSpeed: 15
+  chargedDashDuration: 0.5
+  chargedDashDamage: 25
+  chargedDashKnockbackForce: 15
+  normalSwordColor: {r: 1, g: 1, b: 1, a: 1}
+  chargedSwordColor: {r: 1, g: 0, b: 0, a: 1}
   attackOrigin: {fileID: 1093924265128314212}
   attackRadius: 0.55
   enemyMask:

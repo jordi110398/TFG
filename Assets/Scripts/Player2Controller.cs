@@ -62,6 +62,19 @@ public class Player2Controller : MonoBehaviour
     public float force;
 
     // COMBAT
+    [Header("Combat")]
+    public float chargedDashSpeed = 15f;
+    public float chargedDashDuration = 0.5f;
+    public int chargedDashDamage = 25;
+    public float chargedDashKnockbackForce = 15f;
+    public Color normalSwordColor = Color.white;
+    public Color chargedSwordColor = Color.red;
+
+    private bool isCharging = false;
+
+    private bool isChargedAttack = false;
+
+    private Vector2 dashDirection;
     private bool isAttacking = false;
     public Transform attackOrigin;
     public float attackRadius = 1f;
@@ -334,22 +347,72 @@ public class Player2Controller : MonoBehaviour
         }
     }
 
+    // DROP
+    public void OnDrop(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+
+        if (heldItem != null)
+        {
+            // Desparenta l'objecte
+            heldItem.transform.SetParent(null);
+            //heldItem.transform.position = transform.position + Vector3.right * (isFacingRight ? 1f : -1f);
+
+            // Activa el Rigidbody2D per la física
+            Rigidbody2D rb = heldItem.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.simulated = true;
+                rb.linearVelocity = Vector2.zero; // Per evitar que surti disparat
+            }
+
+            // Activa el Collider2D per detectar col·lisions
+            Collider2D col = heldItem.GetComponent<Collider2D>();
+            if (col != null)
+                col.enabled = true;
+
+            heldItem = null; // Reseteja la referència
+            Debug.Log("Objecte deixat.");
+        }
+        else
+        {
+            Debug.LogWarning("No tens cap objecte equipat per deixar!");
+        }
+    }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isDashing && collision.gameObject.CompareTag("Pushable"))
+        // Empenta caixes només durant dash normal (no atac carregat)
+        if (isDashing && !isChargedAttack && collision.gameObject.CompareTag("Pushable"))
         {
             Rigidbody2D boxRb = collision.gameObject.GetComponent<Rigidbody2D>();
             if (boxRb != null)
             {
-                // Activa la física només per un moment
                 boxRb.bodyType = RigidbodyType2D.Dynamic;
 
-                // Dona un impuls (ex: en direcció del dash)
                 Vector2 dashDirection = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
                 boxRb.AddForce(dashDirection * dashPushForce, ForceMode2D.Impulse);
 
-                // Desactiva la física després de 0.3 segons
                 StartCoroutine(ResetBoxPhysics(boxRb));
+            }
+        }
+
+        // Dany i knockback a enemics només en atac carregat
+        if (isChargedAttack && collision.gameObject.CompareTag("Enemy"))
+        {
+            Rigidbody2D enemyRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            EnemyController enemyHealth = collision.gameObject.GetComponent<EnemyController>();
+
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(chargedDashDamage, transform);
+            }
+
+            if (enemyRb != null)
+            {
+                Vector2 knockbackDir = (collision.transform.position - transform.position).normalized;
+                enemyRb.AddForce(knockbackDir * chargedDashKnockbackForce, ForceMode2D.Impulse);
             }
         }
     }
@@ -416,6 +479,70 @@ public class Player2Controller : MonoBehaviour
     public bool IsAttacking()
     {
         return isAttacking;
+    }
+    public void OnChargedAttack(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started && !isDashing)
+        {
+            isCharging = true;
+            animator.SetBool("isCharging", true);
+
+            // Aquí pots instanciar partícules de càrrega si vols
+        }
+        else if (ctx.canceled && isCharging)
+        {
+            isCharging = false;
+            animator.SetBool("isCharging", false);
+
+            // Inicia placatge carregat
+            isChargedAttack = true;
+            isDashing = true;
+
+            //animator.SetTrigger("chargedAttack");
+
+            // Direcció del placatge (mirant a la direcció actual del jugador)
+            dashDirection = transform.right;
+
+            StartCoroutine(PerformChargedDash());
+        }
+    }
+    private IEnumerator PerformChargedDash()
+    {
+        // Marca que estem atacant carregat
+        animator.SetBool("isCharging", true);
+
+        swordTrail.emitting = true;
+        SetSwordColor(chargedSwordColor);
+
+        float timer = 0f;
+
+        while (timer < chargedDashDuration)
+        {
+            rb.linearVelocity = dashDirection * chargedDashSpeed;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // Acaba placatge
+        rb.linearVelocity = Vector2.zero;
+        swordTrail.emitting = false;
+        SetSwordColor(normalSwordColor);
+
+        isChargedAttack = false;
+        isDashing = false;
+
+        // Aquí només posem a false quan acaba el placatge
+        animator.SetBool("isCharging", false);
+        animator.ResetTrigger("chargedAttack");
+    }
+    private void SetSwordColor(Color color)
+    {
+        Renderer rend = sword.GetComponent<Renderer>();
+        if (rend != null)
+        {
+            rend.material.color = color;
+            // Si el material té emissiu, també el pots activar aquí
+        }
     }
 
     public void OnAttack(InputAction.CallbackContext ctx)
@@ -804,12 +931,12 @@ public class Player2Controller : MonoBehaviour
 
     // PAUSAR LA PARTIDA
     public void OnPause(InputAction.CallbackContext ctx)
-{
-    if (ctx.performed)
     {
-        Debug.Log("Partida pausada per Player2");
-        PauseManager.Instance?.TogglePause();
+        if (ctx.performed)
+        {
+            Debug.Log("Partida pausada per Player2");
+            PauseManager.Instance?.TogglePause();
+        }
     }
-}
 
 }
