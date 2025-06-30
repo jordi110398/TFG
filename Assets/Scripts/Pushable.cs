@@ -28,9 +28,11 @@ public class Pushable : MonoBehaviour
         {
             foreach (ContactPoint2D contact in collision.contacts)
             {
+                Debug.Log("Contact normal: " + contact.normal);
                 if (contact.normal.y < -0.5f)
                 {
                     playerOnTop = collision.gameObject;
+                    Debug.Log("Player1 assignat com a playerOnTop!");
                     break;
                 }
             }
@@ -42,7 +44,12 @@ public class Pushable : MonoBehaviour
         if (collision.gameObject.CompareTag("Player1"))
         {
             if (playerOnTop == collision.gameObject)
+            {
+                Player1Controller controller = playerOnTop.GetComponent<Player1Controller>();
+                if (controller != null)
+                    controller.platformVelocity = Vector2.zero;
                 playerOnTop = null;
+            }
         }
     }
 
@@ -50,12 +57,11 @@ public class Pushable : MonoBehaviour
     {
         if (playerOnTop != null)
         {
-            // Mou el Player1 la mateixa distància que la caixa s'ha mogut aquest frame
-            Rigidbody2D playerRb = playerOnTop.GetComponent<Rigidbody2D>();
-            if (playerRb != null)
+            Player1Controller controller = playerOnTop.GetComponent<Player1Controller>();
+            if (controller != null)
             {
-                Vector2 boxVelocity = rb.linearVelocity * Time.fixedDeltaTime;
-                playerRb.position += boxVelocity;
+                controller.platformVelocity = rb.linearVelocity;
+                Debug.Log("Platform velocity: " + rb.linearVelocity);
             }
         }
     }

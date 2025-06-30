@@ -80,6 +80,8 @@ public class Player1Controller : MonoBehaviour
     public Transform itemHolder;
     private GameObject heldItem;
 
+    [HideInInspector]
+    public Vector2 platformVelocity = Vector2.zero;
 
     void Awake()
     {
@@ -105,7 +107,7 @@ public class Player1Controller : MonoBehaviour
         {
             return;
         }
-        rb.linearVelocity = new Vector2(horizontalMovement * speed, rb.linearVelocityY);
+        //rb.linearVelocity = new Vector2(horizontalMovement * speed, rb.linearVelocityY) + platformVelocity;
         GroundCheck();
         Flip();
         HandleBowRotation();
@@ -121,7 +123,7 @@ public class Player1Controller : MonoBehaviour
             return;
         }
 
-        rb.linearVelocity = new Vector2(horizontalMovement * speed, rb.linearVelocityY);
+        rb.linearVelocity = new Vector2(horizontalMovement * speed, rb.linearVelocityY) + platformVelocity;
     }
 
     public void OnMove(InputAction.CallbackContext ctx)
@@ -138,7 +140,7 @@ public class Player1Controller : MonoBehaviour
         {
             if (ctx.performed)
             {
-                rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpPower);
+                rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpPower) + platformVelocity;
                 jumpsRemaining--;
                 animator.SetBool("Jumping", true);
             }
@@ -190,7 +192,7 @@ public class Player1Controller : MonoBehaviour
 
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        rb.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        rb.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f) + platformVelocity;
         tr.emitting = true;
 
         yield return new WaitForSeconds(dashingTime);
