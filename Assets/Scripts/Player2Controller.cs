@@ -63,12 +63,15 @@ public class Player2Controller : MonoBehaviour
 
     // COMBAT
     [Header("Combat")]
-    public float chargedDashSpeed = 15f;
+    public float chargedDashSpeed = 20f;
     public float chargedDashDuration = 0.5f;
     public int chargedDashDamage = 25;
     public float chargedDashKnockbackForce = 15f;
     public Color normalSwordColor = Color.white;
-    public Color chargedSwordColor = Color.red;
+    private SpriteRenderer swordSprite;
+    public Color chargedSwordColor = Color.cyan;
+    private bool isFrozenAfterDash = false;
+    public float freezeAfterDashDuration = 0.5f;
 
     private bool isCharging = false;
 
@@ -118,6 +121,9 @@ public class Player2Controller : MonoBehaviour
         Transform sword = transform.Find("WeaponHand/SwordPivot/Sword"); // desactivar el collider de l'espasa ja equipada
         if (sword != null)
         {
+            swordSprite = sword.GetComponent<SpriteRenderer>();
+            normalSwordColor = swordSprite.color; // Guarda el color original de l'espasa
+            chargedSwordColor = Color.cyan;
             Collider2D col = sword.GetComponent<Collider2D>();
             if (col != null)
                 col.enabled = false;
@@ -174,7 +180,7 @@ public class Player2Controller : MonoBehaviour
             return;
         }
 
-        if (!isBlocking)
+        if (!isBlocking && !isDashing)
         {
             rb.linearVelocity = new Vector2(horizontalMovement * speed, rb.linearVelocityY);
         }
@@ -183,8 +189,8 @@ public class Player2Controller : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        // Evita el moviment si s'està atacant o fent dash
-        if (isBlocking || isAttacking || isDashing)
+        // Evita el moviment si està bloquejant, atacant, fent dash o frozen
+        if (isBlocking || isAttacking || isDashing || isFrozenAfterDash)
         {
             horizontalMovement = 0;
             animator.SetFloat("Speed", 0);
@@ -482,67 +488,55 @@ public class Player2Controller : MonoBehaviour
     }
     public void OnChargedAttack(InputAction.CallbackContext ctx)
     {
-        if (ctx.started && !isDashing)
+        float moveInput = playerInput.actions["Move"].ReadValue<Vector2>().x;
+        if (ctx.started && isGrounded && Mathf.Abs(moveInput) > 0.5f)
         {
             isCharging = true;
             animator.SetBool("isCharging", true);
-
-            // Aquí pots instanciar partícules de càrrega si vols
         }
         else if (ctx.canceled && isCharging)
         {
             isCharging = false;
             animator.SetBool("isCharging", false);
 
-            // Inicia placatge carregat
+            // Inicia estocada carregada
             isChargedAttack = true;
-            isDashing = true;
+            animator.SetTrigger("chargedAttack");
 
-            //animator.SetTrigger("chargedAttack");
-
-            // Direcció del placatge (mirant a la direcció actual del jugador)
-            dashDirection = transform.right;
-
-            StartCoroutine(PerformChargedDash());
+            // Direcció de l'estocada segons el moviment
+            Vector2 stabDirection = new Vector2(Mathf.Sign(moveInput), 0f);
+            StartCoroutine(PerformChargedStab(stabDirection));
         }
     }
-    private IEnumerator PerformChargedDash()
+
+    private IEnumerator PerformChargedStab(Vector2 stabDirection)
     {
-        // Marca que estem atacant carregat
-        animator.SetBool("isCharging", true);
 
-        swordTrail.emitting = true;
-        SetSwordColor(chargedSwordColor);
+        swordSprite.color = chargedSwordColor; // Canvia el color de l'espasa
+        Debug.Log("Canviant color de l'espasa a carregada");
+        yield return new WaitForSeconds(0.1f); // Sincronitza amb l'animació
 
-        float timer = 0f;
+        // Detecta enemics davant del jugador (ajusta la posició i mida segons el teu joc)
+        Vector2 origin = (Vector2)attackOrigin.position + stabDirection * 0.7f;
+        float stabRadius = 0.8f;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(origin, stabRadius, enemyMask);
 
-        while (timer < chargedDashDuration)
+        foreach (var hit in hits)
         {
-            rb.linearVelocity = dashDirection * chargedDashSpeed;
-            timer += Time.deltaTime;
-            yield return null;
+            EnemyController enemy = hit.GetComponent<EnemyController>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(chargedDashDamage, transform);
+                // knockback, efectes, etc.
+            }
         }
 
-        // Acaba placatge
-        rb.linearVelocity = Vector2.zero;
-        swordTrail.emitting = false;
-        SetSwordColor(normalSwordColor);
+        // Espera la durada de l'animació d'estocada
+        yield return new WaitForSeconds(0.3f);
 
         isChargedAttack = false;
-        isDashing = false;
-
-        // Aquí només posem a false quan acaba el placatge
-        animator.SetBool("isCharging", false);
-        animator.ResetTrigger("chargedAttack");
-    }
-    private void SetSwordColor(Color color)
-    {
-        Renderer rend = sword.GetComponent<Renderer>();
-        if (rend != null)
-        {
-            rend.material.color = color;
-            // Si el material té emissiu, també el pots activar aquí
-        }
+        normalSwordColor = Color.white; // Restaura el color normal de l'espasa
+        swordSprite.color = normalSwordColor; // Restaura el color original del jugador
     }
 
     public void OnAttack(InputAction.CallbackContext ctx)
