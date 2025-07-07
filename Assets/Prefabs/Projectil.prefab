@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5315166718724613364}
   - component: {fileID: -3391030194457848698}
   - component: {fileID: -1481408237347357107}
-  m_Layer: 0
+  - component: {fileID: 1715927462296597686}
+  m_Layer: 11
   m_Name: Projectil
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3149469, y: 0.3149469, z: 0.3149469}
+  m_LocalScale: {x: 0.27319124, y: 0.27319124, z: 0.27319124}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4208012493698666293}
@@ -105,7 +106,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -113,7 +114,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -153,6 +154,20 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 1.4113768
+--- !u!114 &1715927462296597686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2228010885374017135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a52fde083ab5e8b4e957da5e308d0092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curveStrength: 0
+  explosionPrefab: {fileID: 5560890223890959644, guid: 43a35ca04837b6b488a51f1eb58bd768, type: 3}
 --- !u!1 &8726494189335746061
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,9 +178,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4208012493698666293}
   - component: {fileID: 5009996514905820554}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: SpotLight
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

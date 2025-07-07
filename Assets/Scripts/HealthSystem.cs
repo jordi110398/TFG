@@ -37,7 +37,6 @@ public class HealthSystem : MonoBehaviour
         
         if (playerTag == "Player1")
         {
-            //var battleCry = player1.GetComponent<BattleCry>();
             var playerController = player1.GetComponent<Player1Controller>();
 
             // Comprova invencibilitat
@@ -49,6 +48,11 @@ public class HealthSystem : MonoBehaviour
             player1Health -= amount;
             player1Health = Mathf.Max(player1Health, 0); // Evitar valors negatius
             player1Hearts.TakeDamage(amount); // Actualitzar la barra de vida
+
+            // --- Flash de dany ---
+            playerController.StartCoroutine(playerController.PlayDamageFlash());
+            playerController.StartCoroutine(playerController.PlayDamagePulse());
+
             Debug.Log($"Player 1 ha rebut {amount} de mal. Vida restant: {player1Health}");
         }
         else if (playerTag == "Player2")
@@ -61,6 +65,14 @@ public class HealthSystem : MonoBehaviour
             player2Health -= amount;
             player2Health = Mathf.Max(player2Health, 0); // Evitar valors negatius
             player2Hearts.TakeDamage(amount); // Actualitzar la barra de vida
+
+            // --- Flash de dany i pulsació ---
+            if (player2 != null && player2.TryGetComponent(out Player2Controller p2Controller))
+            {
+                p2Controller.StartCoroutine(p2Controller.PlayDamageFlash());
+                p2Controller.StartCoroutine(p2Controller.PlayDamagePulse());
+            }
+
             Debug.Log($"Player 2 ha rebut {amount} de mal. Vida restant: {player2Health}");
         }
     }

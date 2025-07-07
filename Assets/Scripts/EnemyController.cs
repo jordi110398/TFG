@@ -109,6 +109,7 @@ public class EnemyController : MonoBehaviour
         if (isKnockbacked) return;
         currentHealth -= amount;
         StartCoroutine(PlayDamageFlash());
+        StartCoroutine(PlayDamagePulse());
         Debug.Log($"{gameObject.name} ha rebut mal.");
 
         if (currentHealth <= 0)
@@ -163,6 +164,20 @@ public class EnemyController : MonoBehaviour
             yield return new WaitForSeconds(flashDuration);
             spriteRenderer.color = originalColor;
         }
+    }
+
+    protected virtual IEnumerator PlayDamagePulse()
+    {
+        Vector3 originalScale = transform.localScale;
+        float pulseScale = 1.2f;
+        float pulseDuration = 0.1f;
+
+        // Escala cap amunt
+        transform.localScale = originalScale * pulseScale;
+        yield return new WaitForSeconds(pulseDuration);
+
+        // Torna a la mida original
+        transform.localScale = originalScale;
     }
 
     protected virtual void Die()

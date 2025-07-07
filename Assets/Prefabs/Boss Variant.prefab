@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1278854381729031811}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,6 +39,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1182876330165156702, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1182876330165156702, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
       value: 0
@@ -239,6 +243,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3108120296703899724, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5459114159865457898, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: maxHealth
       value: 100
@@ -350,6 +358,14 @@ PrefabInstance:
     - target: {fileID: 5742569957707934161, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: m_PointLightOuterRadius
       value: 3.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 6968513333596751023, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7783080845192981255, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7981725221309451792, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: m_IsTrigger
@@ -590,7 +606,7 @@ MonoBehaviour:
   fireInterval: 5
   attackDuration: 5
   vulnerableDuration: 5
-  projectileSpeed: 8
+  projectileSpeed: 1
 --- !u!4 &4687113104629564987 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}

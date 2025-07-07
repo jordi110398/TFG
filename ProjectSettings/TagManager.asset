@@ -17,6 +17,7 @@ TagManager:
   - Key
   - PlayerManager
   - Chest
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Projectiles
   - Players
   - BossShield
-  - 
+  - BossProjectiles
   - 
   - 
   - 

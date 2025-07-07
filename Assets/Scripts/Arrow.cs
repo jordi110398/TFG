@@ -64,12 +64,24 @@ public class Arrow : MonoBehaviour
                 StartCoroutine(ImpactAndDestroy());
             }
         }
-        else if (!collision.CompareTag("Player"))
+        else if (collision.CompareTag("Projectile"))
         {
+            Destroy(collision.gameObject); // Destrueix el projectil amb el qual col·lisiona
+        }
+        else if (!collision.CompareTag("Player1") && !collision.CompareTag("Player2"))
+        {
+            // Si col·lisiona amb qualsevol altre objecte, atura el moviment
             hasHit = true;
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
             col.enabled = false;
+
+            // Efectes visuals
+            FlashWhite();
+            PulseEffect();
+
+            // Comença vibració i després es destrueix
+            StartCoroutine(ImpactAndDestroy());
         }
     }
 

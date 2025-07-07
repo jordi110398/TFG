@@ -817,6 +817,19 @@ public class Player2Controller : MonoBehaviour
         yield return new WaitForSeconds(flashDuration);
         spriteRenderer.color = originalColor;
     }
+    public IEnumerator PlayDamagePulse()
+    {
+        float pulseScale = 1.2f;
+        float pulseDuration = 0.1f;
+        Vector3 originalScale = transform.localScale;
+
+        // Escala cap amunt
+        transform.localScale = originalScale * pulseScale;
+        yield return new WaitForSeconds(pulseDuration);
+
+        // Torna a la mida original
+        transform.localScale = originalScale;
+    }
 
     public IEnumerator PlayBlockingFlash()
     {

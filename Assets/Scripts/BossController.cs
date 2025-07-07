@@ -11,7 +11,7 @@ public class BossController : EnemyController
     public float fireInterval = 0.2f;
     public float attackDuration = 4f;
     public float vulnerableDuration = 3f;
-    public float projectileSpeed = 5f;
+    public float projectileSpeed = 2f;
     private bool isVulnerable = false; // l'escut es pot destruir amb les fletxes carregades o un atac carregat del P2
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -45,7 +45,7 @@ public class BossController : EnemyController
         float elapsed = 0f;
         while (elapsed < attackDuration)
         {
-            ShootInAllDirections();
+            ShootAtPlayers();
             yield return new WaitForSeconds(fireInterval);
             elapsed += fireInterval;
         }
@@ -53,6 +53,7 @@ public class BossController : EnemyController
 
     private void ShootInAllDirections()
     {
+        Debug.Log("Boss està disparant projectils en totes direccions");
         float angleStep = 360f / numberOfProjectiles;
         for (int i = 0; i < numberOfProjectiles; i++)
         {
@@ -63,9 +64,52 @@ public class BossController : EnemyController
         }
     }
 
+    private void ShootAtPlayers()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player1");
+        GameObject player2 = GameObject.FindGameObjectWithTag("Player2");
+        if (player2 != null)
+        {
+            var tempList = new System.Collections.Generic.List<GameObject>(players);
+            tempList.Add(player2);
+            players = tempList.ToArray();
+        }
+
+        int fanCount = 5; // Nombre de projectils per jugador
+        float fanAngle = 40f; // Amplada total del ventall (en graus)
+
+        foreach (GameObject player in players)
+        {
+            if (player == null) continue;
+            Vector2 toPlayer = (player.transform.position - firePoint.position).normalized;
+            float baseAngle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
+            float startAngle = baseAngle - fanAngle / 2f;
+            float angleStep = fanAngle / (fanCount - 1);
+
+            for (int i = 0; i < fanCount; i++)
+            {
+                float angle = startAngle + angleStep * i;
+                Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+                GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+                projectile.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * projectileSpeed;
+            }
+        }
+    }
+
     public override void TakeDamage(float amount, Transform attacker)
     {
         if (!isVulnerable || isDead) return; // Només rep mal quan està vulnerable
         base.TakeDamage(amount, attacker);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Projectile"))
+        {
+            Collider2D bossCol = GetComponent<Collider2D>();
+            Collider2D projCol = collision.collider;
+            if (bossCol != null && projCol != null)
+                Physics2D.IgnoreCollision(projCol, bossCol);
+        }
     }
 }
