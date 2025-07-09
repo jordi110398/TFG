@@ -170,10 +170,10 @@ TextureImporter:
       name: Slime_Boss_1
       rect:
         serializedVersion: 2
-        x: 923
-        y: 195
-        width: 380
-        height: 253
+        x: 924
+        y: 176
+        width: 392
+        height: 268
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

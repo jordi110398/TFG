@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 2c5cbabd287279a4b9a92f8a566a0a20
+guid: cff5f665757006d409cc0ceb938cd0d4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 117286627433871977
-    second: flame_1_0
+      213: -3661303582362593903
+    second: fire_particles_0
+  - first:
+      213: -5175853775556565319
+    second: fire_particles_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: flame_1_0
+      name: fire_particles_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 171
-        height: 192
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +118,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96a7915f09fa0a100800000000000000
-      internalID: 117286627433871977
+      spriteID: 195996e4acf603dc0800000000000000
+      internalID: -3661303582362593903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fire_particles_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b6269af96cab28b0800000000000000
+      internalID: -5175853775556565319
       vertices: []
       indices: 
       edges: []
@@ -125,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b9174a3c6a737f44a86abfc5b5f163ed
+    spriteID: ba0dbc39b29c0e9468824801e004997f
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      flame_1_0: 117286627433871977
+      fire_particles_0: -3661303582362593903
+      fire_particles_1: -5175853775556565319
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

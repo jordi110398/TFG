@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3017387797483336079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1116755595925730681}
+  m_Layer: 10
+  m_Name: PointA
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1116755595925730681
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3017387797483336079}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.47, y: 0.42, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4687113104629564987}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6461335594903983360
 GameObject:
   m_ObjectHideFlags: 0
@@ -26,6 +57,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.292, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4687113104629564987}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7083581252248347025
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2807903669697440472}
+  m_Layer: 10
+  m_Name: PointB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2807903669697440472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083581252248347025}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.42, y: 0.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -273,7 +335,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484037622899078559, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: m_BodyType
-      value: 2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484037622899078559, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484037622899078559, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: m_LocalScale.x
@@ -289,11 +359,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.00041466
+      value: 11.83
       objectReference: {fileID: 0}
     - target: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.40664
+      value: 7.12
       objectReference: {fileID: 0}
     - target: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -569,6 +639,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1673544070179402034}
+    - targetCorrespondingSourceObject: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1116755595925730681}
+    - targetCorrespondingSourceObject: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2807903669697440472}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3108120296703899724, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       insertIndex: 4
@@ -606,7 +682,11 @@ MonoBehaviour:
   fireInterval: 5
   attackDuration: 5
   vulnerableDuration: 5
+  patrolDuration: 3
   projectileSpeed: 1
+  patrolSpeed: 1.5
+  pointA: {fileID: 3017387797483336079}
+  pointB: {fileID: 7083581252248347025}
 --- !u!4 &4687113104629564987 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}

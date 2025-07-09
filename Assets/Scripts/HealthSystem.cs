@@ -20,6 +20,9 @@ public class HealthSystem : MonoBehaviour
     // Camera
     private AdaptiveCamera adaptiveCamera;
 
+    // Menu Game Over
+    public GameObject gameOverMenu;
+
     private void Update()
     {
 
@@ -131,6 +134,25 @@ public class HealthSystem : MonoBehaviour
             player2.GetComponent<Player2Controller>().Die();
         }
         // Mostra el menú de Game Over
-        GameOverMenu.Instance.Show();
+        gameOverMenu.SetActive(true);
+    }
+
+    public void RevivePlayersAtCheckpoint()
+    {
+        // Torna la vida als jugadors
+        player1Health = maxHealth1;
+        player2Health = maxHealth2;
+        player1Hearts.Heal(maxHealth1);
+        player2Hearts.Heal(maxHealth2);
+
+        // Reactiva els jugadors i els porta al checkpoint
+        if (player1 != null)
+        {
+            player1.GetComponent<Player1Controller>().ReviveAtCheckpoint();
+        }
+        if (player2 != null)
+        {
+            player2.GetComponent<Player2Controller>().ReviveAtCheckpoint();
+        }
     }
 }

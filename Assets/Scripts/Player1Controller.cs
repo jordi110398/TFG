@@ -81,6 +81,9 @@ public class Player1Controller : MonoBehaviour
     public Transform itemHolder;
     private GameObject heldItem;
 
+    // CHECKPOINT
+    public Vector3 lastCheckpointPosition;
+
     [HideInInspector]
     public Vector2 platformVelocity = Vector2.zero;
 
@@ -736,7 +739,7 @@ public class Player1Controller : MonoBehaviour
         // Atura moviment i accions
         enabled = false;
         rb.linearVelocity = Vector2.zero;
-        animator.SetTrigger("Die"); // Assegura't de tenir un trigger "Die" a l'Animator
+        animator.SetTrigger("isDead");
 
         // Drop d'objectes equipats
         if (heldItem != null)
@@ -748,6 +751,15 @@ public class Player1Controller : MonoBehaviour
             if (col != null) col.enabled = true;
             heldItem = null;
         }
+    }
+
+    public void ReviveAtCheckpoint()
+    {
+        animator.ResetTrigger("isDead");
+        animator.SetTrigger("Revive");
+        enabled = true;
+        // Mou el jugador a la posició del checkpoint (guarda-la en una variable)
+        transform.position = lastCheckpointPosition;
     }
 
 }

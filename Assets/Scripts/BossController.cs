@@ -11,14 +11,22 @@ public class BossController : EnemyController
     public float fireInterval = 0.2f;
     public float attackDuration = 4f;
     public float vulnerableDuration = 3f;
+    public float patrolDuration = 3f;
     public float projectileSpeed = 2f;
-    private bool isVulnerable = false; // l'escut es pot destruir amb les fletxes carregades o un atac carregat del P2
+    public float patrolSpeed = 1.5f;
+    public GameObject pointA;
+    public GameObject pointB;
+
+    private bool isVulnerable = false;
+    private Transform currentPoint;
+    private bool isPatrolling = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
         base.Start();
-        shieldParticles.SetActive(false); // per defecte, desactivat
+        shieldParticles.SetActive(false);
+        currentPoint = pointB.transform;
         StartCoroutine(BossRoutine());
     }
 
@@ -26,18 +34,55 @@ public class BossController : EnemyController
     {
         while (!isDead)
         {
-            // Fase d'atac
-            anim.SetBool("isAngry", true); // canvia a estat Boss_Attack
-            shieldParticles.SetActive(true); // s'activa l'escut
-            yield return StartCoroutine(FireProjectiles());
+            // --- Fase 1: Patrulla invulnerable ---
+            isVulnerable = false;
+            isPatrolling = true;
+            shieldParticles.SetActive(true);
+            anim.SetBool("isPatrolling", true);
+            anim.SetBool("isAttacking", false);
             anim.SetBool("isAngry", false);
 
-            // Fase vulnerable
+            float patrolTimer = 0f;
+            while (patrolTimer < patrolDuration)
+            {
+                PatrolMove();
+                patrolTimer += Time.deltaTime;
+                yield return null;
+            }
+            rb.linearVelocity = Vector2.zero;
+            isPatrolling = false;
+            anim.SetBool("isPatrolling", false);
+
+            // --- Fase 2: Atac vulnerable ---
             isVulnerable = true;
-            shieldParticles.SetActive(false); // Desactiva les partícules de l'escut
+            shieldParticles.SetActive(false);
+            anim.SetBool("isAttacking", true);
+            anim.SetBool("isAngry", true);
+
+            yield return StartCoroutine(FireProjectiles());
+
+            anim.SetBool("isAttacking", false);
+            anim.SetBool("isAngry", false);
+
+            // --- Fase 3: Idle vulnerable (opcional, pausa quiet) ---
             yield return new WaitForSeconds(vulnerableDuration);
-            isVulnerable = false;
         }
+    }
+
+    private void PatrolMove()
+    {
+        if (isDead) return;
+        Vector2 direction = (currentPoint.position - transform.position).normalized;
+        rb.linearVelocity = new Vector2(direction.x * patrolSpeed, 0);
+
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f)
+        {
+            currentPoint = currentPoint == pointB.transform ? pointA.transform : pointB.transform;
+        }
+
+        // Flip del sprite segons la direcció
+        if (spriteRenderer != null)
+            spriteRenderer.flipX = currentPoint == pointA.transform;
     }
 
     private IEnumerator FireProjectiles()
@@ -49,19 +94,7 @@ public class BossController : EnemyController
             yield return new WaitForSeconds(fireInterval);
             elapsed += fireInterval;
         }
-    }
-
-    private void ShootInAllDirections()
-    {
-        Debug.Log("Boss està disparant projectils en totes direccions");
-        float angleStep = 360f / numberOfProjectiles;
-        for (int i = 0; i < numberOfProjectiles; i++)
-        {
-            float angle = i * angleStep;
-            Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
-            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-            projectile.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * projectileSpeed;
-        }
+        rb.linearVelocity = Vector2.zero;
     }
 
     private void ShootAtPlayers()
@@ -75,8 +108,8 @@ public class BossController : EnemyController
             players = tempList.ToArray();
         }
 
-        int fanCount = 5; // Nombre de projectils per jugador
-        float fanAngle = 40f; // Amplada total del ventall (en graus)
+        int fanCount = 5;
+        float fanAngle = 40f;
 
         foreach (GameObject player in players)
         {
@@ -98,7 +131,7 @@ public class BossController : EnemyController
 
     public override void TakeDamage(float amount, Transform attacker)
     {
-        if (!isVulnerable || isDead) return; // Només rep mal quan està vulnerable
+        if (!isVulnerable || isDead) return;
         base.TakeDamage(amount, attacker);
     }
 

@@ -115,6 +115,9 @@ public class Player2Controller : MonoBehaviour
     public GameObject playerManager;
     Vector3 originalScale;
 
+    // CHECKPOINT
+    public Vector3 lastCheckpointPosition;
+
     private void Awake()
     {
         originalScale = transform.localScale; // Guarda l'escala original del jugador
@@ -1006,7 +1009,7 @@ public class Player2Controller : MonoBehaviour
         // Atura moviment i accions
         enabled = false;
         rb.linearVelocity = Vector2.zero;
-        animator.SetTrigger("Die"); // Assegura't de tenir un trigger "Die" a l'Animator
+        animator.SetTrigger("isDead"); // Assegura't de tenir un trigger "Die" a l'Animator
 
         // Drop d'objectes equipats
         if (heldItem != null)
@@ -1018,6 +1021,12 @@ public class Player2Controller : MonoBehaviour
             if (col != null) col.enabled = true;
             heldItem = null;
         }
+    }
+    public void ReviveAtCheckpoint()
+    {
+        animator.ResetTrigger("isDead");
+        enabled = true;
+        transform.position = lastCheckpointPosition;
     }
 
 }
