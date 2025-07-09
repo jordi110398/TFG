@@ -17,6 +17,9 @@ public class HealthSystem : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
 
+    // Camera
+    private AdaptiveCamera adaptiveCamera;
+
     private void Update()
     {
 
@@ -26,6 +29,7 @@ public class HealthSystem : MonoBehaviour
         // Inicialitzar la vida dels jugadors
         player1Health = maxHealth1 = player1Hearts.maxHealth;
         player2Health = maxHealth2 = player2Hearts.maxHealth;
+        adaptiveCamera = FindAnyObjectByType<AdaptiveCamera>();
     }
 
     // Funció per infligir mal a un jugador
@@ -34,7 +38,7 @@ public class HealthSystem : MonoBehaviour
         // Obtenir els jugadors
         player1 = GameObject.FindGameObjectWithTag("Player1");
         player2 = GameObject.FindGameObjectWithTag("Player2");
-        
+
         if (playerTag == "Player1")
         {
             var playerController = player1.GetComponent<Player1Controller>();
@@ -48,7 +52,11 @@ public class HealthSystem : MonoBehaviour
             player1Health -= amount;
             player1Health = Mathf.Max(player1Health, 0); // Evitar valors negatius
             player1Hearts.TakeDamage(amount); // Actualitzar la barra de vida
-
+                                              // Camera shake
+            if (adaptiveCamera != null)
+            {
+                adaptiveCamera.ShakeCamera(0.15f, 0.3f); // Iniciar el shake de la càmera
+            }
             // --- Flash de dany ---
             playerController.StartCoroutine(playerController.PlayDamageFlash());
             playerController.StartCoroutine(playerController.PlayDamagePulse());
@@ -65,6 +73,11 @@ public class HealthSystem : MonoBehaviour
             player2Health -= amount;
             player2Health = Mathf.Max(player2Health, 0); // Evitar valors negatius
             player2Hearts.TakeDamage(amount); // Actualitzar la barra de vida
+            // Camera shake P2
+            if (adaptiveCamera != null)
+            {
+                adaptiveCamera.ShakeCamera(0.15f, 0.3f); // Iniciar el shake de la càmera
+            }
 
             // --- Flash de dany i pulsació ---
             if (player2 != null && player2.TryGetComponent(out Player2Controller p2Controller))
@@ -74,6 +87,17 @@ public class HealthSystem : MonoBehaviour
             }
 
             Debug.Log($"Player 2 ha rebut {amount} de mal. Vida restant: {player2Health}");
+        }
+
+        if (player1Health <= 0)
+        {
+            KillPlayer("Player1");
+            return;
+        }
+        if (player2Health <= 0)
+        {
+            KillPlayer("Player2");
+            return;
         }
     }
 
@@ -94,5 +118,19 @@ public class HealthSystem : MonoBehaviour
             player2Hearts.Heal(amount);
             Debug.Log($"Player 2 s'ha curat {amount} de vida. Vida actual: {player2Health}");
         }
+    }
+
+    public void KillPlayer(string playerTag)
+    {
+        if (playerTag == "Player1" && player1 != null)
+        {
+            player1.GetComponent<Player1Controller>().Die();
+        }
+        else if (playerTag == "Player2" && player2 != null)
+        {
+            player2.GetComponent<Player2Controller>().Die();
+        }
+        // Mostra el menú de Game Over
+        GameOverMenu.Instance.Show();
     }
 }

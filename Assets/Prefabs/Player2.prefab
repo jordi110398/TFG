@@ -32,6 +32,37 @@ Transform:
   - {fileID: 121402712370280695}
   m_Father: {fileID: 7167282483451678114}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2775160379141384337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4291137337844502524}
+  m_Layer: 0
+  m_Name: StabPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4291137337844502524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2775160379141384337}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.004, y: -0.372, z: -0.004567706}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5551860489626910140}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3921944743143891298
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,6 +137,8 @@ Transform:
   - {fileID: 1093924265128314212}
   - {fileID: 4343521201278298197}
   - {fileID: 8408755023786675798}
+  - {fileID: 8714962031890761137}
+  - {fileID: 4291137337844502524}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6563837162179282646
@@ -510,6 +543,9 @@ MonoBehaviour:
   attackParticles: {fileID: 4782437480663921520, guid: cad2069acb00d8c4ba20b896196f0ef9, type: 3}
   equippedSwordTrail: {fileID: 6865414750174370406}
   swordHolder: {fileID: 7167282483451678114}
+  slashEffectPrefab: {fileID: 4709806181546692525, guid: cad2069acb00d8c4ba20b896196f0ef9, type: 3}
+  stabEffectPrefab: {fileID: 1442350025873689956, guid: 6a788ab6975785942aa350a6936fe760, type: 3}
+  hitPoint: {fileID: 8714962031890761137}
   shield: {fileID: 6096357141634271155, guid: 087156514272dac418c711795f7c9f94, type: 3}
   shieldHolder: {fileID: 627552486543089511}
   flashColor: {r: 1, g: 1, b: 1, a: 1}
@@ -521,6 +557,7 @@ MonoBehaviour:
   chargedDashKnockbackForce: 15
   normalSwordColor: {r: 1, g: 1, b: 1, a: 1}
   chargedSwordColor: {r: 1, g: 0, b: 0, a: 1}
+  freezeAfterDashDuration: 0.5
   attackOrigin: {fileID: 1093924265128314212}
   attackRadius: 0.55
   enemyMask:
@@ -931,6 +968,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.314, y: -0.495, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5551860489626910140}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9117873881463661279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8714962031890761137}
+  m_Layer: 9
+  m_Name: HitPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8714962031890761137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9117873881463661279}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.371, y: -0.039, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

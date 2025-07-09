@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f146100e657764db96ea8bbb800f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 0
   pointA: {fileID: 3772714739172365334}
   pointB: {fileID: 1591329878550999975}
   moveSpeed: 2
@@ -179,6 +180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 928422876450824702}
+  - component: {fileID: 173033977308745622}
   m_Layer: 3
   m_Name: Moving Platform
   m_TagString: Untagged
@@ -204,6 +206,33 @@ Transform:
   - {fileID: 1591329878550999975}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &173033977308745622
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868236995597618718}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: c59f774e5d9c44e49b87beda4d274237, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &7833411020786837210
 GameObject:
   m_ObjectHideFlags: 0

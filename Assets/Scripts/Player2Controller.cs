@@ -46,6 +46,10 @@ public class Player2Controller : MonoBehaviour
     private TrailRenderer swordTrail;
     public TrailRenderer equippedSwordTrail;
     public Transform swordHolder;
+    public GameObject slashEffectPrefab; // Efecte visual de tall
+    public GameObject stabEffectPrefab; // Efecte visual d'estocada
+    public Transform hitPoint; // Punt on es fa el tall
+    public Transform stabPoint; // Punt on es fa l'estocada
 
     // SHIELD VARIABLES
     public GameObject shield;         // Prefab de l'escut
@@ -72,7 +76,7 @@ public class Player2Controller : MonoBehaviour
     public Color chargedSwordColor = Color.cyan;
     private bool isFrozenAfterDash = false;
     public float freezeAfterDashDuration = 0.5f;
-
+    private bool isChargingDash = false;
     private bool isCharging = false;
 
     private bool isChargedAttack = false;
@@ -109,9 +113,11 @@ public class Player2Controller : MonoBehaviour
     [Header("Player Manager")]
     // Referència al PlayerManager
     public GameObject playerManager;
+    Vector3 originalScale;
 
     private void Awake()
     {
+        originalScale = transform.localScale; // Guarda l'escala original del jugador
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
@@ -119,6 +125,8 @@ public class Player2Controller : MonoBehaviour
         // MENU PAUSA
         playerInput.actions.FindActionMap("Menu").Enable();
         Transform sword = transform.Find("WeaponHand/SwordPivot/Sword"); // desactivar el collider de l'espasa ja equipada
+        hitPoint = transform.Find("HitPoint");
+        stabPoint = transform.Find("StabPoint");
         if (sword != null)
         {
             swordSprite = sword.GetComponent<SpriteRenderer>();
@@ -153,7 +161,7 @@ public class Player2Controller : MonoBehaviour
 
     private void Update()
     {
-        if (isDashing)
+        if (isDashing || isChargedAttack || isChargingDash)
         {
             return;
         }
@@ -175,7 +183,7 @@ public class Player2Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDashing)
+        if (isDashing || isChargedAttack || isChargingDash)
         {
             return;
         }
@@ -190,7 +198,7 @@ public class Player2Controller : MonoBehaviour
     public void OnMove(InputAction.CallbackContext ctx)
     {
         // Evita el moviment si està bloquejant, atacant, fent dash o frozen
-        if (isBlocking || isAttacking || isDashing || isFrozenAfterDash)
+        if (isBlocking || isAttacking || isDashing || isFrozenAfterDash || isChargedAttack || isChargingDash)
         {
             horizontalMovement = 0;
             animator.SetFloat("Speed", 0);
@@ -434,31 +442,45 @@ public class Player2Controller : MonoBehaviour
         }
     }
 
+    public void ResetScale()
+    {
+        float xSign = isFacingRight ? 1f : -1f;
+        transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
+    }
+
 
     private void Flip()
     {
-        if (isAttacking) return; // No canviar de direcció mentre ataques
+        float flipThreshold = 0.1f;
 
-        // Només es fa flip si no està bloquejant
-        if (isBlocking)
+        if (isAttacking || isChargedAttack || isChargingDash) return;
+
+        // Decideix la direcció
+        bool flip = false;
+        if (!isBlocking)
         {
-            if (isFacingRight && aimInput.x < 0f || !isFacingRight && aimInput.x > 0f)
+            if ((isFacingRight && horizontalMovement < -flipThreshold) ||
+                (!isFacingRight && horizontalMovement > flipThreshold))
             {
-                Vector3 localScale = transform.localScale;
                 isFacingRight = !isFacingRight;
-                localScale.x *= -1f;
-                transform.localScale = localScale;
+                flip = true;
             }
         }
         else
         {
-            if (isFacingRight && horizontalMovement < 0f || !isFacingRight && horizontalMovement > 0f)
+            if ((isFacingRight && aimInput.x < -flipThreshold) ||
+                (!isFacingRight && aimInput.x > flipThreshold))
             {
-                Vector3 localScale = transform.localScale;
                 isFacingRight = !isFacingRight;
-                localScale.x *= -1f;
-                transform.localScale = localScale;
+                flip = true;
             }
+        }
+
+        if (flip)
+        {
+            // Sempre parteix de l'escala original
+            float xSign = isFacingRight ? 1f : -1f;
+            transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
         }
     }
     /* JA ESTÀ EQUIPADA PER DEFECTE
@@ -511,10 +533,17 @@ public class Player2Controller : MonoBehaviour
 
     private IEnumerator PerformChargedStab(Vector2 stabDirection)
     {
+        isChargingDash = true; // Bloqueja controls
 
-        swordSprite.color = chargedSwordColor; // Canvia el color de l'espasa
+        // Dash automàtic
+        float dashForce = 30f; // Ajusta segons el teu joc
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForce(stabDirection.normalized * dashForce, ForceMode2D.Impulse);
+
+        swordSprite.color = chargedSwordColor;
         Debug.Log("Canviant color de l'espasa a carregada");
-        yield return new WaitForSeconds(0.1f); // Sincronitza amb l'animació
+        yield return new WaitForSeconds(0.1f);
+        PlayStabEffect();
 
         // Detecta enemics davant del jugador (ajusta la posició i mida segons el teu joc)
         Vector2 origin = (Vector2)attackOrigin.position + stabDirection * 0.7f;
@@ -535,7 +564,8 @@ public class Player2Controller : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         isChargedAttack = false;
-        normalSwordColor = Color.white; // Restaura el color normal de l'espasa
+        isChargingDash = false; // Desbloqueja controls
+        normalSwordColor = Color.white;
         swordSprite.color = normalSwordColor; // Restaura el color original del jugador
     }
 
@@ -561,6 +591,7 @@ public class Player2Controller : MonoBehaviour
 
         // Esperar un petit moment per sincronitzar amb l'animació (opcional)
         yield return new WaitForSeconds(0.1f);
+        PlaySlashEffect();
 
         Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackOrigin.position, attackRadius, enemyMask);
         foreach (var target in enemiesInRange)
@@ -573,7 +604,7 @@ public class Player2Controller : MonoBehaviour
         }
 
         // Espera la durada real de l'animació d'atac
-        yield return new WaitForSeconds(0.4f); // 0.1 + 0.4 = 0.5s total
+        yield return new WaitForSeconds(0.3f); // 0.1 + 0.4 = 0.5s total
 
         isAttacking = false;
         sword.SetActive(false);
@@ -581,7 +612,27 @@ public class Player2Controller : MonoBehaviour
 
     }
 
+    void PlaySlashEffect()
+    {
+        // Determina la direcció
+        float angle = isFacingRight ? 0f : 180f;
+        Quaternion rotation = Quaternion.Euler(0, angle, 0);
 
+        GameObject effect = Instantiate(slashEffectPrefab, hitPoint.position, rotation);
+
+        Destroy(effect, 1f);
+    }
+
+    void PlayStabEffect()
+    {
+        // Determina la direcció
+        float angle = isFacingRight ? 0f : 180f;
+        Quaternion rotation = Quaternion.Euler(0, angle, 0);
+
+        GameObject effect = Instantiate(stabEffectPrefab, stabPoint.position, rotation);
+
+        Destroy(effect, 1f);
+    }
 
     private IEnumerator HideSwordAfterAttack()
     {
@@ -683,6 +734,7 @@ public class Player2Controller : MonoBehaviour
     // BLOQUEJAR AMB EL RATOLÍ
     public void OnBlock(InputAction.CallbackContext ctx)
     {
+        if (shield == null) return;
         Debug.Log("BLOQUEIG ACTIVAT");
         if (ctx.performed)
         {
@@ -722,6 +774,8 @@ public class Player2Controller : MonoBehaviour
     // BLOQUEJAR AMB MANDO
     public void OnBlockStick(InputAction.CallbackContext ctx)
     {
+        if (shield == null) return;
+
         aimInput = ctx.ReadValue<Vector2>();
         // Comprovació de la direcció d'apuntat
         if (Mathf.Abs(aimInput.x) > 0.5f) // Si està apuntant cap a l'esquerra o la dreta
@@ -821,14 +875,14 @@ public class Player2Controller : MonoBehaviour
     {
         float pulseScale = 1.2f;
         float pulseDuration = 0.1f;
-        Vector3 originalScale = transform.localScale;
+        float xSign = isFacingRight ? 1f : -1f;
 
-        // Escala cap amunt
-        transform.localScale = originalScale * pulseScale;
+        // Escala cap amunt mantenint la direcció
+        transform.localScale = new Vector3(originalScale.x * pulseScale * xSign, originalScale.y * pulseScale, originalScale.z);
         yield return new WaitForSeconds(pulseDuration);
 
-        // Torna a la mida original
-        transform.localScale = originalScale;
+        // Torna a la mida original i direcció correcta
+        transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
     }
 
     public IEnumerator PlayBlockingFlash()
@@ -943,6 +997,26 @@ public class Player2Controller : MonoBehaviour
         {
             Debug.Log("Partida pausada per Player2");
             PauseManager.Instance?.TogglePause();
+        }
+    }
+
+    // MORIR
+    public void Die()
+    {
+        // Atura moviment i accions
+        enabled = false;
+        rb.linearVelocity = Vector2.zero;
+        animator.SetTrigger("Die"); // Assegura't de tenir un trigger "Die" a l'Animator
+
+        // Drop d'objectes equipats
+        if (heldItem != null)
+        {
+            heldItem.transform.SetParent(null);
+            Rigidbody2D rbItem = heldItem.GetComponent<Rigidbody2D>();
+            if (rbItem != null) rbItem.simulated = true;
+            Collider2D col = heldItem.GetComponent<Collider2D>();
+            if (col != null) col.enabled = true;
+            heldItem = null;
         }
     }
 

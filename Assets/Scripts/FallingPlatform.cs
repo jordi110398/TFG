@@ -51,6 +51,8 @@ public class FallingPlatform : MonoBehaviour
         {
             playerOnPlatform = true;
             collision.transform.parent = transform;
+            var player = collision.gameObject.GetComponent<MonoBehaviour>();
+            player?.Invoke("ResetScale", 0f); // Crida ResetScale si existeix
         }
     }
 
@@ -59,8 +61,10 @@ public class FallingPlatform : MonoBehaviour
         if (collision.collider.CompareTag("Player1") || collision.collider.CompareTag("Player2"))
         {
             playerOnPlatform = false;
-            waitTimer = waitTime; // comença el compte enrere
+            waitTimer = waitTime;
             collision.transform.parent = null;
+            var player = collision.gameObject.GetComponent<MonoBehaviour>();
+            player?.Invoke("ResetScale", 0f); // Crida ResetScale si existeix
         }
     }
 }

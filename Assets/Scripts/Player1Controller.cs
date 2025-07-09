@@ -74,6 +74,7 @@ public class Player1Controller : MonoBehaviour
     // Referència al PlayerManager
     public GameObject playerManager;
     public bool isPaused = false;
+    private Vector3 originalScale;
 
     [Header("Item")]
     // ITEMS
@@ -85,6 +86,7 @@ public class Player1Controller : MonoBehaviour
 
     void Awake()
     {
+        originalScale = transform.localScale;
         playerInput = GetComponent<PlayerInput>();
         // Assegurem que "Menu" estigui actiu sempre
         playerInput.actions.FindActionMap("Menu").Enable();
@@ -206,19 +208,32 @@ public class Player1Controller : MonoBehaviour
         canDash = true;
     }
 
+    public void ResetScale()
+    {
+        float xSign = isFacingRight ? 1f : -1f;
+        transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
+    }
+
     private void Flip()
     {
-        if (isFacingRight && horizontalMovement < 0f || !isFacingRight && horizontalMovement > 0f)
+        float flipThreshold = 0.1f; // Només flippeja si l'input horitzontal és clar
+
+        // No flippejar mentre ataques o estàs atordit
+        if (isAttacking || isStunned) return;
+
+        // Només flippeja si l'input horitzontal és clarament cap a l'altre costat
+        if ((isFacingRight && horizontalMovement < -flipThreshold) ||
+            (!isFacingRight && horizontalMovement > flipThreshold))
         {
-            Vector3 localScale = transform.localScale;
             isFacingRight = !isFacingRight;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
+            float xSign = isFacingRight ? 1f : -1f;
+            transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
+
             // Compensa el flip a l'arc
             if (bow != null)
             {
                 Vector3 bowScale = bow.transform.localScale;
-                bowScale.x *= -1f;
+                bowScale.x = Mathf.Abs(bowScale.x) * xSign;
                 bow.transform.localScale = bowScale;
             }
         }
@@ -604,14 +619,14 @@ public class Player1Controller : MonoBehaviour
     {
         float pulseScale = 1.2f;
         float pulseDuration = 0.1f;
-        Vector3 originalScale = transform.localScale;
+        float xSign = isFacingRight ? 1f : -1f;
 
-        // Escala cap amunt
-        transform.localScale = originalScale * pulseScale;
+        // Escala cap amunt mantenint la direcció
+        transform.localScale = new Vector3(originalScale.x * pulseScale * xSign, originalScale.y * pulseScale, originalScale.z);
         yield return new WaitForSeconds(pulseDuration);
 
-        // Torna a la mida original
-        transform.localScale = originalScale;
+        // Torna a la mida original i direcció correcta
+        transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
     }
 
     public IEnumerator PlayBlockingFlash()
@@ -712,6 +727,26 @@ public class Player1Controller : MonoBehaviour
         {
             Debug.Log("Pausant la partida...");
             PauseManager.Instance?.TogglePause();
+        }
+    }
+
+    // MORIR
+    public void Die()
+    {
+        // Atura moviment i accions
+        enabled = false;
+        rb.linearVelocity = Vector2.zero;
+        animator.SetTrigger("Die"); // Assegura't de tenir un trigger "Die" a l'Animator
+
+        // Drop d'objectes equipats
+        if (heldItem != null)
+        {
+            heldItem.transform.SetParent(null);
+            Rigidbody2D rbItem = heldItem.GetComponent<Rigidbody2D>();
+            if (rbItem != null) rbItem.simulated = true;
+            Collider2D col = heldItem.GetComponent<Collider2D>();
+            if (col != null) col.enabled = true;
+            heldItem = null;
         }
     }
 

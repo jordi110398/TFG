@@ -13,11 +13,14 @@ public class AdaptiveCamera : MonoBehaviour
     private Transform[] players;  // Referencies als jugadors
     private Camera cam;
 
+    // CAMERA SHAKE
+    private Coroutine shakeCoroutine;
+
     void Start()
     {
 
     }
-    
+
     void LateUpdate()
     {
         if (cam == null)
@@ -91,6 +94,32 @@ public class AdaptiveCamera : MonoBehaviour
                 Debug.LogWarning($"No s'ha trobat el jugador amb el nom '{playerNames[i]}'.");
             }
         }
+    }
+
+    public void ShakeCamera(float duration, float magnitude)
+    {
+        if (shakeCoroutine != null)
+        {
+            StopCoroutine(shakeCoroutine);
+        }
+        shakeCoroutine = StartCoroutine(Shake(duration, magnitude));
+    }
+    
+    private IEnumerator Shake(float duration, float magnitude)
+    {
+        Vector3 originalPosition = transform.localPosition;
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float xOffset = Random.Range(-1f, 1f) * magnitude;
+            float yOffset = Random.Range(-1f, 1f) * magnitude;
+            transform.localPosition = new Vector3(originalPosition.x + xOffset, originalPosition.y + yOffset, originalPosition.z);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localPosition = originalPosition; // Retorna a la posició original
     }
 }
 

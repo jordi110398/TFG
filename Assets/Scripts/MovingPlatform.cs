@@ -36,13 +36,18 @@ public class MovingPlatform : MonoBehaviour
         if (collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Player2"))
         {
             collision.gameObject.transform.parent = transform;
+            var player = collision.gameObject.GetComponent<MonoBehaviour>();
+            player?.Invoke("ResetScale", 0f); // Crida ResetScale si existeix
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Player2"))
         {
             collision.gameObject.transform.parent = null;
+            var player = collision.gameObject.GetComponent<MonoBehaviour>();
+            player?.Invoke("ResetScale", 0f); // Crida ResetScale si existeix
         }
     }
 
