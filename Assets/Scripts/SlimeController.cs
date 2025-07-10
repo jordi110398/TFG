@@ -58,18 +58,8 @@ public class SlimeController : EnemyController
 
     protected override void Die()
     {
-        isDead = true;
-        if (anim != null)
-            anim.SetTrigger("isDead");
-        rb.linearVelocity = Vector2.zero;
+        base.Die(); // <-- Aquesta línia garanteix que s'instanciïn les partícules i es faci la lògica comuna
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.constraints = RigidbodyConstraints2D.None; // Permet rotació i moviment lliure
-        foreach (var col in GetComponents<Collider2D>())
-        {
-            if (col.isTrigger)
-                col.enabled = false;
-        }
-        StartCoroutine(HandleDeath());
-        Debug.Log($"{gameObject.name} ha mort.");
     }
 }

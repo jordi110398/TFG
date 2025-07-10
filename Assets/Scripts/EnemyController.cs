@@ -23,6 +23,9 @@ public class EnemyController : MonoBehaviour
     public float flashDuration = 0.1f;
     protected Color originalColor;
 
+    // Dead FX
+    public GameObject deathParticlesPrefab;
+
     [Header("Player Manager")]
     // Referència al PlayerManager
     public GameObject playerManager;
@@ -182,6 +185,11 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void Die()
     {
+        if (deathParticlesPrefab != null)
+        {
+            Debug.Log("Instanciant partícules de mort!", this);
+            Instantiate(deathParticlesPrefab, transform.position, Quaternion.identity);
+        }
         isDead = true;
         if (anim != null)
             anim.SetTrigger("isDead");

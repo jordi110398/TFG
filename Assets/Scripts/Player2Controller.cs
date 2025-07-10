@@ -118,6 +118,9 @@ public class Player2Controller : MonoBehaviour
     // CHECKPOINT
     public Vector3 lastCheckpointPosition;
 
+    // PARTICULES MORT
+    public GameObject deathParticlesPrefab;
+
     private void Awake()
     {
         originalScale = transform.localScale; // Guarda l'escala original del jugador
@@ -1008,6 +1011,10 @@ public class Player2Controller : MonoBehaviour
     {
         // Atura moviment i accions
         enabled = false;
+        // Instancia les partícules de mort
+        if (deathParticlesPrefab != null)
+            Instantiate(deathParticlesPrefab, transform.position, Quaternion.identity);
+
         rb.linearVelocity = Vector2.zero;
         animator.SetTrigger("isDead"); // Assegura't de tenir un trigger "Die" a l'Animator
 

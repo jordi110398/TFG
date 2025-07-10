@@ -553,6 +553,9 @@ MonoBehaviour:
   playerManager: {fileID: 0}
   isPaused: 0
   itemHolder: {fileID: 5214028181405546857}
+  lastCheckpointPosition: {x: 0, y: 0, z: 0}
+  platformVelocity: {x: 0, y: 0}
+  deathParticlesPrefab: {fileID: 6883699538981596230, guid: 24fb36eec8b17584db4db43371a2bc88, type: 3}
 --- !u!50 &8016722745561240407
 Rigidbody2D:
   serializedVersion: 5

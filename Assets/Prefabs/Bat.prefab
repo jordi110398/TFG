@@ -214,6 +214,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1929172629315572346}
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
+  deathParticlesPrefab: {fileID: 4715799045613194358, guid: 47e3cc10e0062f040887b6272853ec82, type: 3}
   playerManager: {fileID: 0}
   speed: 3
   chase: 0

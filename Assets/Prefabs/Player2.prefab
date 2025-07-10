@@ -546,6 +546,7 @@ MonoBehaviour:
   slashEffectPrefab: {fileID: 4709806181546692525, guid: cad2069acb00d8c4ba20b896196f0ef9, type: 3}
   stabEffectPrefab: {fileID: 1442350025873689956, guid: 6a788ab6975785942aa350a6936fe760, type: 3}
   hitPoint: {fileID: 8714962031890761137}
+  stabPoint: {fileID: 4291137337844502524}
   shield: {fileID: 6096357141634271155, guid: 087156514272dac418c711795f7c9f94, type: 3}
   shieldHolder: {fileID: 627552486543089511}
   flashColor: {r: 1, g: 1, b: 1, a: 1}
@@ -576,6 +577,8 @@ MonoBehaviour:
   isInvincible: 0
   itemHolder: {fileID: 8408755023786675798}
   playerManager: {fileID: 0}
+  lastCheckpointPosition: {x: 0, y: 0, z: 0}
+  deathParticlesPrefab: {fileID: 6883699538981596230, guid: 24fb36eec8b17584db4db43371a2bc88, type: 3}
 --- !u!50 &8016722745561240407
 Rigidbody2D:
   serializedVersion: 5

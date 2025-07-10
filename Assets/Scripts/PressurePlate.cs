@@ -3,40 +3,25 @@ using UnityEngine;
 public class PressurePlate : MonoBehaviour
 {
     public Vector3 originalPos;
-    bool moveBack = false;
-    SpriteRenderer spriteRenderer;
+    private bool moveBack = false;
+    private SpriteRenderer spriteRenderer;
     private float maxDownDistance = 0.09f;
+    private bool isPressed = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         originalPos = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player2") || collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Pushable"))
-        {
-            collision.transform.parent = transform;
-            moveBack = false;
-            GetComponent<SpriteRenderer>().color = Color.red;
-        }
-
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player2") || collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Pushable"))
         {
-            // Només baixar si no ha superat el límit
-            if (transform.position.y > originalPos.y - maxDownDistance)
-            {
-                transform.Translate(0, -0.01f, 0);
-            }
+            isPressed = true;
             moveBack = false;
-            GetComponent<SpriteRenderer>().color = Color.blue;
+            spriteRenderer.color = Color.red;
         }
     }
 
@@ -44,15 +29,23 @@ public class PressurePlate : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player2") || collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Pushable"))
         {
-            collision.transform.parent = null;
+            isPressed = false;
             moveBack = true;
-            GetComponent<SpriteRenderer>().color = Color.green;
+            spriteRenderer.color = Color.green;
         }
     }
 
     void Update()
     {
-        if (moveBack)
+        if (isPressed)
+        {
+            if (transform.position.y > originalPos.y - maxDownDistance)
+            {
+                transform.Translate(0, -0.01f, 0);
+                spriteRenderer.color = Color.blue;
+            }
+        }
+        else if (moveBack)
         {
             if (transform.position.y < originalPos.y)
             {
@@ -60,12 +53,9 @@ public class PressurePlate : MonoBehaviour
             }
             else
             {
-                // Ens assegurem que es queda exactament a originalPos
                 transform.position = new Vector3(transform.position.x, originalPos.y, transform.position.z);
                 moveBack = false;
-                moveBack = false;
             }
-
         }
     }
 }

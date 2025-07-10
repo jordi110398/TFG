@@ -87,6 +87,9 @@ public class Player1Controller : MonoBehaviour
     [HideInInspector]
     public Vector2 platformVelocity = Vector2.zero;
 
+    // PARTICULES MORT
+    public GameObject deathParticlesPrefab;
+
     void Awake()
     {
         originalScale = transform.localScale;
@@ -399,7 +402,7 @@ public class Player1Controller : MonoBehaviour
             int baseDamage = arrowScript.damage;
 
             // Si el jugador té un buff de dany, augmenta el dany de la fletxa
-            arrowScript.isChargedArrow = isChargedAttack; 
+            arrowScript.isChargedArrow = isChargedAttack;
             if (TryGetComponent(out BattleCry battleCry))
             {
                 arrowScript.damage = Mathf.RoundToInt(baseDamage * battleCry.GetDamageMultiplier());
@@ -740,6 +743,10 @@ public class Player1Controller : MonoBehaviour
         enabled = false;
         rb.linearVelocity = Vector2.zero;
         animator.SetTrigger("isDead");
+
+        // Instancia les partícules de mort
+        if (deathParticlesPrefab != null)
+            Instantiate(deathParticlesPrefab, transform.position, Quaternion.identity);
 
         // Drop d'objectes equipats
         if (heldItem != null)

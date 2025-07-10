@@ -674,6 +674,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8775397296016642997}
   flashColor: {r: 0.2264151, g: 0, b: 0, a: 1}
   flashDuration: 0.1
+  deathParticlesPrefab: {fileID: 3084140522042269238, guid: 3566528c89d09ac46a21ebbf1a31d05e, type: 3}
   playerManager: {fileID: 0}
   projectilePrefab: {fileID: 2228010885374017135, guid: f9497710390dd0d469e22c932adf84c3, type: 3}
   shieldParticles: {fileID: 8972163975126321918}
