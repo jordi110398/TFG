@@ -687,9 +687,22 @@ MonoBehaviour:
   patrolSpeed: 1.5
   pointA: {fileID: 3017387797483336079}
   pointB: {fileID: 7083581252248347025}
+  jumpForce: 8
+  jumpInterval: 1.5
+  groundCheck: {fileID: 5513464052736405431}
+  groundCheckRadius: 0.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  isVulnerable: 0
 --- !u!4 &4687113104629564987 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5512021923589117408, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+  m_PrefabInstance: {fileID: 969780479693149147}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5513464052736405431 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4753154052316658796, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
   m_PrefabInstance: {fileID: 969780479693149147}
   m_PrefabAsset: {fileID: 0}
 --- !u!212 &8775397296016642997 stripped

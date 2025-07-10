@@ -16,10 +16,17 @@ public class BossController : EnemyController
     public float patrolSpeed = 1.5f;
     public GameObject pointA;
     public GameObject pointB;
+    public float jumpForce = 8f;
+    public float jumpInterval = 1.5f;
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.2f;
+    public LayerMask groundLayer;
 
-    private bool isVulnerable = false;
+    public bool isVulnerable = false;
     private Transform currentPoint;
     private bool isPatrolling = false;
+    private float jumpTimer = 0f;
+    private bool isGrounded = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
@@ -53,9 +60,7 @@ public class BossController : EnemyController
             isPatrolling = false;
             anim.SetBool("isPatrolling", false);
 
-            // --- Fase 2: Atac vulnerable ---
-            isVulnerable = true;
-            shieldParticles.SetActive(false);
+            // --- Fase 2: Atac (quiet, dispara projectils, encara invulnerable) ---
             anim.SetBool("isAttacking", true);
             anim.SetBool("isAngry", true);
 
@@ -64,7 +69,10 @@ public class BossController : EnemyController
             anim.SetBool("isAttacking", false);
             anim.SetBool("isAngry", false);
 
-            // --- Fase 3: Idle vulnerable (opcional, pausa quiet) ---
+            // --- Fase 3: Idle vulnerable (escut OFF, vulnerable, quiet) ---
+            isVulnerable = true;
+            shieldParticles.SetActive(false);
+
             yield return new WaitForSeconds(vulnerableDuration);
         }
     }
@@ -72,8 +80,21 @@ public class BossController : EnemyController
     private void PatrolMove()
     {
         if (isDead) return;
+
+        // Comprova si està a terra
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
         Vector2 direction = (currentPoint.position - transform.position).normalized;
-        rb.linearVelocity = new Vector2(direction.x * patrolSpeed, 0);
+        rb.linearVelocity = new Vector2(direction.x * patrolSpeed, rb.linearVelocity.y);
+
+        // Salt periòdic
+        jumpTimer += Time.deltaTime;
+        if (jumpTimer >= jumpInterval && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            jumpTimer = 0f;
+            if (anim != null) anim.SetTrigger("Jump"); // Opcional, si tens trigger d'animació de salt
+        }
 
         if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f)
         {

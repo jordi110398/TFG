@@ -44,4 +44,9 @@ public class BattleCry : MonoBehaviour
     {
         return isBuffed ? damageMultiplier : 1f;
     }
+
+    public bool IsBuffActive()
+    {
+        return isBuffed;
+    }
 }

@@ -399,10 +399,11 @@ public class Player1Controller : MonoBehaviour
             int baseDamage = arrowScript.damage;
 
             // Si el jugador té un buff de dany, augmenta el dany de la fletxa
+            arrowScript.isChargedArrow = isChargedAttack; 
             if (TryGetComponent(out BattleCry battleCry))
             {
                 arrowScript.damage = Mathf.RoundToInt(baseDamage * battleCry.GetDamageMultiplier());
-                if (battleCry.GetDamageMultiplier() > 1f && arrowScript.auraPrefab != null)
+                if (battleCry.IsBuffActive() && arrowScript.auraPrefab != null)
                 {
                     Transform arrowTail = arrow.transform.Find("ArrowTail");
                     GameObject aura = Instantiate(arrowScript.auraPrefab, arrowTail);
@@ -414,7 +415,6 @@ public class Player1Controller : MonoBehaviour
                 arrowScript.damage = baseDamage;
             }
 
-            // Opcional: pots augmentar el dany de les fletxes carregades
             if (isChargedAttack)
             {
                 arrowScript.damage = Mathf.RoundToInt(arrowScript.damage * 1.5f);
@@ -433,7 +433,7 @@ public class Player1Controller : MonoBehaviour
         StartCoroutine(HideBowAfterDelay(0.3f));
 
         isChargedAttack = false; // Reseteja després de disparar
-                                 // Destrueix l'efecte de partícules si encara existeix
+        // Destrueix l'efecte de partícules si encara existeix
         if (chargedParticlesInstance != null)
         {
             Destroy(chargedParticlesInstance);

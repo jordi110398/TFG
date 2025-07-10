@@ -3661,7 +3661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4714825830250915396, guid: 6cf0cfa701ddccc42a7878aad68968d8, type: 3}
       propertyPath: m_Constraints
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7083581252248347025, guid: 6cf0cfa701ddccc42a7878aad68968d8, type: 3}
       propertyPath: m_Layer
@@ -3670,6 +3670,14 @@ PrefabInstance:
     - target: {fileID: 7908457016931932020, guid: 6cf0cfa701ddccc42a7878aad68968d8, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128336235732666388, guid: 6cf0cfa701ddccc42a7878aad68968d8, type: 3}
+      propertyPath: patrolDuration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128336235732666388, guid: 6cf0cfa701ddccc42a7878aad68968d8, type: 3}
+      propertyPath: vulnerableDuration
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

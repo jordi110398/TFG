@@ -13,6 +13,8 @@ public class Arrow : MonoBehaviour
     Vector3 originalScale;
     public SpriteRenderer sr;
     public GameObject auraPrefab; // Prefab per l'aura amb el buff
+
+    public bool isChargedArrow = false; // Indica si la fletxa és carregada
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -40,6 +42,24 @@ public class Arrow : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (hasHit) return;
+
+        // 1. Comprova si col·lisiona amb l'escut del Boss
+        BossShield bossShield = collision.GetComponent<BossShield>();
+        if (bossShield != null)
+        {
+            // Només trenca l'escut si la fletxa és carregada i el buff està actiu
+            if (isChargedArrow)
+            {
+                Debug.Log("Fletxa carregada col·lisiona amb BossShield!");
+                var p1 = FindAnyObjectByType<Player1Controller>();
+                if (p1 != null && p1.TryGetComponent(out BattleCry battleCry) && battleCry.IsBuffActive())
+                {
+                    bossShield.TryBreakShield(p1.gameObject);
+                    Destroy(gameObject);
+                    return;
+                }
+            }
+        }
 
         if (collision.CompareTag("Enemy"))
         {
