@@ -78,6 +78,7 @@ public class Boomerang : MonoBehaviour
         }
         else if (collision.CompareTag("Lever"))
         {
+            Debug.Log("Boomerang ha activat un palanca");
             Lever lever = collision.GetComponent<Lever>();
             if (lever != null)
             {

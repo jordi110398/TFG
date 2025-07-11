@@ -10,8 +10,10 @@ public class MovingPlatform : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        nextPosition = pointB.position;
-
+        // Comença anant cap al punt més llunyà
+        float distA = Vector3.Distance(transform.position, pointA.position);
+        float distB = Vector3.Distance(transform.position, pointB.position);
+        nextPosition = (distA > distB) ? pointA.position : pointB.position;
     }
 
     // Update is called once per frame
@@ -21,14 +23,13 @@ public class MovingPlatform : MonoBehaviour
         {
             return;
         }
-        
+
         transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, nextPosition) < 0.01f)
         {
             nextPosition = (nextPosition == pointA.position) ? pointB.position : pointA.position;
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -51,4 +52,16 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
+    public void Activate()
+    {
+        Debug.Log("Plataforma activada");
+        isActive = true;
+        //nextPosition = pointB.position; // Comença movent-se cap al punt B
+    }
+
+    public void Deactivate()
+    {
+        isActive = false;
+        //nextPosition = pointA.position; // Comença movent-se cap al punt A
+    }
 }

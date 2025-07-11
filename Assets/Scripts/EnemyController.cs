@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
     public Color flashColor = Color.red;
     public float flashDuration = 0.1f;
     protected Color originalColor;
+    private Coroutine pulseCoroutine;
 
     // Dead FX
     public GameObject deathParticlesPrefab;
@@ -33,6 +34,7 @@ public class EnemyController : MonoBehaviour
     protected bool isInvincible = false;
     protected Animator anim;
     protected Rigidbody2D rb;
+
 
     protected virtual void Start()
     {
@@ -175,14 +177,17 @@ public class EnemyController : MonoBehaviour
         float pulseScale = 1.2f;
         float pulseDuration = 0.1f;
 
-        // Escala cap amunt
         transform.localScale = originalScale * pulseScale;
         yield return new WaitForSeconds(pulseDuration);
-
-        // Torna a la mida original
         transform.localScale = originalScale;
     }
 
+    public void TriggerDamagePulse()
+    {
+        if (pulseCoroutine != null)
+            StopCoroutine(pulseCoroutine);
+        pulseCoroutine = StartCoroutine(PlayDamagePulse());
+    }
     protected virtual void Die()
     {
         if (deathParticlesPrefab != null)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PressurePlate : MonoBehaviour
 {
@@ -7,6 +8,10 @@ public class PressurePlate : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private float maxDownDistance = 0.09f;
     private int objectsOnPlate = 0;
+
+    [Header("Events")]
+    public UnityEvent OnActivated;
+    public UnityEvent OnDeactivated;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,7 +26,9 @@ public class PressurePlate : MonoBehaviour
         {
             objectsOnPlate++;
             moveBack = false;
-            spriteRenderer.color = Color.red;
+            // Només activa si és el primer objecte
+            if (objectsOnPlate == 1)
+                OnActivated.Invoke();
         }
     }
 
@@ -33,7 +40,7 @@ public class PressurePlate : MonoBehaviour
             if (objectsOnPlate == 0)
             {
                 moveBack = true;
-                spriteRenderer.color = Color.green;
+                OnDeactivated.Invoke();
             }
         }
     }
@@ -45,7 +52,7 @@ public class PressurePlate : MonoBehaviour
             if (transform.position.y > originalPos.y - maxDownDistance)
             {
                 transform.Translate(0, -0.01f, 0);
-                spriteRenderer.color = Color.blue;
+                //spriteRenderer.color = Color.blue;
             }
         }
         else if (moveBack)
