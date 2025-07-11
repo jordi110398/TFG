@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 358864743250656277}
   - component: {fileID: 7082243732136544814}
   - component: {fileID: 3649521488384900063}
+  - component: {fileID: -8549544885512398718}
   m_Layer: 3
   m_Name: PushableBox
   m_TagString: Pushable
@@ -179,3 +180,15 @@ PolygonCollider2D:
       - {x: 1.4499999, y: -1.24}
       - {x: 1.5699999, y: -1.1}
   m_UseDelaunayMesh: 0
+--- !u!114 &-8549544885512398718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7898330997337926022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079ccbfaaf270ec43a93e0432d59ae88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -6,7 +6,7 @@ public class PressurePlate : MonoBehaviour
     private bool moveBack = false;
     private SpriteRenderer spriteRenderer;
     private float maxDownDistance = 0.09f;
-    private bool isPressed = false;
+    private int objectsOnPlate = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,29 +15,32 @@ public class PressurePlate : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player2") || collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Pushable"))
+        if (other.CompareTag("Player1") || other.CompareTag("Player2") || other.CompareTag("Pushable"))
         {
-            isPressed = true;
+            objectsOnPlate++;
             moveBack = false;
             spriteRenderer.color = Color.red;
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player2") || collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Pushable"))
+        if (other.CompareTag("Player1") || other.CompareTag("Player2") || other.CompareTag("Pushable"))
         {
-            isPressed = false;
-            moveBack = true;
-            spriteRenderer.color = Color.green;
+            objectsOnPlate = Mathf.Max(0, objectsOnPlate - 1);
+            if (objectsOnPlate == 0)
+            {
+                moveBack = true;
+                spriteRenderer.color = Color.green;
+            }
         }
     }
 
     void Update()
     {
-        if (isPressed)
+        if (objectsOnPlate > 0)
         {
             if (transform.position.y > originalPos.y - maxDownDistance)
             {

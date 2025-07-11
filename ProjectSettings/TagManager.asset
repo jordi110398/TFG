@@ -18,6 +18,9 @@ TagManager:
   - PlayerManager
   - Chest
   - Projectile
+  - Undefined
+  - Arrow
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX

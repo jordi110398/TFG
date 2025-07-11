@@ -73,7 +73,15 @@ public class Boomerang : MonoBehaviour
             EnemyController enemy = collision.GetComponent<EnemyController>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damage,transform); // Pots posar la quantitat de dany que vulguis
+                enemy.TakeDamage(damage, transform);
+            }
+        }
+        else if (collision.CompareTag("Lever"))
+        {
+            Lever lever = collision.GetComponent<Lever>();
+            if (lever != null)
+            {
+                lever.Activate();
             }
         }
     }

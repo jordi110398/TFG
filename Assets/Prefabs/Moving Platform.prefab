@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8647061739329314613}
   - component: {fileID: 7083620116055573057}
   - component: {fileID: 8788699932869473786}
-  - component: {fileID: 5936956669581902181}
   m_Layer: 3
   m_Name: Platform
   m_TagString: Untagged
@@ -155,22 +154,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 13.88, y: 1.34}
   m_EdgeRadius: 0
---- !u!114 &5936956669581902181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 40953520630944560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3f146100e657764db96ea8bbb800f6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 0
-  pointA: {fileID: 3772714739172365334}
-  pointB: {fileID: 1591329878550999975}
-  moveSpeed: 2
 --- !u!1 &868236995597618718
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 928422876450824702}
   - component: {fileID: 173033977308745622}
+  - component: {fileID: 5511243849401368601}
   m_Layer: 3
   m_Name: Moving Platform
   m_TagString: Untagged
@@ -233,6 +217,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5511243849401368601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868236995597618718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f146100e657764db96ea8bbb800f6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0
+  pointA: {fileID: 3772714739172365334}
+  pointB: {fileID: 1591329878550999975}
+  moveSpeed: 2
 --- !u!1 &7833411020786837210
 GameObject:
   m_ObjectHideFlags: 0

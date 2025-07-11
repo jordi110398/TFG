@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 354914122223981990}
   m_Layer: 8
   m_Name: Arrow
-  m_TagString: Untagged
+  m_TagString: Arrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -230,6 +230,7 @@ MonoBehaviour:
   damageZone: {fileID: 6951504122533486171}
   sr: {fileID: 2385434313956698372}
   auraPrefab: {fileID: 6366099873305639752, guid: 74c10e94882259846955727681011ff7, type: 3}
+  isChargedArrow: 0
 --- !u!1 &9115713908820921320
 GameObject:
   m_ObjectHideFlags: 0

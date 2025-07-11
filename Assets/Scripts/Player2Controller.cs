@@ -120,6 +120,7 @@ public class Player2Controller : MonoBehaviour
 
     // PARTICULES MORT
     public GameObject deathParticlesPrefab;
+    public bool isDead = false;
 
     private void Awake()
     {
@@ -172,6 +173,8 @@ public class Player2Controller : MonoBehaviour
             return;
         }
 
+        if(isDead) return;
+
         GroundCheck();
         Flip();
 
@@ -189,6 +192,8 @@ public class Player2Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(isDead) return;
+        
         if (isDashing || isChargedAttack || isChargingDash)
         {
             return;
@@ -558,6 +563,11 @@ public class Player2Controller : MonoBehaviour
 
         foreach (var hit in hits)
         {
+            BreakableJar jar = hit.GetComponent<BreakableJar>();
+            if (jar != null)
+            {
+                jar.Break();
+            }
             EnemyController enemy = hit.GetComponent<EnemyController>();
             if (enemy != null)
             {
@@ -602,6 +612,11 @@ public class Player2Controller : MonoBehaviour
         Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackOrigin.position, attackRadius, enemyMask);
         foreach (var target in enemiesInRange)
         {
+            BreakableJar jar = target.GetComponent<BreakableJar>();
+            if (jar != null)
+            {
+                jar.SendMessage("Break");
+            }
             EnemyController enemy = target.GetComponent<EnemyController>();
             if (enemy != null)
             {
@@ -1010,7 +1025,7 @@ public class Player2Controller : MonoBehaviour
     public void Die()
     {
         // Atura moviment i accions
-        enabled = false;
+        isDead = true;
         // Instancia les partícules de mort
         if (deathParticlesPrefab != null)
             Instantiate(deathParticlesPrefab, transform.position, Quaternion.identity);

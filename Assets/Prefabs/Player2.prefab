@@ -560,7 +560,7 @@ MonoBehaviour:
   chargedSwordColor: {r: 1, g: 0, b: 0, a: 1}
   freezeAfterDashDuration: 0.5
   attackOrigin: {fileID: 1093924265128314212}
-  attackRadius: 0.55
+  attackRadius: 0.37
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
@@ -579,6 +579,7 @@ MonoBehaviour:
   playerManager: {fileID: 0}
   lastCheckpointPosition: {x: 0, y: 0, z: 0}
   deathParticlesPrefab: {fileID: 6883699538981596230, guid: 24fb36eec8b17584db4db43371a2bc88, type: 3}
+  isDead: 0
 --- !u!50 &8016722745561240407
 Rigidbody2D:
   serializedVersion: 5
@@ -810,7 +811,7 @@ GameObject:
   - component: {fileID: 1093924265128314212}
   m_Layer: 9
   m_Name: DamageZone
-  m_TagString: Untagged
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

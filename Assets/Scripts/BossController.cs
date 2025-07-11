@@ -47,7 +47,6 @@ public class BossController : EnemyController
             shieldParticles.SetActive(true);
             anim.SetBool("isPatrolling", true);
             anim.SetBool("isAttacking", false);
-            anim.SetBool("isAngry", false);
 
             float patrolTimer = 0f;
             while (patrolTimer < patrolDuration)
@@ -62,12 +61,8 @@ public class BossController : EnemyController
 
             // --- Fase 2: Atac (quiet, dispara projectils, encara invulnerable) ---
             anim.SetBool("isAttacking", true);
-            anim.SetBool("isAngry", true);
-
             yield return StartCoroutine(FireProjectiles());
-
             anim.SetBool("isAttacking", false);
-            anim.SetBool("isAngry", false);
 
             // --- Fase 3: Idle vulnerable (escut OFF, vulnerable, quiet) ---
             isVulnerable = true;
