@@ -6,6 +6,7 @@ public class AdaptiveCamera : MonoBehaviour
 {
     public string[] playerNames;  // Noms dels jugadors
     public Vector3 offset;        // Desplaçament camera
+    private float defaultOffsetX; // Valor per defecte de l'offset X
     public float smoothSpeed = 0.125f; // Velocitat de suavitzat
     public float minZoom = 40f;   // Zoom mínim
     public float maxZoom = 10f;   // Zoom màxim
@@ -18,6 +19,7 @@ public class AdaptiveCamera : MonoBehaviour
 
     void Start()
     {
+        defaultOffsetX = offset.x; // Guardem el valor per defecte de l'offset X
 
     }
 
@@ -104,7 +106,7 @@ public class AdaptiveCamera : MonoBehaviour
         }
         shakeCoroutine = StartCoroutine(Shake(duration, magnitude));
     }
-    
+
     private IEnumerator Shake(float duration, float magnitude)
     {
         Vector3 originalPosition = transform.localPosition;
@@ -120,6 +122,22 @@ public class AdaptiveCamera : MonoBehaviour
         }
 
         transform.localPosition = originalPosition; // Retorna a la posició original
+    }
+
+    public void SetOffsetX(float value)
+    {
+        offset.x = value;
+        Debug.Log("Offset X canviat a: " + value);
+        //offset.y = value;
+    }
+    public void SetOffsetXPercent(float percent)
+    {
+        offset.x = defaultOffsetX * percent;
+        Debug.Log("Offset X canviat a: " + offset.x + " (" + (percent * 100f) + "%)");
+    }
+    public void SetOffsetY(float value)
+    {
+        offset.y = value;
     }
 }
 

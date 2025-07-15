@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ParallaxBackground : MonoBehaviour
 {
@@ -6,6 +7,8 @@ public class ParallaxBackground : MonoBehaviour
     public float minParallax = 0.1f;
     [Range(0f, 1f)]
     public float maxParallax = 0.6f;
+    public bool parallaxEnabled = false;
+    public Toggle parallaxToggle;
 
     private Transform cam;
     private Vector3 previousCamPosition;
@@ -13,6 +16,7 @@ public class ParallaxBackground : MonoBehaviour
 
     void Start()
     {
+        parallaxEnabled = true; // Activa el parallax per defecte
         cam = Camera.main.transform;
         previousCamPosition = cam.position;
 
@@ -27,6 +31,8 @@ public class ParallaxBackground : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!parallaxEnabled) return;
+
         Vector3 delta = cam.position - previousCamPosition;
 
         for (int i = 0; i < layers.Length; i++)
@@ -42,6 +48,27 @@ public class ParallaxBackground : MonoBehaviour
         }
 
         previousCamPosition = cam.position;
+    }
+
+    public void SetParallaxActive(bool _)
+{
+    bool active = parallaxToggle != null ? parallaxToggle.isOn : false;
+    Debug.Log("SetParallaxActive (lectura directa) cridat amb: " + active);
+    parallaxEnabled = active;
+}
+
+    public void ForceParallaxOn()
+    {
+        parallaxEnabled = true;
+        Debug.Log("Parallax forçat a ON");
+        //optionsMenu?.SyncParallaxToggle();
+    }
+
+    public void ForceParallaxOff()
+    {
+        parallaxEnabled = false;
+        Debug.Log("Parallax forçat a OFF");
+        //optionsMenu?.SyncParallaxToggle();
     }
 }
 

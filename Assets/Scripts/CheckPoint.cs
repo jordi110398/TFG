@@ -10,14 +10,14 @@ public class CheckPoint : MonoBehaviour
             if (player != null)
             {
                 Debug.Log("Player1 Checkpoint actualitzat");
-                player.lastCheckpointPosition = transform.position;
+                CheckpointManager.Instance.SetCheckpoint(transform.position);
             }
 
             var player2 = other.GetComponent<Player2Controller>();
             if (player2 != null)
             {
                 Debug.Log("Player2 Checkpoint actualitzat");
-                player2.lastCheckpointPosition = transform.position;
+                CheckpointManager.Instance.SetCheckpoint(transform.position);
             }
         }
     }

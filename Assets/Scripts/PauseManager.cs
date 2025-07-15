@@ -9,10 +9,14 @@ public class PauseManager : MonoBehaviour
 
     public GameObject pauseUI;
     public GameObject firstSelectedButton;
+    public GameObject firstOptionsButton;
+    public GameObject optionsPanel;
     private bool isPaused = false;
 
     private Player1Controller player1;
     private Player2Controller player2;
+
+    public OptionsMenu optionsMenu; // assigna-ho a l'Inspector
 
     private void Awake()
     {
@@ -22,8 +26,17 @@ public class PauseManager : MonoBehaviour
 
     public void TogglePause()
     {
-        if (isPaused) Resume();
-        else Pause();
+        // Si el menú d'opcions està actiu, tanca'l i torna al menú de pausa
+        if (optionsPanel.activeSelf)
+        {
+            CloseOptions();
+            return;
+        }
+
+        if (isPaused)
+            Resume();
+        else
+            Pause();
     }
 
     public void Pause()
@@ -64,11 +77,27 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
+    
 
     public void OpenOptions()
     {
         Debug.Log("Obrint menú d'opcions");
-        // Pots activar un altre panell aquí
+        optionsPanel.SetActive(true);
+        pauseUI.SetActive(false);
+
+        if (optionsMenu != null)
+            //optionsMenu.SyncParallaxToggle();
+
+        if (firstOptionsButton != null)
+            EventSystem.current.SetSelectedGameObject(firstOptionsButton);
+    }
+    public void CloseOptions()
+    {
+        optionsPanel.SetActive(false);
+        pauseUI.SetActive(true);
+
+        if (firstSelectedButton != null)
+            EventSystem.current.SetSelectedGameObject(firstSelectedButton);
     }
 
     private void TryFindPlayers()

@@ -116,7 +116,7 @@ public class Player2Controller : MonoBehaviour
     Vector3 originalScale;
 
     // CHECKPOINT
-    public Vector3 lastCheckpointPosition;
+    //public Vector3 lastCheckpointPosition;
 
     // PARTICULES MORT
     public GameObject deathParticlesPrefab;
@@ -173,7 +173,7 @@ public class Player2Controller : MonoBehaviour
             return;
         }
 
-        if(isDead) return;
+        if (isDead) return;
 
         GroundCheck();
         Flip();
@@ -192,8 +192,8 @@ public class Player2Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(isDead) return;
-        
+        if (isDead) return;
+
         if (isDashing || isChargedAttack || isChargingDash)
         {
             return;
@@ -1048,7 +1048,11 @@ public class Player2Controller : MonoBehaviour
     {
         animator.ResetTrigger("isDead");
         enabled = true;
-        transform.position = lastCheckpointPosition;
+        CheckpointManager.Instance.MovePlayersToCheckpoint();
+    }
+        public void GoToLastCheckpoint()
+    {
+        CheckpointManager.Instance.MovePlayersToCheckpoint();
     }
 
 }

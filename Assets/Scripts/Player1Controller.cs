@@ -82,7 +82,7 @@ public class Player1Controller : MonoBehaviour
     private GameObject heldItem;
 
     // CHECKPOINT
-    public Vector3 lastCheckpointPosition;
+    //public Vector3 lastCheckpointPosition;
 
     [HideInInspector]
     public Vector2 platformVelocity = Vector2.zero;
@@ -765,8 +765,12 @@ public class Player1Controller : MonoBehaviour
         animator.ResetTrigger("isDead");
         animator.SetTrigger("Revive");
         enabled = true;
-        // Mou el jugador a la posició del checkpoint (guarda-la en una variable)
-        transform.position = lastCheckpointPosition;
+        // Mou els jugadors a la posició del checkpoint (guarda-la en una variable)
+        CheckpointManager.Instance.MovePlayersToCheckpoint();
+    }
+    public void GoToLastCheckpoint()
+    {
+        CheckpointManager.Instance.MovePlayersToCheckpoint();
     }
 
 }

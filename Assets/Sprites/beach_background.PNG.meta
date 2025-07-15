@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: db557477e48faea4c9a50a2739b1b069
+guid: 076f57301eb3f9d4d8909bf2632019d4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3451699440861859892
-    second: MainMenu_0
+      213: -8053835849107898203
+    second: beach_background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MainMenu_0
+      name: beach_background_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1200
-        height: 659
+        width: 2135
+        height: 1200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ccfa30c75a91910d0800000000000000
-      internalID: -3451699440861859892
+      spriteID: 5a00e9e57f60b3090800000000000000
+      internalID: -8053835849107898203
       vertices: []
       indices: 
       edges: []
