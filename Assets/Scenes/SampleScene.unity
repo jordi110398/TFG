@@ -3944,6 +3944,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonToSelect: {fileID: 1346222746}
+  musicToggle: {fileID: 0}
+  parallaxToggle: {fileID: 645198343}
+  parallaxBackground: {fileID: 1743266565}
 --- !u!1 &461751682
 GameObject:
   m_ObjectHideFlags: 0
@@ -5756,6 +5759,7 @@ MonoBehaviour:
   firstSelectedButton: {fileID: 1896583656}
   firstOptionsButton: {fileID: 1346222746}
   optionsPanel: {fileID: 460625038}
+  optionsMenu: {fileID: 0}
 --- !u!114 &828107529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9340,6 +9344,7 @@ MonoBehaviour:
   minParallax: 0.686
   maxParallax: 1
   parallaxEnabled: 1
+  parallaxToggle: {fileID: 645198343}
 --- !u!4 &1743266566
 Transform:
   m_ObjectHideFlags: 0
