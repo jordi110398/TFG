@@ -95,7 +95,7 @@ public class Player1Controller : MonoBehaviour
         originalScale = transform.localScale;
         playerInput = GetComponent<PlayerInput>();
         // Assegurem que "Menu" estigui actiu sempre
-        playerInput.actions.FindActionMap("Menu").Enable();
+        playerInput.actions.FindActionMap("UI").Enable();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         // Assigna dinàmicament el PlayerManager
@@ -765,7 +765,7 @@ public class Player1Controller : MonoBehaviour
         animator.ResetTrigger("isDead");
         animator.SetTrigger("Revive");
         enabled = true;
-        // Mou els jugadors a la posició del checkpoint (guarda-la en una variable)
+        // Mou els jugadors a la posició del checkpoint
         CheckpointManager.Instance.MovePlayersToCheckpoint();
     }
     public void GoToLastCheckpoint()

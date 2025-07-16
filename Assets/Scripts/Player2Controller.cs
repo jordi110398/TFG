@@ -130,7 +130,7 @@ public class Player2Controller : MonoBehaviour
         originalColor = spriteRenderer.color;
         playerInput = GetComponent<PlayerInput>();
         // MENU PAUSA
-        playerInput.actions.FindActionMap("Menu").Enable();
+        playerInput.actions.FindActionMap("UI").Enable();
         Transform sword = transform.Find("WeaponHand/SwordPivot/Sword"); // desactivar el collider de l'espasa ja equipada
         hitPoint = transform.Find("HitPoint");
         stabPoint = transform.Find("StabPoint");
@@ -173,7 +173,7 @@ public class Player2Controller : MonoBehaviour
             return;
         }
 
-        if (isDead) return;
+        //if (isDead) return;
 
         GroundCheck();
         Flip();
@@ -192,7 +192,7 @@ public class Player2Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDead) return;
+        //if (isDead) return;
 
         if (isDashing || isChargedAttack || isChargingDash)
         {
@@ -615,7 +615,7 @@ public class Player2Controller : MonoBehaviour
             BreakableJar jar = target.GetComponent<BreakableJar>();
             if (jar != null)
             {
-                jar.SendMessage("Break");
+                jar.Break();
             }
             EnemyController enemy = target.GetComponent<EnemyController>();
             if (enemy != null)
@@ -1025,13 +1025,13 @@ public class Player2Controller : MonoBehaviour
     public void Die()
     {
         // Atura moviment i accions
-        isDead = true;
+        enabled = false;
+        rb.linearVelocity = Vector2.zero;
+        animator.SetTrigger("isDead");
+
         // Instancia les partícules de mort
         if (deathParticlesPrefab != null)
             Instantiate(deathParticlesPrefab, transform.position, Quaternion.identity);
-
-        rb.linearVelocity = Vector2.zero;
-        animator.SetTrigger("isDead"); // Assegura't de tenir un trigger "Die" a l'Animator
 
         // Drop d'objectes equipats
         if (heldItem != null)
@@ -1047,7 +1047,9 @@ public class Player2Controller : MonoBehaviour
     public void ReviveAtCheckpoint()
     {
         animator.ResetTrigger("isDead");
+        animator.SetTrigger("Revive");
         enabled = true;
+        // Mou els jugadors a la posició del checkpoint
         CheckpointManager.Instance.MovePlayersToCheckpoint();
     }
         public void GoToLastCheckpoint()

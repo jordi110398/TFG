@@ -1,19 +1,16 @@
 fileFormatVersion: 2
-guid: 707409e2695b6cb4495f6268a8a7b9c6
+guid: 1035df57b48ea94419d70e19c6a96212
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5171221398253030913
-    second: stones_0
+      213: 639846591124593516
+    second: Darts_0
   - first:
-      213: -5265537426725716387
-    second: stones_1
+      213: -8196417378188675112
+    second: Darts_1
   - first:
-      213: -1842656057284236593
-    second: stones_2
-  - first:
-      213: -5748754869296003714
-    second: stones_3
+      213: -4300193760988441918
+    second: Darts_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: stones_0
+      name: Darts_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +121,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10e45c1a67ed3c740800000000000000
-      internalID: 5171221398253030913
+      spriteID: c6bd9b6a51131e800800000000000000
+      internalID: 639846591124593516
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: stones_1
+      name: Darts_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d7b93e22d9704e80800000000000000
+      internalID: -8196417378188675112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Darts_2
       rect:
         serializedVersion: 2
         x: 32
         y: 0
-        width: 32
-        height: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,52 +165,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d5e3d70cb9d0de6b0800000000000000
-      internalID: -5265537426725716387
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stones_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fcae95624129d66e0800000000000000
-      internalID: -1842656057284236593
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stones_3
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e7580d297e15830b0800000000000000
-      internalID: -5748754869296003714
+      spriteID: 2c2deeace84a254c0800000000000000
+      internalID: -4300193760988441918
       vertices: []
       indices: 
       edges: []
@@ -200,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 48bb2b96aac44764bbf8538a0042b955
+    spriteID: 90a6d8802e6d63f4a8a40693bcb276dd
     internalID: 0
     vertices: []
     indices: 
@@ -210,10 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      stones_0: 5171221398253030913
-      stones_1: -5265537426725716387
-      stones_2: -1842656057284236593
-      stones_3: -5748754869296003714
+      Darts_0: 639846591124593516
+      Darts_1: -8196417378188675112
+      Darts_2: -4300193760988441918
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

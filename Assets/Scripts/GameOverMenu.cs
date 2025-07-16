@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameOverMenu : MonoBehaviour
 {
     public static GameOverMenu Instance;
     public GameObject menuUI;
+    public GameObject firstSelectedButton;
 
     private void Awake()
     {
@@ -16,6 +18,9 @@ public class GameOverMenu : MonoBehaviour
     {
         menuUI.SetActive(true);
         Time.timeScale = 0f; // Pausa el joc
+        // Selecciona el botó per defecte
+        if (firstSelectedButton != null)
+            EventSystem.current.SetSelectedGameObject(firstSelectedButton);
     }
 
     public void Hide()

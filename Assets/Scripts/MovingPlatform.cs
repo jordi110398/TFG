@@ -19,16 +19,22 @@ public class MovingPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isActive)
+        if (isActive)
         {
-            return;
+            transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed * Time.deltaTime);
+
+            if (Vector3.Distance(transform.position, nextPosition) < 0.01f)
+            {
+                nextPosition = (nextPosition == pointA.position) ? pointB.position : pointA.position;
+            }
         }
-
-        transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, nextPosition) < 0.01f)
+        else
         {
-            nextPosition = (nextPosition == pointA.position) ? pointB.position : pointA.position;
+            // Quan està desactivada, torna cap al punt A
+            if (Vector3.Distance(transform.position, pointA.position) > 0.01f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, pointA.position, moveSpeed * Time.deltaTime);
+            }
         }
     }
 

@@ -16,7 +16,7 @@ public class PauseManager : MonoBehaviour
     private Player1Controller player1;
     private Player2Controller player2;
 
-    public OptionsMenu optionsMenu; // assigna-ho a l'Inspector
+    //public OptionsMenu optionsMenu; // assigna-ho a l'Inspector
 
     private void Awake()
     {
@@ -84,9 +84,6 @@ public class PauseManager : MonoBehaviour
         Debug.Log("Obrint menú d'opcions");
         optionsPanel.SetActive(true);
         pauseUI.SetActive(false);
-
-        if (optionsMenu != null)
-            //optionsMenu.SyncParallaxToggle();
 
         if (firstOptionsButton != null)
             EventSystem.current.SetSelectedGameObject(firstOptionsButton);
