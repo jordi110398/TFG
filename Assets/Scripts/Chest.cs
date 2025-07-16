@@ -3,9 +3,12 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     public bool isOpened = false; // Indica si el cofre està obert
-[Header("Contingut")]
+    public bool needsKey = false; // Indica si es necessita una clau per obrir el cofre
+
+    [Header("Contingut")]
     public GameObject potionPrefab;
     public Transform dropPoint;
+    public GameObject[] dropPrefabs; // Array d'objectes a deixar caure
 
     [Header("Sprites")]
     public Sprite closedSprite;
@@ -33,12 +36,29 @@ public class Chest : MonoBehaviour
         if (openedSprite != null && sr != null)
             sr.sprite = openedSprite;
 
-        // Drop de la poció
-        if (potionPrefab != null && dropPoint != null)
-            Instantiate(potionPrefab, dropPoint.position, Quaternion.identity);
+        // Drop d’objectes
+        if (dropPrefabs != null && dropPoint != null)
+        {
+            foreach (var prefab in dropPrefabs)
+            {
+                if (prefab != null)
+                    Instantiate(prefab, dropPoint.position, Quaternion.identity);
+            }
+        }
 
         // Lluentor visual
         if (sparkleVFXPrefab != null && dropPoint != null)
             Instantiate(sparkleVFXPrefab, dropPoint.position, Quaternion.identity);
+    }
+
+    public void TryOpen(bool hasKey)
+    {
+        if (isOpened) return;
+        if (needsKey && !hasKey)
+        {
+            Debug.Log("Necessites una clau!");
+            return;
+        }
+        Open();
     }
 }

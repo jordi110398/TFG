@@ -8,10 +8,23 @@ public class MovingDoor : MonoBehaviour
     private Vector3 openPosition;
     private bool isOpening = false;
 
+    public bool startOpen = true; // Pots posar-ho a false per començar tancada
+
     void Start()
     {
         closedPosition = transform.position;
         openPosition = closedPosition + Vector3.up * moveDistance;
+
+        if (startOpen)
+        {
+            transform.position = openPosition;
+            isOpening = true;
+        }
+        else
+        {
+            transform.position = closedPosition;
+            isOpening = false;
+        }
     }
 
     void Update()
@@ -34,6 +47,7 @@ public class MovingDoor : MonoBehaviour
 
     public void CloseDoor()
     {
+        Debug.Log("Tancant porta");
         isOpening = false;
     }
 }

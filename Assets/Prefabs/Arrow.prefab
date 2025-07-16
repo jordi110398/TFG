@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9afe738ce8eca745a92206a60062dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 5
   destroyDelay: 0.1
   damageZone: {fileID: 6951504122533486171}
   sr: {fileID: 2385434313956698372}

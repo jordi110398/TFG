@@ -35,6 +35,9 @@ public class EnemyController : MonoBehaviour
     protected Animator anim;
     protected Rigidbody2D rb;
 
+    [Header("Drops")]
+    public GameObject[] dropPrefabs; // Assigna els objectes a dropejar a l'Inspector
+    public Transform dropPoint; // Opcional: punt concret per fer el drop
 
     protected virtual void Start()
     {
@@ -195,6 +198,20 @@ public class EnemyController : MonoBehaviour
             Debug.Log("Instanciant partícules de mort!", this);
             Instantiate(deathParticlesPrefab, transform.position, Quaternion.identity);
         }
+
+        // DROP D'OBJECTES
+        if (dropPrefabs != null)
+        {
+            foreach (var prefab in dropPrefabs)
+            {
+                if (prefab != null)
+                {
+                    Vector3 pos = dropPoint != null ? dropPoint.position : transform.position;
+                    Instantiate(prefab, pos, Quaternion.identity);
+                }
+            }
+        }
+
         isDead = true;
         if (anim != null)
             anim.SetTrigger("isDead");

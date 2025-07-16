@@ -95,11 +95,13 @@ public class HealthSystem : MonoBehaviour
         if (player1Health <= 0)
         {
             KillPlayer("Player1");
+            GameOverMenu.Instance.Show();
             return;
         }
         if (player2Health <= 0)
         {
             KillPlayer("Player2");
+            GameOverMenu.Instance.Show();
             return;
         }
     }
@@ -133,8 +135,6 @@ public class HealthSystem : MonoBehaviour
         {
             player2.GetComponent<Player2Controller>().Die();
         }
-        // Mostra el menú de Game Over
-        gameOverMenu.SetActive(true);
     }
 
     public void RevivePlayersAtCheckpoint()

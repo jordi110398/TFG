@@ -538,7 +538,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   maxJumps: 2
-  jumpPower: 8
+  jumpPower: 9
   sword: {fileID: 1573534133883354737, guid: 37dd5a4a22daa704da0d009754e563fd, type: 3}
   attackParticles: {fileID: 4782437480663921520, guid: cad2069acb00d8c4ba20b896196f0ef9, type: 3}
   equippedSwordTrail: {fileID: 6865414750174370406}

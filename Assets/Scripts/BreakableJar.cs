@@ -5,6 +5,9 @@ public class BreakableJar : MonoBehaviour
     public GameObject breakParticlesPrefab;
     public AudioClip breakSound;
 
+    public GameObject[] dropPrefabs; // Assigna els objectes a soltar a l'Inspector
+    public Transform dropPoint; // Opcional: punt concret per fer el drop
+
     private bool isBroken = false;
     private Animator animator;
 
@@ -28,6 +31,19 @@ public class BreakableJar : MonoBehaviour
 
         if (breakSound != null)
             AudioSource.PlayClipAtPoint(breakSound, transform.position);
+
+        // Drop d'objectes
+        if (dropPrefabs != null)
+        {
+            foreach (var prefab in dropPrefabs)
+            {
+                if (prefab != null)
+                {
+                    Vector3 pos = dropPoint != null ? dropPoint.position : transform.position;
+                    Instantiate(prefab, pos, Quaternion.identity);
+                }
+            }
+        }
 
         //Destroy(gameObject);
     }
