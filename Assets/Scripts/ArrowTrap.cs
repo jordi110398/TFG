@@ -33,7 +33,7 @@ public class ArrowTrap : MonoBehaviour
                 rb.linearVelocity = shootPoint.right * arrowSpeed;
         }
     }
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         if (shootPoints != null)
         {

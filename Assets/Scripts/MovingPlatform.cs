@@ -28,14 +28,6 @@ public class MovingPlatform : MonoBehaviour
                 nextPosition = (nextPosition == pointA.position) ? pointB.position : pointA.position;
             }
         }
-        else
-        {
-            // Quan està desactivada, torna cap al punt A
-            if (Vector3.Distance(transform.position, pointA.position) > 0.01f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, pointA.position, moveSpeed * Time.deltaTime);
-            }
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -69,5 +61,16 @@ public class MovingPlatform : MonoBehaviour
     {
         isActive = false;
         //nextPosition = pointA.position; // Comença movent-se cap al punt A
+    }
+
+    void OnDrawGizmos()
+    {
+        if (pointA != null && pointB != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(pointA.position, pointB.position);
+            Gizmos.DrawSphere(pointA.position, 0.1f);
+            Gizmos.DrawSphere(pointB.position, 0.1f);
+        }
     }
 }

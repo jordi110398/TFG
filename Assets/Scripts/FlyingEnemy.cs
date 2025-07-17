@@ -84,14 +84,23 @@ public class FlyingEnemy : EnemyController
 
         if (target != null)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+            Vector2 direction = (target.transform.position - transform.position).normalized;
+            float distance = speed * Time.deltaTime;
+            LayerMask wallMask = LayerMask.GetMask("Ground"); // Assegura't que les parets tenen la Layer "Wall"
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, distance, wallMask);
+            if (hit.collider == null)
+            {
+                rb.MovePosition(rb.position + direction * distance);
+            }
+            // Si hi ha paret, no es mou o pots fer que busqui una altra ruta
         }
     }
 
     private void ReturnStartingPoint()
     {
         // Moure l'enemic al punt d'inici
-        transform.position = Vector2.MoveTowards(transform.position, startingPoint.position, speed * Time.deltaTime);
+        rb.MovePosition(Vector2.MoveTowards(transform.position, startingPoint.position, speed * Time.deltaTime));
     }
 
     private void Flip()
