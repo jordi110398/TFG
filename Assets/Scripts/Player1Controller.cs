@@ -45,6 +45,8 @@ public class Player1Controller : MonoBehaviour
     private GameObject bow; // Prefab del arco
     public Transform arrowSpawnPoint; // Punt de sortida de la flecha
     public float arrowSpeed = 30f;
+    public float arrowCooldown = 0.5f; // temps entre tirs (en segons)
+    private float nextArrowTime = 0f;
     private LineRenderer lineRenderer; // Linia d'apuntar
     private bool isAttacking = false;
     // BOOMERANG
@@ -292,7 +294,7 @@ public class Player1Controller : MonoBehaviour
 
     public void OnChargedAttack(InputAction.CallbackContext ctx)
     {
-        if (ctx.started)
+        if (ctx.performed)
         {
             isChargedAttack = true; // Marquem que l’atac serà carregat
             Debug.Log("Atac carregat iniciat");
@@ -305,8 +307,8 @@ public class Player1Controller : MonoBehaviour
         }
         else if (ctx.canceled)
         {
-            // Quan deixa anar LT, es dispara l’atac (la lògica està a OnAttack)
-            isChargedAttack = true; // assegura que segueix sent true al moment de fer OnAttack
+            // Quan deixa anar R o LT, es dispara l’atac
+            //isChargedAttack = true; // assegura que segueix sent true al moment de fer OnAttack
             OnAttack(ctx);
 
             // Destrueix partícules si encara existeixen
@@ -339,6 +341,9 @@ public class Player1Controller : MonoBehaviour
         if (ctx.canceled && isCharging)
         {
             isCharging = false;
+
+            // Comprova el cooldown abans de l'animació!
+            if (Time.time < nextArrowTime) return;
 
             Animator bowAnimator = bow.GetComponent<Animator>();
             if (bowAnimator != null)
@@ -379,34 +384,35 @@ public class Player1Controller : MonoBehaviour
     }
     private void ShootArrow()
     {
+        if (Time.time < nextArrowTime) return; // Espera al cooldown
+
+        nextArrowTime = Time.time + arrowCooldown;
+
         if (arrowSpawnPoint == null || bow == null) return;
 
-        // Direcció cap al mouse
         Vector2 direction = GetAimDirection();
-
         if (direction.magnitude < 0.1f) return;
 
         int numArrows = isChargedAttack ? 3 : 1;
-        float spreadAngle = 15f; // graus de separació entre fletxes
+        float spreadAngle = 15f;
 
         for (int i = 0; i < numArrows; i++)
         {
             float angleOffset = 0f;
             if (numArrows > 1)
-                angleOffset = (i - 1) * spreadAngle; // -15, 0, +15 per 3 fletxes
+                angleOffset = (i - 1) * spreadAngle;
 
             Vector2 shotDir = Quaternion.Euler(0, 0, angleOffset) * direction;
 
-            GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowPrefab.transform.rotation);
+            GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, Quaternion.identity);
             Arrow arrowScript = arrow.GetComponent<Arrow>();
             int baseDamage = arrowScript.damage;
 
-            // Si el jugador té un buff de dany, augmenta el dany de la fletxa
-            arrowScript.isChargedArrow = isChargedAttack;
-            if (TryGetComponent(out BattleCry battleCry))
+            // Aplica el buff de BattleCry si està actiu
+            if (TryGetComponent(out BattleCry battleCry) && battleCry.IsBuffActive())
             {
                 arrowScript.damage = Mathf.RoundToInt(baseDamage * battleCry.GetDamageMultiplier());
-                if (battleCry.IsBuffActive() && arrowScript.auraPrefab != null)
+                if (arrowScript.auraPrefab != null)
                 {
                     Transform arrowTail = arrow.transform.Find("ArrowTail");
                     GameObject aura = Instantiate(arrowScript.auraPrefab, arrowTail);
@@ -418,6 +424,8 @@ public class Player1Controller : MonoBehaviour
                 arrowScript.damage = baseDamage;
             }
 
+            // Aplica el multiplicador de l'atac carregat (triple fletxa)
+            arrowScript.isChargedArrow = isChargedAttack;
             if (isChargedAttack)
             {
                 arrowScript.damage = Mathf.RoundToInt(arrowScript.damage * 1.5f);
@@ -427,6 +435,10 @@ public class Player1Controller : MonoBehaviour
             arrowRb.AddForce(shotDir.normalized * arrowSpeed, ForceMode2D.Impulse);
 
             float angle = Mathf.Atan2(shotDir.y, shotDir.x) * Mathf.Rad2Deg;
+            if (!isFacingRight)
+            {
+                angle += 180f; // Compensa el flip horitzontal
+            }
             arrow.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             Destroy(arrow, 5f);
@@ -435,8 +447,7 @@ public class Player1Controller : MonoBehaviour
         if (lineRenderer != null) lineRenderer.enabled = false;
         StartCoroutine(HideBowAfterDelay(0.3f));
 
-        isChargedAttack = false; // Reseteja després de disparar
-        // Destrueix l'efecte de partícules si encara existeix
+        isChargedAttack = false;
         if (chargedParticlesInstance != null)
         {
             Destroy(chargedParticlesInstance);
@@ -651,7 +662,7 @@ public class Player1Controller : MonoBehaviour
     }
     public bool HasHeldItem()
     {
-        return itemHolder != null;
+        return heldItem != null;
     }
     public void EquipItem(GameObject item)
     {

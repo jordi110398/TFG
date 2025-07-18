@@ -27,12 +27,15 @@ public class BossController : EnemyController
     private bool isPatrolling = false;
     private float jumpTimer = 0f;
     private bool isGrounded = false;
+    public Collider2D shieldCollider; 
+    public GameObject victoryCanvas;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
         base.Start();
         shieldParticles.SetActive(false);
+        shieldCollider.enabled = false; // Desactiva l'escut al principi
         currentPoint = pointB.transform;
         StartCoroutine(BossRoutine());
     }
@@ -44,7 +47,7 @@ public class BossController : EnemyController
             // --- Fase 1: Patrulla invulnerable ---
             isVulnerable = false;
             isPatrolling = true;
-            shieldParticles.SetActive(true);
+            StartCoroutine(ActivateShield(0.5f)); // Sincronitza escut amb delay
             anim.SetBool("isPatrolling", true);
             anim.SetBool("isAttacking", false);
 
@@ -67,6 +70,7 @@ public class BossController : EnemyController
             // --- Fase 3: Idle vulnerable (escut OFF, vulnerable, quiet) ---
             isVulnerable = true;
             shieldParticles.SetActive(false);
+            shieldCollider.enabled = false; // Desactiva l'escut
 
             yield return new WaitForSeconds(vulnerableDuration);
         }
@@ -160,5 +164,35 @@ public class BossController : EnemyController
             if (bossCol != null && projCol != null)
                 Physics2D.IgnoreCollision(projCol, bossCol);
         }
+    }
+
+    private void PushPlayersOutOfShield()
+    {
+        Collider2D shieldCol = shieldCollider;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(shieldCol.bounds.center, shieldCol.bounds.extents.x + 0.5f);
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Player1") || hit.CompareTag("Player2"))
+            {
+                Vector2 pushDir = (hit.transform.position - shieldCol.bounds.center).normalized;
+                hit.transform.position += (Vector3)pushDir * 1.5f; // Ajusta la distància
+            }
+        }
+    }
+
+    private IEnumerator ActivateShield(float delay)
+    {
+        shieldParticles.SetActive(true);
+        yield return new WaitForSeconds(delay);
+        PushPlayersOutOfShield();
+        shieldCollider.enabled = true;
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        if (victoryCanvas != null)
+            victoryCanvas.SetActive(true);
+        Time.timeScale = 0f; // Pausa el joc
     }
 }

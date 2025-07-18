@@ -371,6 +371,10 @@ public class Player2Controller : MonoBehaviour
             }
         }
     }
+    public bool HasHeldItem()
+    {
+        return heldItem != null;
+    }
 
     // DROP
     public void OnDrop(InputAction.CallbackContext ctx)
@@ -1052,7 +1056,7 @@ public class Player2Controller : MonoBehaviour
         // Mou els jugadors a la posició del checkpoint
         CheckpointManager.Instance.MovePlayersToCheckpoint();
     }
-        public void GoToLastCheckpoint()
+    public void GoToLastCheckpoint()
     {
         CheckpointManager.Instance.MovePlayersToCheckpoint();
     }

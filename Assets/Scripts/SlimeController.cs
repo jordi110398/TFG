@@ -11,6 +11,7 @@ public class SlimeController : EnemyController
 
     protected override void Start()
     {
+        base.Start();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         currentPoint = pointB.transform;
@@ -37,8 +38,8 @@ public class SlimeController : EnemyController
 
         anim.SetBool("isRunning", true);
 
-        Vector2 direction = (currentPoint.position - transform.position).normalized;
-        rb.linearVelocity = new Vector2(direction.x * speed, 0);
+        // Mou correctament el slime
+        transform.position = Vector2.MoveTowards(transform.position, currentPoint.position, speed * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f)
         {

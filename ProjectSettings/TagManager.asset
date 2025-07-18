@@ -21,6 +21,7 @@ TagManager:
   - Undefined
   - Arrow
   - PlayerAttack
+  - BossShield
   layers:
   - Default
   - TransparentFX
@@ -37,8 +38,8 @@ TagManager:
   - Objects
   - Gates
   - Traps
-  - 
-  - 
+  - EnemyZone
+  - Mechanisms
   - 
   - 
   - 

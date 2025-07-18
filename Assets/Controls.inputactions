@@ -110,7 +110,7 @@
                     "id": "02aecec5-a910-49c3-9b1b-57727b9a743d",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
@@ -247,6 +247,17 @@
                 },
                 {
                     "name": "",
+                    "id": "eb51a5ba-e893-4866-a58f-5228823fcbe6",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1c04ea5f-b012-41d1-a6f7-02e963b52893",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -285,6 +296,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b0154ca2-8782-476c-8795-f273e9fe7a5c",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -335,22 +357,22 @@
                 },
                 {
                     "name": "",
-                    "id": "6173fd19-8024-4f85-aea0-e0375f2ae761",
-                    "path": "<Mouse>/middleButton",
+                    "id": "eec586da-4576-4c1c-ac2f-3ecbcb774a69",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": ";Gamepad",
                     "action": "Secondary Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "eec586da-4576-4c1c-ac2f-3ecbcb774a69",
-                    "path": "<Gamepad>/rightShoulder",
+                    "id": "5424896b-a7e6-4a91-af32-05e1d9428680",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Keyboard&Mouse",
                     "action": "Secondary Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -445,8 +467,19 @@
                 },
                 {
                     "name": "",
+                    "id": "697ee33e-40e5-4437-ab2f-fd2ae2d1d83a",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Charged Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "cfe7e85e-0dc6-4ee8-99a7-69e86f2fd69a",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",

@@ -116,19 +116,11 @@ public class FlyingEnemy : EnemyController
     }
     protected override void Die()
     {
-        isDead = true;
-        if (anim != null)
-            anim.SetTrigger("isDead");
-        rb.linearVelocity = Vector2.zero;
-        rb.bodyType = RigidbodyType2D.Dynamic; // Permet caure per la gravetat
-        rb.gravityScale = 1f; // Gravetat activada
-        // Desactiva només el collider de trigger
-        foreach (var col in GetComponents<Collider2D>())
-        {
-            if (col.isTrigger)
-                col.enabled = false;
-        }
-        StartCoroutine(HandleDeath());
+        base.Die(); // <-- Això fa el drop i la resta de lògica de mort
+
+        // Si vols, afegeix aquí comportament extra pel ratpenat (caure, gravetat, etc.)
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.gravityScale = 1f;
     }
 
     private void OnDrawGizmos()

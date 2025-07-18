@@ -564,7 +564,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
-  swordDamage: 1
+  swordDamage: 5
   interactionRange: 1.01
   playerInput: {fileID: 0}
   radius: 5.76

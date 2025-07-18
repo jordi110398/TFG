@@ -85,5 +85,24 @@ public class Boomerang : MonoBehaviour
                 lever.Activate();
             }
         }
+        else if (collision.CompareTag("Projectile"))
+        {
+            Projectile projectile = collision.GetComponent<Projectile>();
+            if (projectile != null)
+            {
+                projectile.Detonate();
+            }
+        }
+        else if (collision.CompareTag("BossShield"))
+        {
+            BossShield shield = collision.GetComponent<BossShield>();
+            if (shield != null)
+            {
+                Debug.Log("Boomerang ha colpejat el escut del cap");
+                isReturning = true;
+                // Opcional: ajusta la posició d'inici de tornada
+                startPosition = transform.position;
+            }
+        }
     }
 }

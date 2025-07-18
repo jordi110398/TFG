@@ -543,6 +543,7 @@ MonoBehaviour:
   arrowPrefab: {fileID: 1296085268702960096, guid: 7ab0973aab1d5a14a949d5e5ad86a6c4, type: 3}
   arrowSpawnPoint: {fileID: 8574039675785539881, guid: fd00fd950e93c0346b15b3ea64d4dde7, type: 3}
   arrowSpeed: 15
+  arrowCooldown: 0.5
   weaponHand: {fileID: 6317070758998986767}
   interactionRange: 0.64
   playerInput: {fileID: 0}

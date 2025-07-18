@@ -4,7 +4,7 @@ using System.Collections;
 public class EnemyController : MonoBehaviour
 {
     [Header("Vida")]
-    public float maxHealth = 5f;
+    public float maxHealth = 10f;
     protected float currentHealth;
 
     [Header("Dany")]
@@ -51,8 +51,10 @@ public class EnemyController : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
+        //Debug.Log($"OnTriggerStay2D: {collision.gameObject.name}");
         if ((collision.CompareTag("Player1") || collision.CompareTag("Player2")) && Time.time >= nextDamageTime)
         {
+            Debug.Log("Col·lisió amb jugador detectada");
             nextDamageTime = Time.time + damageCooldown;
 
             Player1Controller playerController1 = collision.GetComponent<Player1Controller>();
@@ -73,8 +75,9 @@ public class EnemyController : MonoBehaviour
                     isBlocked = false;
                 }
 
-                if (collision.CompareTag("Player1") && playerController1 != null)
+                if (collision.CompareTag("Player1"))
                 {
+                    Debug.Log("Player1 detectat");
                     if (!playerController1.IsInvincible())
                     {
                         playerManager.GetComponent<HealthSystem>().TakeDamage("Player1", damageAmount);
@@ -99,6 +102,10 @@ public class EnemyController : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                Debug.LogWarning("PlayerManager no assignat a EnemyController!");
+            }
         }
     }
 
@@ -119,6 +126,8 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(PlayDamageFlash());
         StartCoroutine(PlayDamagePulse());
         Debug.Log($"{gameObject.name} ha rebut mal.");
+        Debug.Log($"Dany: {amount}");
+        Debug.Log($"Vida restant: {currentHealth}");
 
         if (currentHealth <= 0)
         {

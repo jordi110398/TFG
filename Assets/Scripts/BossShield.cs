@@ -26,6 +26,10 @@ public class BossShield : MonoBehaviour
                 rb.AddForce(knockDir * 1f, ForceMode2D.Impulse);
             }
         }
+        if (other.CompareTag("Boomerang"))
+        {
+            Debug.Log("El Boomerang ha colpejat l'escut del Boss!");
+        }
     }
     public void TryBreakShield(GameObject attacker)
     {
@@ -39,7 +43,7 @@ public class BossShield : MonoBehaviour
             Debug.Log("Player1 ha trencat l'escut del Boss amb BattleCry!");
             boss.shieldParticles.SetActive(false);
             boss.isVulnerable = true;
-            // Efectes visuals/so aquí
+            // Visual FX / SO
         }
     }
 }

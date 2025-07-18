@@ -24,6 +24,19 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Player2"))
         {
+            // Comprova si Player2 està bloquejant
+            if (collision.gameObject.CompareTag("Player2"))
+            {
+                var player2 = collision.gameObject.GetComponent<Player2Controller>();
+                if (player2 != null && player2.IsBlocking())
+                {
+                    // Opcional: efecte de bloqueig
+                    player2.PlayBlockingFlash();
+                    Detonate();
+                    return;
+                }
+            }
+
             // Dany
             GameObject playerManager = GameObject.FindWithTag("PlayerManager");
             if (playerManager != null)
@@ -41,10 +54,13 @@ public class Projectile : MonoBehaviour
                 playerRb.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse);
             }
         }
+        Detonate();
+    }
 
+    public void Detonate()
+    {
         if (explosionPrefab != null)
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-
         Destroy(gameObject);
     }
 }

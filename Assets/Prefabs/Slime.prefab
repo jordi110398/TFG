@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5484037622899078559}
   - component: {fileID: 1182876330165156702}
   - component: {fileID: 7981725221309451792}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -80,8 +80,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1280091177
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -7282886668606283007, guid: 618cef83853b8e445b7426b35e13c675, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -128,15 +128,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf94ebc27dc143488a6b63ca853db87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  damageAmount: 1
+  maxHealth: 8
+  damageAmount: 2
   damageCooldown: 1
-  knockbackForce: 90
+  knockbackForce: 10
   spriteRenderer: {fileID: 8411918634179952750}
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashColor: {r: 1, g: 0, b: 0.08701134, a: 1}
   flashDuration: 0.1
   deathParticlesPrefab: {fileID: 4715799045613194358, guid: 47e3cc10e0062f040887b6272853ec82, type: 3}
   playerManager: {fileID: 0}
+  dropPrefabs: []
+  dropPoint: {fileID: 0}
   pointA: {fileID: 0}
   pointB: {fileID: 0}
   speed: 2
@@ -148,7 +150,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3108120296703899724}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -308,7 +310,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4753154052316658796}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +380,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 0.7971698, g: 1, b: 0.8133962, a: 1}
+  m_Color: {r: 0.79607844, g: 1, b: 0.9820756, a: 1}
   m_Intensity: 0.9
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0

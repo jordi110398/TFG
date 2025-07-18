@@ -6,9 +6,9 @@ public class EnemyZoneTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player1") || other.CompareTag("Player2"))
+        if (other.CompareTag("Player1") && other.CompareTag("Player2"))
         {
-            Debug.Log("Jugador ha entrat a la zona d'enemic!");
+            Debug.Log("Jugadors han entrat a la zona d'enemic!");
             porta.CloseDoor(); // Tanca la porta quan entra el jugador
         }
     }

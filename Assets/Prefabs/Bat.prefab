@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7ab2797111a6546ab22a245f058de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 10
   damageAmount: 1
   damageCooldown: 1
   knockbackForce: 60
@@ -216,7 +216,9 @@ MonoBehaviour:
   flashDuration: 0.1
   deathParticlesPrefab: {fileID: 4715799045613194358, guid: 47e3cc10e0062f040887b6272853ec82, type: 3}
   playerManager: {fileID: 0}
-  speed: 3
+  dropPrefabs: []
+  dropPoint: {fileID: 0}
+  speed: 5
   chase: 0
   startingPoint: {fileID: 0}
   chaseZone: {fileID: 1924057694692889139}

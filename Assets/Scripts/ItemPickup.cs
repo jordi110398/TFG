@@ -43,7 +43,19 @@ public class ItemPickup : MonoBehaviour
     public void TryPickUp(GameObject player)
     {
         Debug.Log("TryPickUp cridat per: " + player.name);
-        //if (player != playerNearby) return;
+
+        // Comprova si el jugador ja té un item equipat
+        var p1 = player.GetComponent<Player1Controller>();
+        var p2 = player.GetComponent<Player2Controller>();
+        bool hasItem = false;
+        if (p1 != null) hasItem = p1.HasHeldItem();
+        if (p2 != null) hasItem = p2.HasHeldItem();
+
+        if (itemConsumable && hasItem)
+        {
+            Debug.LogWarning("El jugador ja té un objecte consumible equipat!");
+            return;
+        }
 
         // POCIÓ i CLAU
         if (itemConsumable)
