@@ -121,9 +121,14 @@ public class Player2Controller : MonoBehaviour
     // PARTICULES MORT
     public GameObject deathParticlesPrefab;
     public bool isDead = false;
+    // SO
+    private AudioSource audioSource;
 
     private void Awake()
     {
+        // SO
+        audioSource = GetComponent<AudioSource>();
+        // ESCALA, FISIQUES, SPRITE
         originalScale = transform.localScale; // Guarda l'escala original del jugador
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -131,6 +136,7 @@ public class Player2Controller : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         // MENU PAUSA
         playerInput.actions.FindActionMap("UI").Enable();
+        // ESPASA I ESCUT
         Transform sword = transform.Find("WeaponHand/SwordPivot/Sword"); // desactivar el collider de l'espasa ja equipada
         hitPoint = transform.Find("HitPoint");
         stabPoint = transform.Find("StabPoint");
@@ -143,6 +149,7 @@ public class Player2Controller : MonoBehaviour
             if (col != null)
                 col.enabled = false;
         }
+
         // Assigna dinàmicament el PlayerManager
         if (playerManager == null)
         {

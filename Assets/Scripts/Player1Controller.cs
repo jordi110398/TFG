@@ -92,14 +92,21 @@ public class Player1Controller : MonoBehaviour
     // PARTICULES MORT
     public GameObject deathParticlesPrefab;
 
+    // AUDIO
+    private AudioSource audioSource;
+
     void Awake()
     {
+        // SO
+        audioSource = GetComponent<AudioSource>();
+        // ESCALA, FISIQUES, SPRITE
         originalScale = transform.localScale;
         playerInput = GetComponent<PlayerInput>();
-        // Assegurem que "Menu" estigui actiu sempre
+        // PAUSA
         playerInput.actions.FindActionMap("UI").Enable();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+
         // Assigna dinàmicament el PlayerManager
         if (playerManager == null)
         {
@@ -153,6 +160,17 @@ public class Player1Controller : MonoBehaviour
                 rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpPower) + platformVelocity;
                 jumpsRemaining--;
                 animator.SetBool("Jumping", true);
+                // So de salt normal o doble salt
+                if (jumpsRemaining == maxJumps - 1)
+                {
+                    // Primer salt
+                    audioSource.PlayOneShot(AudioManager.Instance.player1Jump);
+                }
+                else if (jumpsRemaining == maxJumps - 2)
+                {
+                    // Segon salt
+                    audioSource.PlayOneShot(AudioManager.Instance.player1DoubleJump);
+                }
             }
             else if (ctx.canceled)
             {
@@ -453,6 +471,8 @@ public class Player1Controller : MonoBehaviour
             Destroy(chargedParticlesInstance);
             chargedParticlesInstance = null;
         }
+        // SO D'ATAC
+        audioSource.PlayOneShot(AudioManager.Instance.player1Attack);
     }
 
     // Interacció

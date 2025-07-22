@@ -11791,7 +11791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2927352019101748620, guid: e66545983874f9e42be488da94e675e5, type: 3}
       propertyPath: speed
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2927352019101748620, guid: e66545983874f9e42be488da94e675e5, type: 3}
       propertyPath: maxHealth
@@ -13636,8 +13636,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d81ed421e72c544e8cd5ab905e48db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player1Jump: {fileID: 8300000, guid: 103b88748c18b6549863d2f7691c911f, type: 3}
+  player1DoubleJump: {fileID: 8300000, guid: 1d56d1645543ae0499fa114f8b72cd5f, type: 3}
+  player1Attack: {fileID: 0}
+  player1Hit: {fileID: 0}
+  player2Jump: {fileID: 0}
+  player2DoubleJump: {fileID: 0}
+  player2Attack: {fileID: 0}
+  player2Block: {fileID: 0}
+  uiClick: {fileID: 0}
+  uiPause: {fileID: 0}
+  checkpointSound: {fileID: 0}
+  gameOverSound: {fileID: 0}
+  trapSound: {fileID: 0}
+  leverSound: {fileID: 0}
+  doorSound: {fileID: 0}
+  pressurePlateSound: {fileID: 0}
   musicSource: {fileID: 0}
-  sfxSource: {fileID: 0}
 --- !u!1 &836687579
 GameObject:
   m_ObjectHideFlags: 0
@@ -15153,7 +15168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2927352019101748620, guid: e66545983874f9e42be488da94e675e5, type: 3}
       propertyPath: speed
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2927352019101748620, guid: e66545983874f9e42be488da94e675e5, type: 3}
       propertyPath: maxHealth
