@@ -10,10 +10,14 @@ public class MovingDoor : MonoBehaviour
 
     public bool startOpen = true; // Pots posar-ho a false per començar tancada
 
+    // SO
+    public AudioSource audioSource;
+
     void Start()
     {
         closedPosition = transform.position;
         openPosition = closedPosition + Vector3.up * moveDistance;
+        audioSource = GetComponent<AudioSource>();
 
         if (startOpen)
         {
@@ -29,13 +33,35 @@ public class MovingDoor : MonoBehaviour
 
     void Update()
     {
+        bool isMoving = false;
+
         if (isOpening)
         {
-            transform.position = Vector3.MoveTowards(transform.position, openPosition, moveSpeed * Time.deltaTime);
+            if (transform.position != openPosition)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, openPosition, moveSpeed * Time.deltaTime);
+                isMoving = true;
+            }
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, closedPosition, moveSpeed * Time.deltaTime);
+            if (transform.position != closedPosition)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, closedPosition, moveSpeed * Time.deltaTime);
+                isMoving = true;
+            }
+        }
+
+        // So de porta en moviment
+        if (isMoving)
+        {
+            if (!audioSource.isPlaying && AudioManager.Instance.doorSound != null)
+                audioSource.PlayOneShot(AudioManager.Instance.doorSound);
+        }
+        else
+        {
+            if (audioSource.isPlaying)
+                audioSource.Stop();
         }
     }
 

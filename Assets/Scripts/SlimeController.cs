@@ -8,6 +8,7 @@ public class SlimeController : EnemyController
     public GameObject pointB;
     private Transform currentPoint;
     public float speed;
+    private Coroutine walkSoundCoroutine;
 
     protected override void Start()
     {
@@ -28,15 +29,25 @@ public class SlimeController : EnemyController
 
     private void Update()
     {
-        if(isDead) return;
+        if (isDead) return;
         if (isBlocked || isKnockbacked)
         {
             rb.linearVelocity = Vector2.zero;
             anim.SetBool("isRunning", false);
+            if (walkSoundCoroutine != null)
+            {
+                StopCoroutine(walkSoundCoroutine);
+                walkSoundCoroutine = null;
+            }
             return;
+
         }
 
         anim.SetBool("isRunning", true);
+
+        // Inicia la coroutine si no està en marxa
+        if (walkSoundCoroutine == null)
+            walkSoundCoroutine = StartCoroutine(PlayWalkSound());
 
         // Mou correctament el slime
         transform.position = Vector2.MoveTowards(transform.position, currentPoint.position, speed * Time.deltaTime);
@@ -50,11 +61,27 @@ public class SlimeController : EnemyController
         if (spriteRenderer != null)
             spriteRenderer.flipX = currentPoint == pointA.transform;
     }
+    private IEnumerator PlayWalkSound()
+    {
+        while (true)
+        {
+            audioSource.PlayOneShot(AudioManager.Instance.enemyJump);
+            yield return new WaitForSeconds(0.6f); // Ajusta l'interval al teu gust
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(pointA.transform.position, 0.5f);
         Gizmos.DrawWireSphere(pointB.transform.position, 0.5f);
         Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
+    }
+
+    public override void TakeDamage(float amount, Transform attacker)
+    {
+        base.TakeDamage(amount, attacker);
+
+        if (audioSource != null && AudioManager.Instance.enemyHurt != null)
+            audioSource.PlayOneShot(AudioManager.Instance.enemyHurt);
     }
 
     protected override void Die()

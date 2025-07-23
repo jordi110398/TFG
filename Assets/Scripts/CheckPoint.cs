@@ -19,6 +19,9 @@ public class CheckPoint : MonoBehaviour
                 Debug.Log("Player2 Checkpoint actualitzat");
                 CheckpointManager.Instance.SetCheckpoint(transform.position);
             }
+
+            // So de checkpoint
+            AudioManager.Instance.sfxSource.PlayOneShot(AudioManager.Instance.checkpointSound);
         }
     }
 }

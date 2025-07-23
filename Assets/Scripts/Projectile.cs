@@ -61,6 +61,8 @@ public class Projectile : MonoBehaviour
     {
         if (explosionPrefab != null)
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            // So d'explosió
+            AudioManager.Instance.sfxSource.PlayOneShot(AudioManager.Instance.explosionSound, 0.2f);
         Destroy(gameObject);
     }
 }

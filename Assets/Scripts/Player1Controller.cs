@@ -93,7 +93,8 @@ public class Player1Controller : MonoBehaviour
     public GameObject deathParticlesPrefab;
 
     // AUDIO
-    private AudioSource audioSource;
+    public AudioSource audioSource;
+    private Coroutine walkSoundCoroutine;
 
     void Awake()
     {
@@ -129,6 +130,19 @@ public class Player1Controller : MonoBehaviour
         Flip();
         HandleBowRotation();
 
+        // SO DE CAMINAR
+        bool isMoving = Mathf.Abs(horizontalMovement) > 0.1f && Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
+        if (isMoving && walkSoundCoroutine == null)
+        {
+            walkSoundCoroutine = StartCoroutine(PlayWalkSound());
+        }
+        else if (!isMoving && walkSoundCoroutine != null)
+        {
+            StopCoroutine(walkSoundCoroutine);
+            walkSoundCoroutine = null;
+            //audioSource.Stop();
+        }
+
     }
 
     private void FixedUpdate()
@@ -149,6 +163,19 @@ public class Player1Controller : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(horizontalMovement));
         animator.SetBool("Running", true);
         isRunning = true;
+    }
+
+    private IEnumerator PlayWalkSound()
+    {
+        while (true)
+        {
+            float speed = Mathf.Abs(horizontalMovement);
+            float interval = Mathf.Lerp(0.4f, 0.15f, speed / this.speed); // Ajusta segons la velocitat
+
+            audioSource.PlayOneShot(AudioManager.Instance.player1Walk);
+
+            yield return new WaitForSeconds(interval);
+        }
     }
 
     public void OnJump(InputAction.CallbackContext ctx)
@@ -217,6 +244,9 @@ public class Player1Controller : MonoBehaviour
         canDash = false;
         isDashing = true;
         animator.SetBool("Dashing", true);
+
+        // SO DE DASH
+        audioSource.PlayOneShot(AudioManager.Instance.player1Dash);
 
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
@@ -711,6 +741,7 @@ public class Player1Controller : MonoBehaviour
             Debug.Log("Utilitzant poció: " + heldItem.name);
             // Aplica curació immediatament
             playerManager.GetComponent<HealthSystem>().Heal("Player1", 20);
+            audioSource.PlayOneShot(AudioManager.Instance.player1Heal);
 
             // Activa l'FX si existeix
             Transform fx = heldItem.transform.Find("HealingFX");
@@ -789,6 +820,9 @@ public class Player1Controller : MonoBehaviour
             if (col != null) col.enabled = true;
             heldItem = null;
         }
+
+        // Atura tots els sons
+        audioSource.Stop();
     }
 
     public void ReviveAtCheckpoint()

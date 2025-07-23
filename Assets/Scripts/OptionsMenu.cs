@@ -21,6 +21,12 @@ public class OptionsMenu : MonoBehaviour
 
     public void Start()
     {
+        if (musicToggle != null)
+        {
+            // Sincronitza el toggle amb l'estat actual
+            musicToggle.isOn = AudioManager.Instance.IsMusicMuted();
+            musicToggle.onValueChanged.AddListener(OnAudioToggleChanged);
+        }
     }
     public void OnClick()
     {
@@ -33,5 +39,10 @@ public class OptionsMenu : MonoBehaviour
     {
         if (controlsPanel != null)
             controlsPanel.SetActive(true);
+    }
+    public void OnAudioToggleChanged(bool mute)
+    {
+        AudioManager.Instance.MuteMusic(mute);
+        AudioManager.Instance.MuteSFX(mute);
     }
 }

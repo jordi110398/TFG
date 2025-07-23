@@ -55,7 +55,10 @@ public class HealthSystem : MonoBehaviour
             player1Health -= amount;
             player1Health = Mathf.Max(player1Health, 0); // Evitar valors negatius
             player1Hearts.TakeDamage(amount); // Actualitzar la barra de vida
-                                              // Camera shake
+
+            // So de dany Player1
+            playerController.audioSource.PlayOneShot(AudioManager.Instance.player1Hurt);
+            // Camera shake
             if (adaptiveCamera != null)
             {
                 adaptiveCamera.ShakeCamera(0.15f, 0.3f); // Iniciar el shake de la càmera
@@ -76,6 +79,7 @@ public class HealthSystem : MonoBehaviour
             player2Health -= amount;
             player2Health = Mathf.Max(player2Health, 0); // Evitar valors negatius
             player2Hearts.TakeDamage(amount); // Actualitzar la barra de vida
+
             // Camera shake P2
             if (adaptiveCamera != null)
             {
@@ -85,6 +89,8 @@ public class HealthSystem : MonoBehaviour
             // --- Flash de dany i pulsació ---
             if (player2 != null && player2.TryGetComponent(out Player2Controller p2Controller))
             {
+                // So de dany Player2
+                p2Controller.audioSource.PlayOneShot(AudioManager.Instance.player2Hurt);
                 p2Controller.StartCoroutine(p2Controller.PlayDamageFlash());
                 p2Controller.StartCoroutine(p2Controller.PlayDamagePulse());
             }

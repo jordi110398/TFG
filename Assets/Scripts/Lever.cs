@@ -32,12 +32,14 @@ public class Lever : MonoBehaviour
         {
             Debug.Log("Palanca activada");
             //GetComponent<SpriteRenderer>().color = Color.green;
+            AudioManager.Instance.sfxSource.PlayOneShot(AudioManager.Instance.leverSound);
             OnActivated.Invoke();
         }
         else
         {
             Debug.Log("Palanca desactivada");
             //GetComponent<SpriteRenderer>().color = Color.red;
+            AudioManager.Instance.sfxSource.PlayOneShot(AudioManager.Instance.leverSound);
             OnDeactivated.Invoke();
         }
         

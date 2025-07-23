@@ -39,11 +39,15 @@ public class EnemyController : MonoBehaviour
     public GameObject[] dropPrefabs; // Assigna els objectes a dropejar a l'Inspector
     public Transform dropPoint; // Opcional: punt concret per fer el drop
 
+    // SO
+    public AudioSource audioSource;
+
     protected virtual void Start()
     {
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
@@ -66,7 +70,11 @@ public class EnemyController : MonoBehaviour
                 {
                     isBlocked = true;
                     anim.SetBool("isRunning", false);
-                    anim.SetBool("isAttacking", false);
+                    anim.SetBool("isAttacking", false); 
+
+                    // SO DE BLOQUEIG IMPACTE
+                    playerController2.audioSource.PlayOneShot(AudioManager.Instance.player2Block);
+
                     StartCoroutine(playerController2.PlayBlockingFlash());
                     return;
                 }

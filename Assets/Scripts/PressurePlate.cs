@@ -28,7 +28,10 @@ public class PressurePlate : MonoBehaviour
             moveBack = false;
             // Només activa si és el primer objecte
             if (objectsOnPlate == 1)
+            {
+                AudioManager.Instance.sfxSource.PlayOneShot(AudioManager.Instance.pressurePlateSound);
                 OnActivated.Invoke();
+            }
         }
     }
 
@@ -40,6 +43,7 @@ public class PressurePlate : MonoBehaviour
             if (objectsOnPlate == 0)
             {
                 moveBack = true;
+                AudioManager.Instance.sfxSource.PlayOneShot(AudioManager.Instance.pressurePlateSound, 0.5f);
                 OnDeactivated.Invoke();
             }
         }

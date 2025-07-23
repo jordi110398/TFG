@@ -14,6 +14,10 @@ public class Arrow : MonoBehaviour
     public SpriteRenderer sr;
     public GameObject auraPrefab; // Prefab per l'aura amb el buff
 
+    // SO D'IMPACTE
+    public AudioClip impactSound;
+    private AudioSource audioSource;
+
     public bool isChargedArrow = false; // Indica si la fletxa és carregada
     void Start()
     {
@@ -21,6 +25,7 @@ public class Arrow : MonoBehaviour
         col = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
         originalScale = transform.localScale;
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -100,6 +105,8 @@ public class Arrow : MonoBehaviour
             FlashWhite();
             PulseEffect();
 
+            audioSource.PlayOneShot(impactSound);
+
             // Comença vibració i després es destrueix
             StartCoroutine(ImpactAndDestroy());
         }
@@ -172,6 +179,8 @@ public class Arrow : MonoBehaviour
     IEnumerator ImpactAndDestroy()
     {
         yield return VibrateEffect(0.1f, 0.1f);
+        float waitTime = Mathf.Max(impactSound.length, 0.1f);
+        yield return new WaitForSeconds(waitTime);
         Destroy(gameObject);
     }
 

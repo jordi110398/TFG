@@ -122,7 +122,8 @@ public class Player2Controller : MonoBehaviour
     public GameObject deathParticlesPrefab;
     public bool isDead = false;
     // SO
-    private AudioSource audioSource;
+    public AudioSource audioSource;
+    private Coroutine walkSoundCoroutine;
 
     private void Awake()
     {
@@ -185,6 +186,19 @@ public class Player2Controller : MonoBehaviour
         GroundCheck();
         Flip();
 
+        // SO DE CAMINAR
+        bool isMoving = Mathf.Abs(horizontalMovement) > 0.1f && isGrounded;
+        if (isMoving && walkSoundCoroutine == null)
+        {
+            walkSoundCoroutine = StartCoroutine(PlayWalkSound());
+        }
+        else if (!isMoving && walkSoundCoroutine != null)
+        {
+            StopCoroutine(walkSoundCoroutine);
+            walkSoundCoroutine = null;
+            //audioSource.Stop();
+        }
+
         // Si estàs bloquejant, el jugador no es pot moure
         if (!isBlocking)
         {
@@ -228,6 +242,19 @@ public class Player2Controller : MonoBehaviour
         isRunning = true;
     }
 
+    private IEnumerator PlayWalkSound()
+    {
+        while (true)
+        {
+            float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(horizontalMovement) / speed);
+            float interval = Mathf.Lerp(0.6f, 0.15f, normalizedSpeed); // 0.4s lent, 0.15s ràpid
+
+            audioSource.PlayOneShot(AudioManager.Instance.player2Walk);
+
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
     public void OnJump(InputAction.CallbackContext ctx)
     {
         // Bloqueja el salt si està bloquejant
@@ -240,7 +267,16 @@ public class Player2Controller : MonoBehaviour
                 rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpPower);
                 jumpsRemaining--;
                 animator.SetBool("Jumping", true);
-                Debug.Log("player2 esta saltant!!!!");
+
+                // So de salt normal o doble salt
+                if (jumpsRemaining == maxJumps - 1)
+                {
+                    audioSource.PlayOneShot(AudioManager.Instance.player2Jump);
+                }
+                else if (jumpsRemaining == maxJumps - 2)
+                {
+                    audioSource.PlayOneShot(AudioManager.Instance.player2DoubleJump);
+                }
             }
             else if (ctx.canceled)
             {
@@ -297,6 +333,10 @@ public class Player2Controller : MonoBehaviour
         canDash = false;
         isDashing = true;
         animator.SetBool("Dashing", true);
+
+        // SO DE DASH
+        audioSource.PlayOneShot(AudioManager.Instance.player2Dash);
+
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
         rb.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
@@ -557,6 +597,9 @@ public class Player2Controller : MonoBehaviour
     {
         isChargingDash = true; // Bloqueja controls
 
+        // SO DEL CHARGED ATTACK
+        audioSource.PlayOneShot(AudioManager.Instance.player2ChargedAttack);
+
         // Dash automàtic
         float dashForce = 30f; // Ajusta segons el teu joc
         rb.linearVelocity = Vector2.zero;
@@ -615,6 +658,9 @@ public class Player2Controller : MonoBehaviour
         sword.SetActive(true);
         equippedSwordTrail.enabled = true;
         animator.SetTrigger("Attack");
+
+        // SO D'ATAC
+        audioSource.PlayOneShot(AudioManager.Instance.player2Attack);
 
         // Esperar un petit moment per sincronitzar amb l'animació (opcional)
         yield return new WaitForSeconds(0.1f);
@@ -852,7 +898,10 @@ public class Player2Controller : MonoBehaviour
     {
         canUseCry = false;
 
-        // Reproduir animació/soroll/efectes visuals aquí
+        // SO DE BATTLECRY
+        audioSource.PlayOneShot(AudioManager.Instance.player2BattleCry);
+
+        // Reproduir VFXs
         Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
         GameObject battleCryPrefab = Instantiate(battleCryEffectPrefab, transform.position, rotation);
         battleCryPrefab.transform.SetParent(transform); // es mou amb el jugador
@@ -970,6 +1019,7 @@ public class Player2Controller : MonoBehaviour
             Debug.Log("Utilitzant poció: " + heldItem.name);
             // Aplica curació immediatament
             playerManager.GetComponent<HealthSystem>().Heal("Player2", 20);
+            audioSource.PlayOneShot(AudioManager.Instance.player2Heal);
 
             // Activa l'FX si existeix
             Transform fx = heldItem.transform.Find("HealingFX");
@@ -1054,6 +1104,9 @@ public class Player2Controller : MonoBehaviour
             if (col != null) col.enabled = true;
             heldItem = null;
         }
+
+        // Atura tots els sons
+        audioSource.Stop();
     }
     public void ReviveAtCheckpoint()
     {

@@ -13,6 +13,15 @@ public class Boomerang : MonoBehaviour
     private bool isEquipped = false;
     private bool isReturning = false;
 
+    // SO
+    public AudioSource audioSource;
+
+    void Start()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         if (isEquipped && isFlying)
@@ -45,7 +54,14 @@ public class Boomerang : MonoBehaviour
                 {
                     isFlying = false;
                     isReturning = false;
+                    
+                    // Atura el so de vol
+                    if (audioSource != null && audioSource.isPlaying)
+                        audioSource.Stop();
+                    
                     gameObject.SetActive(false);
+
+                    
                 }
             }
         }
@@ -58,6 +74,14 @@ public class Boomerang : MonoBehaviour
         playerTransform = player;
         isFlying = true;
         Debug.Log("Boomerang llançat en direcció: " + launchDirection);
+
+        // So de vol en loop
+        if (audioSource != null && AudioManager.Instance.player1Boomerang != null)
+        {
+            audioSource.clip = AudioManager.Instance.player1Boomerang;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
     }
 
     public void SetEquipped(bool equipped) { isEquipped = equipped; }

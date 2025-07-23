@@ -77,7 +77,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
-    
+
 
     public void OpenOptions()
     {
@@ -92,6 +92,11 @@ public class PauseManager : MonoBehaviour
     {
         optionsPanel.SetActive(false);
         pauseUI.SetActive(true);
+
+        // Desactiva el panel de controls si està actiu
+        var optionsMenu = optionsPanel.GetComponent<OptionsMenu>();
+        if (optionsMenu != null && optionsMenu.controlsPanel != null)
+            optionsMenu.controlsPanel.SetActive(false);
 
         if (firstSelectedButton != null)
             EventSystem.current.SetSelectedGameObject(firstSelectedButton);

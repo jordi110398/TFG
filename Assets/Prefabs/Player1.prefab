@@ -233,7 +233,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1280091177
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 8793639957104055765, guid: b8bff97a752e7914db9a1e39cf0a2c92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -557,6 +557,7 @@ MonoBehaviour:
   itemHolder: {fileID: 5214028181405546857}
   platformVelocity: {x: 0, y: 0}
   deathParticlesPrefab: {fileID: 6883699538981596230, guid: 24fb36eec8b17584db4db43371a2bc88, type: 3}
+  audioSource: {fileID: 0}
 --- !u!50 &8016722745561240407
 Rigidbody2D:
   serializedVersion: 5
@@ -672,9 +673,9 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1280091177
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
@@ -804,7 +805,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -839,7 +840,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.698
       inSlope: 0
       outSlope: 0
       tangentMode: 0

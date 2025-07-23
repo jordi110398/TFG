@@ -18,6 +18,8 @@ public class GameOverMenu : MonoBehaviour
     {
         menuUI.SetActive(true);
         Time.timeScale = 0f; // Pausa el joc
+        // So de game over
+        AudioManager.Instance.sfxSource.PlayOneShot(AudioManager.Instance.gameOverSound);
         // Selecciona el botó per defecte
         if (firstSelectedButton != null)
             EventSystem.current.SetSelectedGameObject(firstSelectedButton);

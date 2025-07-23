@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using System.Collections;
 
 
 
@@ -15,13 +16,27 @@ public class FlyingEnemy : EnemyController
     public bool player1InZone = false;
     public bool player2InZone = false;
     public GameObject target = null;
+    private Coroutine flySoundCoroutine;
 
 
+    protected override void Start()
+    {
+        base.Start();
+        if (startingPoint == null)
+        {
+            startingPoint = transform; // Si no es defineix, utilitza la posició actual
+        }
+        rb.bodyType = RigidbodyType2D.Kinematic; // Perquè pugui ser controlat manualment
+        rb.gravityScale = 0f; // Perquè no caigui
+
+        // SO
+        flySoundCoroutine = StartCoroutine(PlayFlySound());
+    }
     // Update is called once per frame
     void Update()
     {
         if (isDead) return;
-        
+
         if (isBlocked || isKnockbacked)
         {
             rb.linearVelocity = Vector2.zero;
@@ -55,6 +70,15 @@ public class FlyingEnemy : EnemyController
         if (target != null)
             Flip();
 
+    }
+    private IEnumerator PlayFlySound()
+    {
+        while (true)
+        {
+            float interval = chase ? 0.2f : 0.4f; // Més ràpid si persegueix
+            audioSource.PlayOneShot(AudioManager.Instance.enemyFly);
+            yield return new WaitForSeconds(interval);
+        }
     }
 
     private void Chase()
@@ -113,6 +137,13 @@ public class FlyingEnemy : EnemyController
         {
             transform.rotation = Quaternion.Euler(0, 180, 0); // Orientació invertida
         }
+    }
+    public override void TakeDamage(float amount, Transform attacker)
+    {
+        base.TakeDamage(amount, attacker);
+
+        if (audioSource != null && AudioManager.Instance.enemyFlyHurt != null)
+            audioSource.PlayOneShot(AudioManager.Instance.enemyFlyHurt);
     }
     protected override void Die()
     {
