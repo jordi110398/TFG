@@ -14,7 +14,13 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Time.timeScale = 1f; // Assegura que el joc no està pausat
+        // Destrueix la música de fons si existeix
+        GameObject bgMusic = GameObject.Find("BackgroundMusicMenu");
+        if (bgMusic != null)
+            Destroy(bgMusic);
+        //Destroy(gameObject); // Destrueix el MainMenu abans de carregar la nova escena
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void Exit()

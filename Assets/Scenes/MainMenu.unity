@@ -501,7 +501,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: a5980f2289b3db9449851e1d47dc4c63, type: 3}
   m_Resource: {fileID: 8300000, guid: a5980f2289b3db9449851e1d47dc4c63, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.777
+  m_Volume: 0.522
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -619,15 +619,20 @@ MonoBehaviour:
   player1Boomerang: {fileID: 0}
   player1Hurt: {fileID: 0}
   player1Walk: {fileID: 0}
+  player1Heal: {fileID: 0}
   player2Jump: {fileID: 0}
+  player2Dash: {fileID: 0}
   player2DoubleJump: {fileID: 0}
   player2Attack: {fileID: 0}
   player2ChargedAttack: {fileID: 0}
   player2Block: {fileID: 0}
   player2Hurt: {fileID: 0}
   player2Walk: {fileID: 0}
+  player2Heal: {fileID: 0}
+  player2BattleCry: {fileID: 0}
   enemyFly: {fileID: 0}
-  enemyAttack: {fileID: 0}
+  enemyFlyHurt: {fileID: 0}
+  enemyJump: {fileID: 0}
   enemyHurt: {fileID: 0}
   enemyWalk: {fileID: 0}
   uiClick: {fileID: 8300000, guid: 3eb2340ddd7c9fa44a5a188e4a8cb825, type: 3}
@@ -638,6 +643,8 @@ MonoBehaviour:
   leverSound: {fileID: 0}
   doorSound: {fileID: 0}
   pressurePlateSound: {fileID: 0}
+  explosionSound: {fileID: 0}
+  sfxSource: {fileID: 0}
   musicSource: {fileID: 0}
 --- !u!1 &649128735
 GameObject:
@@ -1899,6 +1906,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 861240670810038057, guid: ade76cb0e7e086a45bd31fbd5bb02e95, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4827428267085760272, guid: ade76cb0e7e086a45bd31fbd5bb02e95, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4827428267085760272, guid: ade76cb0e7e086a45bd31fbd5bb02e95, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6138926934766249611, guid: ade76cb0e7e086a45bd31fbd5bb02e95, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1981,7 +2000,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7385614620947693223, guid: ade76cb0e7e086a45bd31fbd5bb02e95, type: 3}
       propertyPath: m_Color.a
-      value: 0.4392157
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385614620947693223, guid: ade76cb0e7e086a45bd31fbd5bb02e95, type: 3}
+      propertyPath: m_Color.b
+      value: 0.051363677
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385614620947693223, guid: ade76cb0e7e086a45bd31fbd5bb02e95, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385614620947693223, guid: ade76cb0e7e086a45bd31fbd5bb02e95, type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
