@@ -7,7 +7,7 @@ public class CharacterSwitcher : MonoBehaviour
     [SerializeField] private List<GameObject> players = new List<GameObject>(); // Llista de prefabs per a cada jugador
     [SerializeField] private Transform[] spawnPoints; // Llocs de spawn per als jugadors
     private PlayerInputManager manager;
-    private int nextSpawnIndex = 0; // �ndex del següent punt de spawn
+    private int nextSpawnIndex = 0; // Index del següent punt de spawn
     private int nextPlayerIndex = 0; // Index del següent prefab a assignar
 
     private void Start()
@@ -29,7 +29,7 @@ public class CharacterSwitcher : MonoBehaviour
         }
     }
 
-    // Cridat autom�ticament quan un jugador es connecta
+    // Cridat automaticament quan un jugador es connecta
     public void OnPlayerJoined(PlayerInput input)
     {
         if (nextSpawnIndex < spawnPoints.Length)
@@ -44,8 +44,8 @@ public class CharacterSwitcher : MonoBehaviour
             Debug.LogWarning("No hi ha més punts de spawn disponibles.");
         }
 
-        // Incrementar l'�ndex del prefab
+        // Incrementar l'index del prefab
         nextPlayerIndex++;
-        SetNextCharacter(); // Assignar el seg�ent prefab
+        SetNextCharacter(); // Assignar el seguent prefab
     }
 }
