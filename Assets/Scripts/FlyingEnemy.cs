@@ -6,7 +6,7 @@ using System.Collections;
 
 public class FlyingEnemy : EnemyController
 {
-    public float speed;
+    public float speed = 8f;
     private GameObject player1;
     private GameObject player2;
     public bool chase = false;
@@ -22,15 +22,17 @@ public class FlyingEnemy : EnemyController
     protected override void Start()
     {
         base.Start();
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
         if (startingPoint == null)
         {
             startingPoint = transform; // Si no es defineix, utilitza la posició actual
         }
         rb.bodyType = RigidbodyType2D.Kinematic; // Perquè pugui ser controlat manualment
         rb.gravityScale = 0f; // Perquè no caigui
-
-        // SO
-        flySoundCoroutine = StartCoroutine(PlayFlySound());
+                              // SO
+                              //flySoundCoroutine = StartCoroutine(PlayFlySound());
+        //audioSource.PlayOneShot(AudioManager.Instance.enemyFly);
     }
     // Update is called once per frame
     void Update()
@@ -40,9 +42,9 @@ public class FlyingEnemy : EnemyController
         if (isBlocked || isKnockbacked)
         {
             rb.linearVelocity = Vector2.zero;
-            //anim.SetBool("isRunning", false);
-            return;
+
         }
+
         player1 = GameObject.FindGameObjectWithTag("Player1");
         player2 = GameObject.FindGameObjectWithTag("Player2");
         if (player1 == null && player2 == null)
@@ -69,15 +71,19 @@ public class FlyingEnemy : EnemyController
 
         if (target != null)
             Flip();
-
+        // Inicia la coroutine si no està en marxa
+        if (flySoundCoroutine == null)
+        {
+            flySoundCoroutine = StartCoroutine(PlayFlySound());
+        }
     }
     private IEnumerator PlayFlySound()
     {
         while (true)
         {
-            float interval = chase ? 0.2f : 0.4f; // Més ràpid si persegueix
+            if (audioSource == null) Debug.LogWarning("AudioSource del FlyingEnemy és null!");
             audioSource.PlayOneShot(AudioManager.Instance.enemyFly);
-            yield return new WaitForSeconds(interval);
+            yield return new WaitForSeconds(0.25f); // Ajusta l'interval al teu gust
         }
     }
 
