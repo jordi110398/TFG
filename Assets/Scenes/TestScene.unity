@@ -13855,7 +13855,7 @@ MonoBehaviour:
   player2Walk: {fileID: 8300000, guid: 0c9f88f857103684a96b1fd7832bfb5e, type: 3}
   player2Heal: {fileID: 8300000, guid: ad63a767d4ea1e043af279e68d6c2a27, type: 3}
   player2BattleCry: {fileID: 8300000, guid: 14603e00a3e78e8438efa203dd56155e, type: 3}
-  enemyFly: {fileID: 8300000, guid: fe5dde3599280d344bc1c187ecad780b, type: 3}
+  enemyFly: {fileID: 8300000, guid: 08622f33cd4010041ba07d46d1ea15e4, type: 3}
   enemyFlyHurt: {fileID: 8300000, guid: 8e717bd5330960a43920b68e2951100d, type: 3}
   enemyJump: {fileID: 8300000, guid: 840d3ec0541c68249bd04e3a2c7cd25c, type: 3}
   enemyHurt: {fileID: 8300000, guid: e63a917fef739384299fd5b333d492ed, type: 3}
@@ -13993,7 +13993,7 @@ Transform:
   m_GameObject: {fileID: 836687579}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.69, y: -1.44, z: 0}
+  m_LocalPosition: {x: 27.640741, y: 30.2697, z: -0.084543824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25942,7 +25942,7 @@ Transform:
   m_GameObject: {fileID: 1953733086}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.28, y: -1.5, z: 0}
+  m_LocalPosition: {x: 27.640743, y: 30.2697, z: -0.084543824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

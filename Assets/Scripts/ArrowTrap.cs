@@ -31,6 +31,9 @@ public class ArrowTrap : MonoBehaviour
             Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
             if (rb != null)
                 rb.linearVelocity = shootPoint.right * arrowSpeed;
+
+            // So de disparar fletxa
+            AudioManager.Instance.sfxSource.PlayOneShot(AudioManager.Instance.trapSound);
         }
     }
     void OnDrawGizmos()

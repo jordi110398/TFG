@@ -534,7 +534,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   groundCheckPos: {fileID: 5631493486039384924}
-  groundCheckSize: {x: 0.5, y: 0.05}
+  groundCheckSize: {x: 0.7, y: 0.11}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8

@@ -302,9 +302,9 @@ public class Player2Controller : MonoBehaviour
     private void GroundCheck()
     {
         isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
-        isOverBox = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, boxLayer);
+        //isOverBox = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, boxLayer);
 
-        if (isGrounded || isOverBox)
+        if (isGrounded)
         {
             jumpsRemaining = maxJumps;
             animator.SetBool("Jumping", false);

@@ -533,7 +533,7 @@ MonoBehaviour:
   rb: {fileID: 8016722745561240407}
   horizontalMovement: 0
   groundCheckPos: {fileID: 5631493486039384924}
-  groundCheckSize: {x: 0.63, y: 0.05}
+  groundCheckSize: {x: 0.75, y: 0.05}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
