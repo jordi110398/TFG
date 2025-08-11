@@ -12,6 +12,8 @@ public class Player1Controller : MonoBehaviour
     bool isRunning = false;
     public float speed = 5;
     private bool isFacingRight = true;
+    public ParticleSystem walkFX;
+    private bool lastFacingRight;
 
     // DASH VARIABLES
     private bool canDash;
@@ -107,6 +109,7 @@ public class Player1Controller : MonoBehaviour
         playerInput.actions.FindActionMap("UI").Enable();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+        lastFacingRight = isFacingRight;
 
         // Assigna dinàmicament el PlayerManager
         if (playerManager == null)
@@ -187,6 +190,7 @@ public class Player1Controller : MonoBehaviour
                 rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpPower) + platformVelocity;
                 jumpsRemaining--;
                 animator.SetBool("Jumping", true);
+                //walkFX.Play();
                 // So de salt normal o doble salt
                 if (jumpsRemaining == maxJumps - 1)
                 {
@@ -197,6 +201,7 @@ public class Player1Controller : MonoBehaviour
                 {
                     // Segon salt
                     audioSource.PlayOneShot(AudioManager.Instance.player1DoubleJump);
+                    //walkFX.Play();
                 }
             }
             else if (ctx.canceled)
@@ -270,20 +275,26 @@ public class Player1Controller : MonoBehaviour
         transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
     }
 
+    private float lastHorizontalSign = 0f;
+
     private void Flip()
     {
-        float flipThreshold = 0.1f; // Només flippeja si l'input horitzontal és clar
+        float flipThreshold = 0.1f;
 
-        // No flippejar mentre ataques o estàs atordit
         if (isAttacking || isStunned) return;
 
-        // Només flippeja si l'input horitzontal és clarament cap a l'altre costat
-        if ((isFacingRight && horizontalMovement < -flipThreshold) ||
-            (!isFacingRight && horizontalMovement > flipThreshold))
+        float currentSign = Mathf.Sign(horizontalMovement);
+
+        // Només flippeja si el signe de l'input canvia
+        if (Mathf.Abs(horizontalMovement) > flipThreshold && currentSign != lastHorizontalSign)
         {
-            isFacingRight = !isFacingRight;
+            isFacingRight = currentSign > 0;
             float xSign = isFacingRight ? 1f : -1f;
             transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
+
+            walkFX.Play();
+            lastFacingRight = isFacingRight;
+            lastHorizontalSign = currentSign;
 
             // Compensa el flip a l'arc
             if (bow != null)

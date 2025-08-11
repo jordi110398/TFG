@@ -10,6 +10,7 @@ public class Player2Controller : MonoBehaviour
     bool isRunning = false;
     public float speed = 5;
     private bool isFacingRight = true;
+    public ParticleSystem walkFX;
 
     // DASH VARIABLES
     private bool canDash;
@@ -125,6 +126,8 @@ public class Player2Controller : MonoBehaviour
     public AudioSource audioSource;
     private Coroutine walkSoundCoroutine;
 
+    private bool lastFacingRight;
+
     private void Awake()
     {
         // SO
@@ -158,6 +161,8 @@ public class Player2Controller : MonoBehaviour
             if (playerManager == null)
                 Debug.LogWarning("No s'ha trobat cap PlayerManager a l'escena!");
         }
+
+        lastFacingRight = isFacingRight;
     }
 
     private void Start()
@@ -517,7 +522,6 @@ public class Player2Controller : MonoBehaviour
 
         if (isAttacking || isChargedAttack || isChargingDash) return;
 
-        // Decideix la direcció
         bool flip = false;
         if (!isBlocking)
         {
@@ -540,9 +544,15 @@ public class Player2Controller : MonoBehaviour
 
         if (flip)
         {
-            // Sempre parteix de l'escala original
             float xSign = isFacingRight ? 1f : -1f;
             transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
+
+            // Només activa les partícules si la direcció ha canviat
+            if (isFacingRight != lastFacingRight && walkFX != null)
+            {
+                walkFX.Play();
+                lastFacingRight = isFacingRight;
+            }
         }
     }
     /* JA ESTÀ EQUIPADA PER DEFECTE
