@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Campfire
       objectReference: {fileID: 0}
+    - target: {fileID: 2891265702308803301, guid: c9e8b47b8e417c748960842aa905d4d3, type: 3}
+      propertyPath: m_LightVolumeEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2891265702308803301, guid: c9e8b47b8e417c748960842aa905d4d3, type: 3}
+      propertyPath: m_LightVolumeIntensity
+      value: 0.32
+      objectReference: {fileID: 0}
     - target: {fileID: 6720503254238460532, guid: c9e8b47b8e417c748960842aa905d4d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

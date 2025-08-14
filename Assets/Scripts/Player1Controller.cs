@@ -292,7 +292,10 @@ public class Player1Controller : MonoBehaviour
             float xSign = isFacingRight ? 1f : -1f;
             transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
 
-            walkFX.Play();
+            // Només activa les partícules si el jugador s'està movent
+            if (Mathf.Abs(horizontalMovement) > 0.1f)
+                walkFX.Play();
+
             lastFacingRight = isFacingRight;
             lastHorizontalSign = currentSign;
 

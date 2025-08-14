@@ -859,6 +859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonToSelect: {fileID: 2201996430626624539}
+  controlsPanel: {fileID: 0}
   musicToggle: {fileID: 0}
   parallaxToggle: {fileID: 4551775943498996078}
   parallaxBackground: {fileID: 0}

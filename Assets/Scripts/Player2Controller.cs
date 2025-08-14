@@ -79,6 +79,8 @@ public class Player2Controller : MonoBehaviour
     public float freezeAfterDashDuration = 0.5f;
     private bool isChargingDash = false;
     private bool isCharging = false;
+    private float attackCooldown = 0.5f; // mig segon de cooldown
+private float nextAttackTime = 0f;
 
     private bool isChargedAttack = false;
 
@@ -235,7 +237,7 @@ public class Player2Controller : MonoBehaviour
     public void OnMove(InputAction.CallbackContext ctx)
     {
         // Evita el moviment si està bloquejant, atacant, fent dash o frozen
-        if (isBlocking || isAttacking || isDashing || isFrozenAfterDash || isChargedAttack || isChargingDash)
+        if (isBlocking || isDashing || isFrozenAfterDash || isChargedAttack || isChargingDash)
         {
             horizontalMovement = 0;
             animator.SetFloat("Speed", 0);
@@ -344,8 +346,19 @@ public class Player2Controller : MonoBehaviour
 
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
+
+        // Assegura que l'escala és correcta segons la direcció
+        if ((horizontalMovement > 0 && !isFacingRight) ||
+            (horizontalMovement < 0 && isFacingRight))
+        {
+            isFacingRight = horizontalMovement > 0;
+            float xSign = isFacingRight ? 1f : -1f;
+            transform.localScale = new Vector3(originalScale.x * xSign, originalScale.y, originalScale.z);
+        }
+
         rb.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
         tr.emitting = true;
+
         // Empènyer caixes durant el dash
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.5f);
 
@@ -368,7 +381,8 @@ public class Player2Controller : MonoBehaviour
         tr.emitting = false;
         rb.gravityScale = originalGravity;
         isDashing = false;
-        animator.SetBool("Dashing", false);
+        animator.SetBool("Dashing", false); // <- Assegura que s'executa sempre
+
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
@@ -656,14 +670,14 @@ public class Player2Controller : MonoBehaviour
         // No pots atacar si estàs bloquejant, a l'aire, movent-te molt lent o ja estàs atacant
         if (isBlocking || !isGrounded || animator.GetFloat("Speed") < 0.1f || isAttacking)
             return;
-
+        nextAttackTime = Time.time + attackCooldown;  
         StartCoroutine(PerformAttack());
     }
 
     private IEnumerator PerformAttack()
     {
         isAttacking = true;
-        animator.SetFloat("Speed", 0);  // Atura animació de córrer
+        //animator.SetFloat("Speed", 0);  // Atura animació de córrer
 
         sword.SetActive(true);
         equippedSwordTrail.enabled = true;
@@ -740,7 +754,7 @@ public class Player2Controller : MonoBehaviour
         }
         else
         {
-            animator.SetFloat("Speed", 0);
+            //animator.SetFloat("Speed", 0);
         }
     }
 
