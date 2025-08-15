@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 1273785429860421170, guid: b48046d19622aea4dbe993a609d6102c, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 4681481094230437841}
     - target: {fileID: 1807692664778472552, guid: b48046d19622aea4dbe993a609d6102c, type: 3}
       propertyPath: m_Layer
       value: 14
@@ -106,8 +110,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.28
-  MaxDistance: 1.5
+  MinDistance: 1
+  MaxDistance: 1.7
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

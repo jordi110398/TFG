@@ -8,6 +8,7 @@ public class ArrowTrap : MonoBehaviour
     public float arrowSpeed = 25f;
     private float timer = 0f;
     public bool isActive = true;
+    public AudioSource audioSource;
 
     void Update()
     {
@@ -33,7 +34,7 @@ public class ArrowTrap : MonoBehaviour
                 rb.linearVelocity = shootPoint.right * arrowSpeed;
 
             // So de disparar fletxa
-            AudioManager.Instance.sfxSource.PlayOneShot(AudioManager.Instance.trapSound);
+            audioSource.PlayOneShot(AudioManager.Instance.trapSound);
         }
     }
     void OnDrawGizmos()

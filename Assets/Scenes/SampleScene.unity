@@ -13568,6 +13568,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1012355518875355777, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012355518875355777, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      propertyPath: MaxDistance
+      value: 1.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012355518875355777, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
+      propertyPath: MinDistance
+      value: 0.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012355518875355777, guid: a5bc2ae9f27c6f048adca4278e7a5fea, type: 3}
       propertyPath: rolloffMode
       value: 0
       objectReference: {fileID: 0}
